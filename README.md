@@ -37,7 +37,7 @@ Berbekal informasi di atas, JANGAN MENULIS KODE APLIKASI SAMA SEKALI. Lakukan la
    b. Pindai (scan) source code asli dari Path Codebase yang diberikan untuk menganalisis pola arsitektur, legacy code, dan pustaka eksisting.
    c. Tuliskan hasil pindai dan batasan spesifik proyek ke dalam `nodes/[nama-proyek]/guidelines/project-context.md`.
    d. Buat `nodes/[nama-proyek]/docs/system-design.md`.
-   e. Berdasarkan tipe aplikasi (Backend, Web, Mobile, Game), rancang seluruh arsitektur MermaidJS (ERD, Flowchart, State Diagram, User Journey, Use Case) dan masukkan secara otomatis ke dalam file `prd.md` dan `system-design.md` yang baru saja Anda buat sesuai pedoman dokumen tersebut.
+   e. Berdasarkan tipe aplikasi (Backend, Web, Mobile, Game), rancang seluruh arsitektur menggunakan PlantUML (ERD, Flowchart, State Diagram, User Journey, Use Case). Simpan kode arsitektur tersebut sebagai file-file `.puml` terpisah di dalam folder `diagrams/`, lalu tautkan (link) file tersebut ke dalam `prd.md` dan `system-design.md` sesuai pedoman.
    f. Buat `nodes/[nama-proyek]/docs/development-planning.md` yang merancang daftar backlog tiket (TICKET-XX.md) yang harus dikerjakan di fase pertama.
 
 Setelah seluruh dokumen mandatory terlengkapi dan fase di atas selesai sempurna, berikan saya rangkuman singkat terkait struktur baru yang terbentuk dan tanyakan persetujuan saya sebelum kita masuk ke mode eksekusi tiket harian!
@@ -78,7 +78,7 @@ Berbekal informasi di atas, JANGAN MENULIS KODE APLIKASI SAMA SEKALI. Lakukan la
    b. Pindai (scan) source code asli dari Node tersebut di Path Codebase yang diberikan untuk menganalisis pola arsitektur, legacy code, dan pustaka eksisting.
    c. Tuliskan hasil pindai dan batasan spesifik node tersebut ke dalam `nodes/[nama-node]/guidelines/project-context.md`.
    d. Buat `nodes/[nama-node]/docs/system-design.md` khusus untuk node tersebut.
-   e. Berdasarkan tipe aplikasi (Backend, Web, Mobile, Game), rancang seluruh arsitektur MermaidJS (ERD, Flowchart, State Diagram, User Journey, Use Case) dan masukkan secara otomatis ke dalam file prd.md and system-design.md yang baru saja Anda buat sesuai pedoman dokumen tersebut.
+   e. Berdasarkan tipe aplikasi (Backend, Web, Mobile, Game), rancang seluruh arsitektur menggunakan PlantUML (ERD, Flowchart, State Diagram, User Journey, Use Case). Simpan kode arsitektur tersebut sebagai file-file `.puml` terpisah di dalam folder `diagrams/`, lalu tautkan (link) file tersebut ke dalam prd.md and system-design.md sesuai pedoman.
    f. Buat `nodes/[nama-node]/docs/development-planning.md` yang merancang daftar backlog tiket (TICKET-XX.md) yang harus dikerjakan di fase pertama node ini.
 
 Setelah seluruh dokumen mandatory terlengkapi dan fase di atas selesai sempurna, berikan saya rangkuman singkat terkait struktur baru yang terbentuk dan tanyakan persetujuan saya sebelum kita masuk ke mode eksekusi tiket harian!

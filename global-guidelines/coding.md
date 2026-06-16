@@ -19,10 +19,11 @@ Anda **DILARANG KERAS** menambahkan komentar apa pun di dalam *source code* yang
 1.  **DILARANG KERAS menggunakan *inline styles* atau jalan pintas (*shortcuts*):** Anda dilarang menggunakan pendekatan pintas (seperti *inline styles* pada UI atau *hardcode* modifikasi lokal) sekadar untuk mengakali *bug* atau kegagalan konfigurasi spesifik.
 2.  **Perbaiki Akar Masalah (*Root Cause*):** Jika ada konfigurasi atau sistem penataan yang gagal teraplikasikan, Anda wajib menelusuri dan memperbaiki akar masalahnya hingga ke file pengaturan utama atau arsitektur dasarnya. Jangan gunakan *hack* lokal sebagai solusi.
 
-## Visualisasi Dokumentasi Berbasis Teks (MermaidJS)
+## Visualisasi Dokumentasi Berbasis Teks (PlantUML)
 Sistem dokumentasi arsitektur di ekosistem ini **DILARANG KERAS** menggunakan lampiran gambar statis eksternal (`.png`, `.jpg`) untuk menggambarkan alur, struktur basis data, atau bagan interaksi.
-1.  **Wajib Native Markdown:** Segala bentuk visualisasi (seperti Flowchart, ERD, Use Case, State Diagram, atau User Journey) **WAJIB MUTLAK** di-*render* secara *native* menggunakan *codeblock* dari arsitektur tata bahasa [MermaidJS](https://mermaid.js.org/).
-2.  **Kemudahan Modifikasi (Text-Searchable):** Ini bertujuan agar AI Agent dapat melakukan pencarian teks, melacak iterasi struktur basis data, dan memodifikasi alur logika langsung melalui kode Markdown tanpa memerlukan alat konversi eksternal.
+1.  **Pemisahan File PlantUML:** Segala bentuk visualisasi (seperti Flowchart, ERD, Use Case, State Diagram, atau User Journey) **WAJIB MUTLAK** ditulis menggunakan tata bahasa [PlantUML](https://plantuml.com/) dan disimpan sebagai file berekstensi `.puml` terpisah di dalam direktori `diagrams/` (contoh: `docs/diagrams/flowchart.puml`).
+2.  **Rujukan (*Linking*):** Di dalam dokumen Markdown (seperti `prd.md` atau `system-design.md`), Anda **DILARANG** menulis blok kode ````plantuml````. Anda hanya diizinkan untuk membuat rujukan atau tautan Markdown menuju file `.puml` tersebut (contoh: `[Lihat Flowchart Game Loop](./diagrams/flowchart.puml)`).
+3.  **Kemudahan Modifikasi (Text-Searchable):** Ini bertujuan agar AI Agent dapat melakukan pencarian teks, dan pengguna manusia dapat melihat diagram dengan mudah menggunakan ekstensi PlantUML di *code editor* (VS Code) tanpa merusak atau memperberat pembacaan file Markdown.
 
 ## Standarisasi Templat Pengembangan
 Saat membangun fungsi-fungsi fundamental tertentu, Anda diwajibkan menyusun dokumentasinya menggunakan struktur *boilerplate* yang telah disediakan:
@@ -45,6 +46,7 @@ Gunakan struktur direktori terpisah berikut sebagai acuan logika pemisahan ruang
 └── 📁 ai-orchestrator-template/   <-- Lingkungan mandiri pusat kendali AI Multi-Project
     ├── 📄 README.md               <-- Global Startup Prompt
     ├── 📁 global-docs/            <-- Pusat dokumen fondasi (PRD Utama, Design System).
+    │   └── 📁 diagrams/           <-- Pusat file arsitektur global (.puml).
     ├── 📁 global-guidelines/      <-- Aturan mutlak lintas-node (security, testing, version-control).
     │
     └── 📁 nodes/                  <-- Pusat komando sub-proyek
@@ -52,6 +54,7 @@ Gunakan struktur direktori terpisah berikut sebagai acuan logika pemisahan ruang
             ├── 📄 main.md         <-- Entrypoint harian KHUSUS untuk node ini
             ├── 📄 CHANGELOG.md    <-- Arsip historis pembaruan node ini
             ├── 📁 docs/           <-- System Design spesifik & Development Planning.
+            │   └── 📁 diagrams/   <-- Diagram spesifik arsitektur node (.puml).
             ├── 📁 guidelines/     <-- Aturan lokal & hasil scan legacy codebase.
             ├── 📁 prototypes/     <-- Area sketsa HTML statis sandbox UI.
             ├── 📁 retrospectives/ <-- Pusat pembelajaran AI untuk kegagalan node ini.
