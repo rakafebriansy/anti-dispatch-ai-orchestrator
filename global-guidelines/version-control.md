@@ -1,0 +1,37 @@
+# Mandatory Changelog & Version Control Policy
+
+## Wajib Mencatat Setiap Perubahan
+Setiap kali Anda memproduksi baris kode baru, merevisi *bug*, atau melakukan pengaturan konfigurasi apa pun atas instruksi pengguna di suatu *node*, Anda **WAJIB** mendokumentasikan catatan perubahan tersebut secara rinci ke dalam berkas `CHANGELOG.md` milik *node* yang bersangkutan. Tidak boleh ada satu pun perubahan yang terlewat dari pencatatan.
+
+## Penambahan Secara Reverse-Chronological
+Setiap penambahan log riwayat versi terbaru **WAJIB** diletakkan di bagian paling atas dari daftar pembaruan (tepat di bawah *header* utama dokumen *changelog*). Dengan demikian, versi terbaru selalu menduduki urutan pertama dan riwayat versi yang lebih lama perlahan terdorong ke bawah.
+
+## Kewajiban Informasi Branch & VCS
+Setiap entri pembaruan yang dicatatkan wajib memuat informasi mengenai nama *branch Git* yang sedang digarap, beserta tautan (*link*) menuju repositori *Version Control System* (VCS) yang bersangkutan.
+
+## Format Log Pembaruan di Respons
+Setelah Anda menuntaskan sebuah tugas atau instruksi, Anda wajib menyertakan log pembaruan di bagian akhir respons Anda. Hindari penggunaan format tabel; gunakan format daftar berstruktur (*structured list*) yang rapi berikut ini guna memaksimalkan keterbacaan (*readability*) dan kemudahan pengarsipan tiket internal. **Pastikan juga Anda selalu mengutip intisari instruksi/perintah awal dari pengguna**:
+
+### [YYYY-MM-DD HH:MM] - [Kategori Utama]
+> **Branch:** `branch-name` | **Repo:** `https://github.com/...`
+- **Instruksi User:** "[Teks atau intisari perintah yang diberikan oleh pengguna]"
+- **Perubahan:** [Detail penjelasan perubahan spesifik. Khusus kategori Implementation sisipkan tag seperti `[Added]` di awal teks]
+- **Path File:** `path/ke/file.ext`
+
+> **Catatan Penting Konteks Instruksi:**
+> Jika pesan pengguna hanyalah instruksi penyambung seperti *"Continue"* atau *"Lanjutkan"*, AI Agent **DILARANG** menelan mentah-mentah kata tersebut ke dalam kolom log. AI Agent wajib merujuk kembali ke percakapan sebelumnya dan mengekstrak perintah asli yang sedang diselesaikan agar konteks riwayat perubahan tetap utuh.
+
+## Ticket-Driven Development Workflow
+Infrastruktur proyek AI Orchestrator ini menganut sistem manajemen tugas *offline* terpusat berbasis tiket di direktori `tickets/` yang berada di dalam masing-masing *node*. Selaku AI Agent, Anda dituntut mematuhi protokol berikut selama fase pengerjaan kode:
+1.  **Rujuk pada Tiket:** Jangan mengeksekusi logika secara membabi buta tanpa arah. Pertama-tama, Anda **WAJIB membaca panduan struktural tiket** pada file referensi **`nodes/_template/tickets/README.md`** (atau `README.md` lokal di *node* Anda). Setelah memahaminya, barulah buka file tiket spesifik yang relevan (contoh: `nodes/[nama-node]/tickets/TICKET-01-login.md`). Apabila tiket tersebut berisi laporan masalah, tiket **WAJIB** dikonstruksikan menggunakan standar `global-docs/templates/bug_report_template.md`.
+2.  **Pemutakhiran Status & Checklist:** Saat Anda mulai menggarap sebuah tugas, Anda berhak mengubah properti *frontmatter* `status: Todo` menjadi `status: In Progress` pada file tiket lokal. Jika seluruh kriteria pengerjaan usai, Anda **WAJIB** mengubahnya menjadi `status: Done` dan menandai secara mutlak (*mencentang*) seluruh *checkbox* (`- [x]`) di bagian *Acceptance Criteria* tiket tersebut.
+3.  **Kewajiban Pengisian Log AI:** Anda diwajibkan menjabarkan secara rinci jejak teknis, modifikasi, dan pertimbangan arsitektural di bawah seksi `AI Execution Log & Output` pada dasar file tiket terkait agar transparansi keputusan terjamin.
+4.  **Tautan Changelog:** Pastikan Anda menyertakan ID referensi tiket (misal: "Referensi: TICKET-01") pada detail penulisan log saat melaporkan kemajuan pembaruan di layar obrolan maupun di dalam arsip `CHANGELOG.md` lokal.
+
+## Pull Request (PR) Submission Policy
+Apabila siklus pengembangan Anda melibatkan pembaruan kode lintas cabang (misalnya transisi dari cabang `feature/` ke `main`), Anda (AI Agent) **DILARANG KERAS** membiarkan deskripsi *Pull Request* kosong atau diisi secara sembarangan. Anda dituntut untuk senantiasa mematuhi pedoman pengajuan PR berikut:
+1.  **Wajib Menggunakan Templat Referensi:** Segera setelah Anda siap mengajukan permintaan penggabungan kode (*merge request*), Anda **WAJIB** menyalin secara utuh struktur *boilerplate* yang tersimpan di **`global-docs/templates/pull_request_template.md`** sebagai format dasar pengisian deskripsi PR.
+2.  **Kewajiban Auto-Closing Tiket:** Di dalam tubuh deskripsi PR tersebut, Anda **DIWAJIBKAN SECARA MUTLAK** untuk menautkan kata kunci penutup tiket dengan sintaksis `Resolves [TICKET-ID]` (contoh: `Resolves TICKET-01`). Sintaksis sakral ini berfungsi ganda sebagai pemicu pemindahan kartu (*card movement trigger*) di papan visual GitHub Projects sehingga tetap tersinkronisasi 100% dengan status penyelesaian tiket di dalam kerangka kerja lokal kita.
+
+## Standar Pesan Commit (Semantic Commits)
+Setiap kali Anda menjejakkan perubahan ke dalam riwayat repositori (*git commit*), Anda **WAJIB** menyelaraskan penulisan pesannya (*commit message*) dengan standar baku yang tersimpan di dalam **`global-docs/templates/commit_message_template.md`**. Jangan pernah menulis pesan *commit* yang sembarangan, tidak deskriptif, atau mengabaikan format struktur label *Semantic Commit* (seperti `feat:`, `fix:`, `chore:`, dsb.).

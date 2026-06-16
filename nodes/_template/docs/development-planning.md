@@ -1,0 +1,31 @@
+# Development Planning (Roadmap)
+
+## Apa itu Development Planning
+*Development Planning* adalah dokumen peta jalan (*roadmap*) strategis yang menjembatani dokumen makro (seperti PRD dan System Design) dengan tugas-tugas mikro (berupa Tiket). Dokumen ini berfungsi untuk memecah keseluruhan ruang lingkup proyek ke dalam beberapa fase pengerjaan (*Milestones*) yang dapat dikelola secara bertahap.
+
+Dalam pendekatan *Vibe Coding* dengan AI Agent, dokumen ini sangat krusial sebagai "Gudang Antrean Tiket" (*Ticket Backlog*). Daripada meminta pengguna membuat instruksi tiket secara manual satu per satu, AI Agent akan secara proaktif mendaftarkan seluruh kerangka tiket yang dibutuhkan di dalam dokumen ini. 
+
+## Aturan Sinkronisasi Tiket
+1.  **Dilarang Mengarang Tiket:** AI Agent **DILARANG KERAS** mengarang, mencetuskan, atau membuat file tiket baru di direktori `tickets/` jika tiket tersebut belum tercatat sebagai target *backlog* di dalam file `development-planning.md` ini.
+2.  **Transisi Status:** Jika sebuah tiket dari dokumen ini telah dipindahkan wujudnya menjadi file *markdown* di folder `tickets/`, AI wajib kembali ke dokumen ini dan menandai tiket tersebut sebagai `[CREATED]` atau mencoretnya.
+
+## Struktur Rencana Pengembangan
+
+Setiap fase wajib diuraikan dengan mencantumkan gol utama (*objective*) dan daftar antrean tiket yang akan dibuat ke depannya.
+
+### Fase 1: [Nama Fase, misal: Inisialisasi & Autentikasi]
+- **Tujuan:** [Jelaskan target pencapaian di fase ini]
+- **Daftar Tiket (Backlog):**
+  - `[ ]` **TICKET-01:** [Judul/Deskripsi Singkat]
+  - `[ ]` **TICKET-02:** [Judul/Deskripsi Singkat]
+
+### Fase 2: [Nama Fase]
+- **Tujuan:** [Jelaskan target pencapaian di fase ini]
+- **Daftar Tiket (Backlog):**
+  - `[ ]` **TICKET-03:** [Judul/Deskripsi Singkat]
+
+---
+
+## (_Judul Proyek_)
+
+*(Peta jalan pengembangan dan rincian backlog tiket spesifik untuk proyek ini akan disusun oleh AI Agent di bawah batas ini)*
