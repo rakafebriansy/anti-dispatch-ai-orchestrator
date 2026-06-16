@@ -15,7 +15,7 @@ Gunakan salah satu *prompt* di bawah ini hanya **satu kali** di awal proyek (ter
 Gunakan *prompt* ini jika Anda hanya ingin mengatur satu aplikasi/repositori (misal: hanya Frontend atau Fullstack Monorepo). Salin, isi bagian `[ DALAM KURUNG SIKU ]`, dan kirimkan utuh ke AI Agent:
 
 ```text
-Saya ingin menginisialisasi **Single-Project Environment** menggunakan kerangka kerja AI Orchestrator ini.
+Saya ingin menginisialisasi Single-Project Environment menggunakan kerangka kerja AI Orchestrator ini.
 
 Berikut adalah definisi Proyek Utama yang akan diatur:
 
@@ -30,26 +30,26 @@ A. INFORMASI PROYEK
 INSTRUKSI STARTUP ANDA:
 Berbekal informasi di atas, JANGAN MENULIS KODE APLIKASI SAMA SEKALI. Lakukan langkah-langkah otonom berikut secara berurutan:
 1. Pahami struktur `ai-orchestrator-template` ini. Karena ini adalah lingkungan proyek tunggal, kita hanya akan menggunakan satu Node utama.
-2. **Evaluasi & Wawancara Pengguna:** Jika deskripsi yang saya berikan di atas masih terlalu dangkal atau belum cukup untuk mengisi *Dokumen Mandatory* secara detail dan maksimal, Anda **WAJIB BERHENTI** mengeksekusi langkah selanjutnya. (Catatan: Yang tergolong *Dokumen Mandatory* adalah: `prd.md`, `design-system.md`, `system-design.md`, dan `development-planning.md`). Ajukan daftar pertanyaan kritis kepada saya terkait visi, batasan teknis, target pengguna, dan spesifikasi fungsionalitas. Ulangi proses tanya-jawab ini hingga Anda memiliki konteks yang sangat solid untuk mengisi keempat dokumen wajib tersebut secara mutlak.
+2. Evaluasi & Wawancara Pengguna: Jika deskripsi yang saya berikan di atas masih terlalu dangkal atau belum cukup untuk mengisi Dokumen Mandatory secara detail dan maksimal, Anda WAJIB BERHENTI mengeksekusi langkah selanjutnya. (Catatan: Yang tergolong Dokumen Mandatory adalah: `prd.md`, `design-system.md`, `system-design.md`, dan `development-planning.md`). Ajukan daftar pertanyaan kritis kepada saya terkait visi, batasan teknis, target pengguna, dan spesifikasi fungsionalitas. Ulangi proses tanya-jawab ini hingga Anda memiliki konteks yang sangat solid untuk mengisi keempat dokumen wajib tersebut secara mutlak.
 3. Setelah informasi dirasa memadai, buatkan draf komprehensif untuk `global-docs/prd.md` dan `global-docs/design-system.md` berdasarkan spesifikasi proyek di atas.
 4. Untuk inisialisasi Node proyek utama:
    a. Gandakan (copy) folder `nodes/_template/` menjadi `nodes/[nama-proyek]/`.
-   b. Pindai (scan) *source code* asli dari *Path Codebase* yang diberikan untuk menganalisis pola arsitektur, legacy code, dan pustaka eksisting.
+   b. Pindai (scan) source code asli dari Path Codebase yang diberikan untuk menganalisis pola arsitektur, legacy code, dan pustaka eksisting.
    c. Tuliskan hasil pindai dan batasan spesifik proyek ke dalam `nodes/[nama-proyek]/guidelines/project-context.md`.
    d. Buat `nodes/[nama-proyek]/docs/system-design.md`.
    e. Berdasarkan tipe aplikasi (Backend, Web, Mobile, Game), rancang seluruh arsitektur MermaidJS (ERD, Flowchart, State Diagram, User Journey, Use Case) dan masukkan secara otomatis ke dalam file `prd.md` dan `system-design.md` yang baru saja Anda buat sesuai pedoman dokumen tersebut.
-   f. Buat `nodes/[nama-proyek]/docs/development-planning.md` yang merancang daftar *backlog* tiket (TICKET-XX.md) yang harus dikerjakan di fase pertama.
+   f. Buat `nodes/[nama-proyek]/docs/development-planning.md` yang merancang daftar backlog tiket (TICKET-XX.md) yang harus dikerjakan di fase pertama.
 
 Setelah seluruh dokumen mandatory terlengkapi dan fase di atas selesai sempurna, berikan saya rangkuman singkat terkait struktur baru yang terbentuk dan tanyakan persetujuan saya sebelum kita masuk ke mode eksekusi tiket harian!
 
-> **CATATAN PENTING UNTUK AI:** JANGAN menghapus folder `nodes/_template/` setelah Anda menggandakannya. Folder tersebut harus tetap utuh dan tidak boleh disentuh sebagai cetak biru jika di masa depan kita beralih ke multi-proyek!
+CATATAN PENTING UNTUK AI: JANGAN menghapus folder `nodes/_template/` setelah Anda menggandakannya. Folder tersebut harus tetap utuh dan tidak boleh disentuh sebagai cetak biru jika di masa depan kita beralih ke multi-proyek!
 ```
 
 #### Opsi B: Startup Prompt (Multi-Project Environment)
-Gunakan *prompt* ini jika ekosistem Anda terdiri dari beberapa aplikasi/node yang terpisah (misal: Frontend terpisah dari Backend). Salin, isi bagian `[ DALAM KURUNG SIKU ]`, dan kirimkan utuh ke AI Agent:
+Gunakan prompt ini jika ekosistem Anda terdiri dari beberapa aplikasi/node yang terpisah (misal: Frontend terpisah dari Backend). Salin, isi bagian [ DALAM KURUNG SIKU ], dan kirimkan utuh ke AI Agent:
 
 ```text
-Saya ingin menginisialisasi **Multi-Project Environment** menggunakan kerangka kerja AI Orchestrator ini.
+Saya ingin menginisialisasi Multi-Project Environment menggunakan kerangka kerja AI Orchestrator ini.
 
 Berikut adalah definisi Ekosistem (Environment) dan Sub-Proyek (Nodes) yang akan diatur:
 
@@ -60,37 +60,37 @@ A. ENVIRONMENT (Global Scope)
 4. Batasan Sistem Utama: [Misal: Harus secure, GDPR compliant]
 
 B. NODES (Sub-Project Scope)
-- **Node 1: Frontend App**
+- Node 1: Frontend App
   - Path Codebase: [Path absolut ke folder frontend, misal: `/Users/.../my-frontend`]
   - Tech Stack: [Misal: Next.js, TailwindCSS]
-- **Node 2: Backend API**
+- Node 2: Backend API
   - Path Codebase: [Path absolut ke folder backend, misal: `/Users/.../my-backend`]
   - Tech Stack: [Misal: NestJS, PostgreSQL]
-*(Tambahkan node lain jika ada)*
+(Tambahkan node lain jika ada)
 
 INSTRUKSI STARTUP ANDA:
 Berbekal informasi di atas, JANGAN MENULIS KODE APLIKASI SAMA SEKALI. Lakukan langkah-langkah otonom berikut secara berurutan:
 1. Pahami struktur `ai-orchestrator-template` yang berbasis nodes ini.
-2. **Evaluasi & Wawancara Pengguna:** Jika deskripsi yang saya berikan di atas masih terlalu dangkal atau belum cukup untuk mengisi *Dokumen Mandatory* secara detail dan maksimal, Anda **WAJIB BERHENTI** mengeksekusi langkah selanjutnya. (Catatan: Yang tergolong *Dokumen Mandatory* adalah: `prd.md`, `design-system.md`, `system-design.md`, dan `development-planning.md`). Ajukan daftar pertanyaan kritis kepada saya terkait visi, batasan teknis, target pengguna, dan spesifikasi fungsionalitas. Ulangi proses tanya-jawab ini hingga Anda memiliki konteks yang sangat solid untuk mengisi keempat dokumen wajib tersebut secara mutlak.
+2. Evaluasi & Wawancara Pengguna: Jika deskripsi yang saya berikan di atas masih terlalu dangkal atau belum cukup untuk mengisi Dokumen Mandatory secara detail dan maksimal, Anda WAJIB BERHENTI mengeksekusi langkah selanjutnya. (Catatan: Yang tergolong Dokumen Mandatory adalah: `prd.md`, `design-system.md`, `system-design.md`, dan `development-planning.md`). Ajukan daftar pertanyaan kritis kepada saya terkait visi, batasan teknis, target pengguna, dan spesifikasi fungsionalitas. Ulangi proses tanya-jawab ini hingga Anda memiliki konteks yang sangat solid untuk mengisi keempat dokumen wajib tersebut secara mutlak.
 3. Setelah informasi dirasa memadai, buatkan draf komprehensif untuk `global-docs/prd.md` dan `global-docs/design-system.md` berdasarkan spesifikasi lingkungan (Environment) di atas.
 4. Untuk SETIAP Node yang terdaftar di atas:
    a. Gandakan (copy) folder `nodes/_template/` menjadi `nodes/[nama-node]/`.
-   b. Pindai (scan) *source code* asli dari Node tersebut di *Path Codebase* yang diberikan untuk menganalisis pola arsitektur, legacy code, dan pustaka eksisting.
+   b. Pindai (scan) source code asli dari Node tersebut di Path Codebase yang diberikan untuk menganalisis pola arsitektur, legacy code, dan pustaka eksisting.
    c. Tuliskan hasil pindai dan batasan spesifik node tersebut ke dalam `nodes/[nama-node]/guidelines/project-context.md`.
    d. Buat `nodes/[nama-node]/docs/system-design.md` khusus untuk node tersebut.
-   e. Berdasarkan tipe aplikasi (Backend, Web, Mobile, Game), rancang seluruh arsitektur MermaidJS (ERD, Flowchart, State Diagram, User Journey, Use Case) dan masukkan secara otomatis ke dalam file `prd.md` dan `system-design.md` yang baru saja Anda buat sesuai pedoman dokumen tersebut.
-   f. Buat `nodes/[nama-node]/docs/development-planning.md` yang merancang daftar *backlog* tiket (TICKET-XX.md) yang harus dikerjakan di fase pertama node ini.
+   e. Berdasarkan tipe aplikasi (Backend, Web, Mobile, Game), rancang seluruh arsitektur MermaidJS (ERD, Flowchart, State Diagram, User Journey, Use Case) dan masukkan secara otomatis ke dalam file prd.md and system-design.md yang baru saja Anda buat sesuai pedoman dokumen tersebut.
+   f. Buat `nodes/[nama-node]/docs/development-planning.md` yang merancang daftar backlog tiket (TICKET-XX.md) yang harus dikerjakan di fase pertama node ini.
 
 Setelah seluruh dokumen mandatory terlengkapi dan fase di atas selesai sempurna, berikan saya rangkuman singkat terkait struktur baru yang terbentuk dan tanyakan persetujuan saya sebelum kita masuk ke mode eksekusi tiket harian!
 
-> **CATATAN PENTING UNTUK AI:** JANGAN menghapus folder `nodes/_template/` setelah Anda menggandakannya. Folder tersebut harus tetap utuh dan tidak boleh disentuh sebagai cetak biru untuk penambahan *node* baru di masa depan!
+CATATAN PENTING UNTUK AI: JANGAN menghapus folder `nodes/_template/` setelah Anda menggandakannya. Folder tersebut harus tetap utuh dan tidak boleh disentuh sebagai cetak biru untuk penambahan node baru di masa depan!
 ```
 
 ### FASE 2: Execution Prompt (Pengerjaan Tugas)
-Gunakan salah satu dari dua *Execution Prompt* di bawah ini sesuai dengan ruang lingkup tugas yang ingin Anda kerjakan.
+Gunakan salah satu dari dua Execution Prompt di bawah ini sesuai dengan ruang lingkup tugas yang ingin Anda kerjakan.
 
 #### Opsi A: Execution Prompt (Single-Node)
-Gunakan *prompt* ini jika Anda hanya ingin fokus mengerjakan fitur di SATU proyek spesifik (misalnya hanya mengubah UI Frontend).
+Gunakan prompt ini jika Anda hanya ingin fokus mengerjakan fitur di SATU proyek spesifik (misalnya hanya mengubah UI Frontend).
 
 ```text
 Kamu WAJIB membaca `nodes/[NAMA_NODE_ANDA]/main.md` sebagai Master Entrypoint. Patuhi seluruh pedoman arsitektur dan larangan mutlak yang tertulis di dalamnya sebelum menulis satu baris kode pun.
