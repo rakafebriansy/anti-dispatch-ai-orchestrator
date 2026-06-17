@@ -39,7 +39,7 @@ Berbekal informasi di atas, JANGAN MENULIS KODE APLIKASI SAMA SEKALI. Lakukan la
    d. Buat `nodes/[nama-proyek]/docs/system-design.md`.
    e. Berdasarkan tipe aplikasi (Backend, Web, Mobile, Game), rancang seluruh arsitektur menggunakan PlantUML (ERD, Flowchart, State Diagram, User Journey, Use Case). Simpan kode arsitektur tersebut sebagai file-file `.puml` terpisah secara eksplisit di dalam folder `docs/diagrams/` (untuk Node) atau `global-docs/diagrams/` (untuk Global), lalu tautkan (link) file tersebut ke dalam `prd.md` dan `system-design.md` sesuai pedoman.
    f. Buat `nodes/[nama-proyek]/docs/development-planning.md` yang merancang daftar backlog tiket (TICKET-XX.md) yang harus dikerjakan di fase pertama.
-   g. Tuliskan entri log inisialisasi awal ke dalam file `nodes/[nama-proyek]/CHANGELOG.md` yang mencatat tanggal, status pembuatan node, dan ringkasan arsitektur dasar yang baru saja ditetapkan.
+   g. Tuliskan entri log inisialisasi awal ke dalam file `nodes/[nama-proyek]/CHANGELOG.md` menggunakan templat dari `global-docs/templates/changelog_entry_template.md` yang mencatat tanggal, status pembuatan node, dan ringkasan arsitektur dasar yang baru saja ditetapkan.
 
 Setelah seluruh dokumen mandatory terlengkapi dan fase di atas selesai sempurna, berikan saya rangkuman singkat terkait struktur baru yang terbentuk dan tanyakan persetujuan saya sebelum kita masuk ke mode eksekusi tiket harian!
 
@@ -81,7 +81,7 @@ Berbekal informasi di atas, JANGAN MENULIS KODE APLIKASI SAMA SEKALI. Lakukan la
    d. Buat `nodes/[nama-node]/docs/system-design.md` khusus untuk node tersebut.
    e. Berdasarkan tipe aplikasi (Backend, Web, Mobile, Game), rancang seluruh arsitektur menggunakan PlantUML (ERD, Flowchart, State Diagram, User Journey, Use Case). Simpan kode arsitektur tersebut sebagai file-file `.puml` terpisah secara eksplisit di dalam folder `docs/diagrams/` spesifik milik node tersebut, lalu tautkan (link) file tersebut ke dalam prd.md and system-design.md sesuai pedoman.
    f. Buat `nodes/[nama-node]/docs/development-planning.md` yang merancang daftar backlog tiket (TICKET-XX.md) yang harus dikerjakan di fase pertama node ini.
-   g. Tuliskan entri log inisialisasi awal ke dalam file `nodes/[nama-node]/CHANGELOG.md` yang mencatat tanggal, status pembuatan node, dan ringkasan arsitektur dasar yang baru saja ditetapkan.
+   g. Tuliskan entri log inisialisasi awal ke dalam file `nodes/[nama-node]/CHANGELOG.md` menggunakan templat dari `global-docs/templates/changelog_entry_template.md` yang mencatat tanggal, status pembuatan node, dan ringkasan arsitektur dasar yang baru saja ditetapkan.
 
 Setelah seluruh dokumen mandatory terlengkapi dan fase di atas selesai sempurna, berikan saya rangkuman singkat terkait struktur baru yang terbentuk dan tanyakan persetujuan saya sebelum kita masuk ke mode eksekusi tiket harian!
 

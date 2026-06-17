@@ -13,6 +13,8 @@ Direktori ini menampung seluruh *boilerplate* (templat cetak biru) dokumen yang 
    Standar dokumentasi arsitektur komunikasi (khusus aplikasi *backend*/*API*), memuat aturan struktur *Request*, *Response*, dan contoh JSON *payload*.
 5. **`routing_template.md`**
    Peta navigasi rute halaman aplikasi (Web) maupun *endpoint* peladen (*Server*). Digunakan untuk melacak pergerakan antarmuka secara terpusat.
+6. **`changelog_entry_template.md`**
+   Standar penulisan entri log riwayat perubahan yang digunakan di dalam file `CHANGELOG.md` pada setiap *node*. Memastikan format tanggal, referensi *branch*, instruksi pengguna, serta detail file yang diubah tercatat seragam secara *reverse-chronological*.
 
 ## Kewajiban Penggunaan bagi AI Agent
 Sistem *AI Orchestrator* telah mengikat file-file *guideline* untuk selalu merujuk ke templat ini. Anda dilarang mengarang format dokumen baru yang melenceng dari struktur di atas saat ditugaskan untuk menuliskan salah satu dari kelima jenis dokumen tersebut.

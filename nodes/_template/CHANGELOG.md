@@ -23,7 +23,7 @@ Khusus untuk kategori **Implementation**, penjelasan pada kolom "Perubahan" **wa
 
 ## Format Changelog
 
-Setiap penambahan log versi terbaru **WAJIB** diletakkan di bagian paling atas daftar (kaidah *reverse-chronological*). Demi kenyamanan membaca (*readability*), hindari penggunaan format tabel. Gunakan format daftar berstruktur (*structured list*) di bawah ini:
+Setiap penambahan log versi terbaru **WAJIB** diletakkan di bagian paling atas daftar (kaidah *reverse-chronological*). Demi kenyamanan membaca (*readability*), hindari penggunaan format tabel. Gunakan format daftar berstruktur (*structured list*) di bawah ini (Anda juga dapat melihat templatnya di `../../global-docs/templates/changelog_entry_template.md`):
 
 ### [YYYY-MM-DD HH:MM] - [Kategori Utama]
 > **Branch:** `branch-name` | **Repo:** `https://github.com/...`
