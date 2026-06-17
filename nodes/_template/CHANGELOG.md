@@ -23,7 +23,7 @@ Khusus untuk kategori **Implementation**, penjelasan pada kolom "Perubahan" **wa
 
 ## Format Changelog
 
-Setiap penambahan log versi terbaru **WAJIB** diletakkan di bagian paling atas daftar (kaidah *reverse-chronological*). Demi kenyamanan membaca (*readability*), hindari penggunaan format tabel. Gunakan format daftar berstruktur (*structured list*) di bawah ini (Anda juga dapat melihat templatnya di `../../global-docs/templates/changelog_entry_template.md`):
+Setiap penambahan log versi terbaru **WAJIB MUTLAK** diletakkan di baris **PALING ATAS** daftar, tepat di bawah judul "Log Perubahan" (urutan *descending* / *reverse-chronological*). AI **DILARANG KERAS** menambahkan log baru di baris terbawah. Anda **WAJIB** mencatat SEMUA kategori perubahan secara disiplin, bukan hanya modifikasi kode (`Implementation`). Demi kenyamanan membaca (*readability*), hindari penggunaan format tabel. Gunakan format daftar berstruktur (*structured list*) di bawah ini (Anda juga dapat melihat templatnya di `../../global-docs/templates/changelog_entry_template.md`):
 
 ### [YYYY-MM-DD HH:MM] - [Kategori Utama]
 > **Branch:** `branch-name` | **Repo:** `https://github.com/...`
@@ -50,4 +50,4 @@ Setiap penambahan log versi terbaru **WAJIB** diletakkan di bagian paling atas d
 
 ## Log Perubahan (_Judul Proyek_)
 
-*(Entri log perubahan baru akan ditambahkan di bawah ini mengikuti format dan kategori yang telah ditentukan di atas)*
+*(⚠️ PERHATIAN AI AGENT: TAMBAHKAN ENTRI LOG BARU ANDA TEPAT DI BAWAH BARIS INI. JANGAN DI PALING BAWAH DOKUMEN!)*

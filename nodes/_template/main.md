@@ -38,8 +38,13 @@ Jangan buang token Anda untuk membaca file ini jika instruksi pengguna tidak ber
 
 ---
 
-**INSTRUKSI LANJUTAN UNTUK AI:**
-Jika Anda sudah menyerap informasi dari dokumen-dokumen *Wajib* di atas, silakan analisis instruksi spesifik pengguna (atau buka tiket yang ditugaskan di direktori `tickets/`) dan mulailah bekerja!
+**STANDARD OPERATING PROCEDURE (SOP) EKSEKUSI AI:**
+Anda **DIWAJIBKAN SECARA MUTLAK** untuk mematuhi alur kerja berikut tanpa terkecuali setiap kali menerima *Execution Prompt* atau penugasan:
 
-> 📝 **KEWAJIBAN PENCATATAN (LOGGING OBLIGATION):**
-> Setiap kali Anda selesai mengeksekusi sebuah tiket atau instruksi tugas, Anda **WAJIB MUTLAK** mencatat ringkasan perubahan (*changelog*) yang Anda lakukan ke dalam file `CHANGELOG.md` di node ini sebelum mengakhiri sesi. Jangan sampai lupa!
+1. **Pembuatan Tiket Baru (Jika Diinstruksikan):** Jika pengguna meminta Anda membuat tiket tugas baru, Anda **WAJIB MUTLAK** menyalin utuh struktur `Boilerplate (Templat)` dari `tickets/README.md`. DILARANG mengarang format *markdown* sendiri atau mengabaikan templat tersebut.
+2. **Pengerjaan & Pengujian Kode:** Selesaikan instruksi pengguna secara tuntas, lalu Anda **WAJIB LANGSUNG** melakukan *testing* (pengujian) untuk memastikan fungsionalitas berjalan normal atau tidak ada *error*.
+3. **Penyelesaian Tiket (Wajib Checklist):** Setelah selesai mengerjakan tugas yang merujuk pada suatu tiket (`TICKET-*.md`), Anda **WAJIB LANGSUNG** kembali ke file tiket tersebut, mengubah *status* menjadi `Done`, dan **MENCENTANG** semua kotak `[ ]` menjadi `[x]` pada bagian `Acceptance Criteria`, serta mengisi `AI Execution Log & Output`.
+4. **Pencatatan Changelog (Wajib Descending & Menyeluruh):** 
+   - Anda **WAJIB MUTLAK** mencatat riwayat pembaruan ke dalam file `CHANGELOG.md` lokal node.
+   - Catatan baru **WAJIB** disisipkan di baris **PALING ATAS** daftar (*descending* / *reverse-chronological*). AI **DILARANG KERAS** menaruhnya di urutan terbawah!
+   - Anda **WAJIB** mencatat **SEMUA** jenis kategori perubahan, **BUKAN HANYA** modifikasi kode (`Implementation`). Pembaruan pedoman (`guidelines`), teks `README.md`, pembuatan file tiket, dan modifikasi arsitektur semuanya wajib dicatat!

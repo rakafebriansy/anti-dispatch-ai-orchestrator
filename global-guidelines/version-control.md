@@ -1,10 +1,10 @@
 # Mandatory Changelog & Version Control Policy
 
-## Wajib Mencatat Setiap Perubahan
-Setiap kali Anda memproduksi baris kode baru, merevisi *bug*, atau melakukan pengaturan konfigurasi apa pun atas instruksi pengguna di suatu *node*, Anda **WAJIB** mendokumentasikan catatan perubahan tersebut secara rinci ke dalam berkas `CHANGELOG.md` milik *node* yang bersangkutan. Tidak boleh ada satu pun perubahan yang terlewat dari pencatatan.
+## Wajib Mencatat Setiap Perubahan (Semua Jenis File)
+Setiap kali Anda memproduksi baris kode baru, merevisi *bug*, atau melakukan pengaturan konfigurasi apa pun atas instruksi pengguna di suatu *node*, Anda **WAJIB** mendokumentasikan catatan perubahan tersebut secara rinci ke dalam berkas `CHANGELOG.md` milik *node* yang bersangkutan. **Pencatatan ini TIDAK HANYA berlaku untuk perubahan kode (Implementation), melainkan MUTLAK untuk segala bentuk perubahan: pembuatan/pembaruan file `README.md`, dokumen pedoman (`guidelines/`), dokumen desain sistem, pembuatan/pembaruan tiket, dan lain-lain. Semua harus tercatat!** Tidak boleh ada satu pun perubahan yang terlewat dari pencatatan.
 
-## Penambahan Secara Reverse-Chronological
-Setiap penambahan log riwayat versi terbaru **WAJIB** diletakkan di bagian paling atas dari daftar pembaruan (tepat di bawah *header* utama dokumen *changelog*). Dengan demikian, versi terbaru selalu menduduki urutan pertama dan riwayat versi yang lebih lama perlahan terdorong ke bawah.
+## Penambahan Secara Reverse-Chronological (Wajib Descending)
+Setiap penambahan log riwayat versi terbaru **WAJIB** diletakkan di bagian **PALING ATAS** dari daftar pembaruan (urutan *descending*, tepat di bawah *header* utama dokumen *changelog*). AI **DILARANG KERAS** menambahkan log di baris terbawah. Dengan demikian, versi terbaru selalu menduduki urutan pertama dan riwayat versi yang lebih lama perlahan terdorong ke bawah.
 
 ## Kewajiban Informasi Branch & VCS
 Setiap entri pembaruan yang dicatatkan wajib memuat informasi mengenai nama *branch Git* yang sedang digarap, beserta tautan (*link*) menuju repositori *Version Control System* (VCS) yang bersangkutan.
@@ -27,10 +27,11 @@ Setelah Anda menuntaskan sebuah tugas atau instruksi, Anda wajib menyertakan log
 
 ## Ticket-Driven Development Workflow
 Infrastruktur proyek AI Orchestrator ini menganut sistem manajemen tugas *offline* terpusat berbasis tiket di direktori `tickets/` yang berada di dalam masing-masing *node*. Selaku AI Agent, Anda dituntut mematuhi protokol berikut selama fase pengerjaan kode:
-1.  **Rujuk pada Tiket:** Jangan mengeksekusi logika secara membabi buta tanpa arah. Pertama-tama, Anda **WAJIB membaca panduan struktural tiket** pada file referensi **`nodes/_template/tickets/README.md`** (atau `README.md` lokal di *node* Anda). Setelah memahaminya, barulah buka file tiket spesifik yang relevan (contoh: `nodes/[nama-node]/tickets/TICKET-01-login.md`). Apabila tiket tersebut berisi laporan masalah, tiket **WAJIB** dikonstruksikan menggunakan standar `global-docs/templates/bug_report_template.md`.
-2.  **Pemutakhiran Status & Checklist:** Saat Anda mulai menggarap sebuah tugas, Anda berhak mengubah properti *frontmatter* `status: Todo` menjadi `status: In Progress` pada file tiket lokal. Jika seluruh kriteria pengerjaan usai, Anda **WAJIB** mengubahnya menjadi `status: Done` dan menandai secara mutlak (*mencentang*) seluruh *checkbox* (`- [x]`) di bagian *Acceptance Criteria* tiket tersebut.
-3.  **Kewajiban Pengisian Log AI:** Anda diwajibkan menjabarkan secara rinci jejak teknis, modifikasi, dan pertimbangan arsitektural di bawah seksi `AI Execution Log & Output` pada dasar file tiket terkait agar transparansi keputusan terjamin.
-4.  **Tautan Changelog:** Pastikan Anda menyertakan ID referensi tiket (misal: "Referensi: TICKET-01") pada detail penulisan log saat melaporkan kemajuan pembaruan di layar obrolan maupun di dalam arsip `CHANGELOG.md` lokal.
+1.  **Rujuk pada Tiket:** Jangan mengeksekusi logika secara membabi buta tanpa arah. Pertama-tama, Anda **WAJIB membaca panduan struktural tiket** pada file referensi **`nodes/_template/tickets/README.md`** (atau `README.md` lokal di *node* Anda). Jika diperintahkan **membuat tiket baru**, Anda **wajib menyalin mentah-mentah format Boilerplate** dari file tersebut. Setelah memahaminya, barulah buka file tiket spesifik yang relevan (contoh: `nodes/[nama-node]/tickets/TICKET-01-login.md`). Apabila tiket tersebut berisi laporan masalah, tiket **WAJIB** dikonstruksikan menggunakan standar `global-docs/templates/bug_report_template.md`.
+2.  **Pengujian Kode (Testing):** Setelah Anda menyelesaikan perombakan logika/kode pada tiket, Anda **WAJIB LANGSUNG** melakukan uji coba fungsional (testing) untuk mendeteksi *error* kompilasi atau galat logika.
+3.  **Pemutakhiran Status & Checklist:** Saat Anda mulai menggarap sebuah tugas, Anda berhak mengubah properti *frontmatter* `status: Todo` menjadi `status: In Progress` pada file tiket lokal. Jika seluruh kriteria pengerjaan dan pengujian telah sukses secara tuntas, Anda **WAJIB LANGSUNG** mengubahnya menjadi `status: Done` dan menandai secara mutlak (*mencentang*) seluruh *checkbox* (`- [x]`) di bagian *Acceptance Criteria* tiket tersebut.
+4.  **Kewajiban Pengisian Log AI:** Anda diwajibkan menjabarkan secara rinci jejak teknis, modifikasi, dan pertimbangan arsitektural di bawah seksi `AI Execution Log & Output` pada dasar file tiket terkait agar transparansi keputusan terjamin.
+5.  **Tautan Changelog:** Pastikan Anda menyertakan ID referensi tiket (misal: "Referensi: TICKET-01") pada detail penulisan log saat melaporkan kemajuan pembaruan di layar obrolan maupun di dalam arsip `CHANGELOG.md` lokal.
 
 ## Pull Request (PR) Submission Policy
 Apabila siklus pengembangan Anda melibatkan pembaruan kode lintas cabang (misalnya transisi dari cabang `feature/` ke `main`), Anda (AI Agent) **DILARANG KERAS** membiarkan deskripsi *Pull Request* kosong atau diisi secara sembarangan. Anda dituntut untuk senantiasa mematuhi pedoman pengajuan PR berikut:
