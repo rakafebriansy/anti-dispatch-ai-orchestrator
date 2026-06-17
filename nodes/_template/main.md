@@ -40,3 +40,6 @@ Jangan buang token Anda untuk membaca file ini jika instruksi pengguna tidak ber
 
 **INSTRUKSI LANJUTAN UNTUK AI:**
 Jika Anda sudah menyerap informasi dari dokumen-dokumen *Wajib* di atas, silakan analisis instruksi spesifik pengguna (atau buka tiket yang ditugaskan di direktori `tickets/`) dan mulailah bekerja!
+
+> 📝 **KEWAJIBAN PENCATATAN (LOGGING OBLIGATION):**
+> Setiap kali Anda selesai mengeksekusi sebuah tiket atau instruksi tugas, Anda **WAJIB MUTLAK** mencatat ringkasan perubahan (*changelog*) yang Anda lakukan ke dalam file `CHANGELOG.md` di node ini sebelum mengakhiri sesi. Jangan sampai lupa!
