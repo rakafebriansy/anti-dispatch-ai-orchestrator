@@ -21,7 +21,7 @@ Anda **DILARANG KERAS** menambahkan komentar apa pun di dalam *source code* yang
 
 ## Visualisasi Dokumentasi Berbasis Teks (PlantUML)
 Sistem dokumentasi arsitektur di ekosistem ini **DILARANG KERAS** menggunakan lampiran gambar statis eksternal (`.png`, `.jpg`) untuk menggambarkan alur, struktur basis data, atau bagan interaksi.
-1.  **Pemisahan File PlantUML:** Segala bentuk visualisasi (seperti Flowchart, ERD, Use Case, State Diagram, atau User Journey) **WAJIB MUTLAK** ditulis menggunakan tata bahasa [PlantUML](https://plantuml.com/) dan disimpan sebagai file berekstensi `.puml` terpisah di dalam direktori `diagrams/` (contoh: `docs/diagrams/flowchart.puml`).
+1.  **Pemisahan File PlantUML:** Segala bentuk visualisasi (seperti Flowchart, ERD, Use Case, State Diagram, atau User Journey) **WAJIB MUTLAK** ditulis menggunakan tata bahasa [PlantUML](https://plantuml.com/) dan disimpan sebagai file berekstensi `.puml` terpisah secara eksplisit di dalam direktori `docs/diagrams/` (untuk lingkup spesifik node) atau `global-docs/diagrams/` (untuk lingkup global ekosistem). Jangan meletakkannya di root direktori node.
 2.  **Rujukan (*Linking*):** Di dalam dokumen Markdown (seperti `prd.md` atau `system-design.md`), Anda **DILARANG** menulis blok kode ````plantuml````. Anda hanya diizinkan untuk membuat rujukan atau tautan Markdown menuju file `.puml` tersebut (contoh: `[Lihat Flowchart Game Loop](./diagrams/flowchart.puml)`).
 3.  **Kemudahan Modifikasi (Text-Searchable):** Ini bertujuan agar AI Agent dapat melakukan pencarian teks, dan pengguna manusia dapat melihat diagram dengan mudah menggunakan ekstensi PlantUML di *code editor* (VS Code) tanpa merusak atau memperberat pembacaan file Markdown.
 
