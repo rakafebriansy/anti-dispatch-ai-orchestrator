@@ -32,7 +32,8 @@ Berbekal informasi di atas, JANGAN MENULIS KODE APLIKASI SAMA SEKALI. Lakukan la
 1. Pahami struktur `ai-orchestrator-template` ini. Karena ini adalah lingkungan proyek tunggal, kita hanya akan menggunakan satu Node utama.
 2. Evaluasi & Wawancara Pengguna: Jika deskripsi yang saya berikan di atas masih terlalu dangkal atau belum cukup untuk mengisi Dokumen Mandatory secara detail dan maksimal, Anda WAJIB BERHENTI mengeksekusi langkah selanjutnya. (Catatan: Yang tergolong Dokumen Mandatory adalah: `prd.md`, `design-system.md`, `system-design.md`, dan `development-planning.md`). Ajukan daftar pertanyaan kritis kepada saya terkait visi, batasan teknis, target pengguna, dan spesifikasi fungsionalitas. Ulangi proses tanya-jawab ini hingga Anda memiliki konteks yang sangat solid untuk mengisi keempat dokumen wajib tersebut secara mutlak.
 3. Setelah informasi dirasa memadai, buatkan draf komprehensif untuk `global-docs/prd.md` dan `global-docs/design-system.md` berdasarkan spesifikasi proyek di atas.
-4. Untuk inisialisasi Node proyek utama:
+4. Buatkan GitHub Project di awal untuk repositori ini. Pastikan GitHub Project tersebut dibuat di bawah kepemilikan (*belongs to*) *User* dan ditautkan (disambungkan) ke repositori ini.
+5. Untuk inisialisasi Node proyek utama:
    a. Gandakan (copy) folder `nodes/_template/` menjadi `nodes/[nama-proyek]/`.
    b. Pindai (scan) source code asli dari Path Codebase yang diberikan untuk menganalisis pola arsitektur, legacy code, dan pustaka eksisting.
    c. Tuliskan hasil pindai dan batasan spesifik proyek ke dalam `nodes/[nama-proyek]/guidelines/project-context.md`.
@@ -74,7 +75,8 @@ Berbekal informasi di atas, JANGAN MENULIS KODE APLIKASI SAMA SEKALI. Lakukan la
 1. Pahami struktur `ai-orchestrator-template` yang berbasis nodes ini.
 2. Evaluasi & Wawancara Pengguna: Jika deskripsi yang saya berikan di atas masih terlalu dangkal atau belum cukup untuk mengisi Dokumen Mandatory secara detail dan maksimal, Anda WAJIB BERHENTI mengeksekusi langkah selanjutnya. (Catatan: Yang tergolong Dokumen Mandatory adalah: `prd.md`, `design-system.md`, `system-design.md`, dan `development-planning.md`). Ajukan daftar pertanyaan kritis kepada saya terkait visi, batasan teknis, target pengguna, dan spesifikasi fungsionalitas. Ulangi proses tanya-jawab ini hingga Anda memiliki konteks yang sangat solid untuk mengisi keempat dokumen wajib tersebut secara mutlak.
 3. Setelah informasi dirasa memadai, buatkan draf komprehensif untuk `global-docs/prd.md` dan `global-docs/design-system.md` berdasarkan spesifikasi lingkungan (Environment) di atas.
-4. Untuk SETIAP Node yang terdaftar di atas:
+4. Buatkan GitHub Project di awal untuk repositori ini. Pastikan GitHub Project tersebut dibuat di bawah kepemilikan (*belongs to*) *User* dan ditautkan (disambungkan) ke repositori ini.
+5. Untuk SETIAP Node yang terdaftar di atas:
    a. Gandakan (copy) folder `nodes/_template/` menjadi `nodes/[nama-node]/`.
    b. Pindai (scan) source code asli dari Node tersebut di Path Codebase yang diberikan untuk menganalisis pola arsitektur, legacy code, dan pustaka eksisting.
    c. Tuliskan hasil pindai dan batasan spesifik node tersebut ke dalam `nodes/[nama-node]/guidelines/project-context.md`.
