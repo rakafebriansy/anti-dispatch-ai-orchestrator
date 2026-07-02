@@ -51,3 +51,10 @@ Setiap penambahan log versi terbaru **WAJIB MUTLAK** diletakkan di baris **PALIN
 ## Log Perubahan (_Judul Proyek_)
 
 *(⚠️ PERHATIAN AI AGENT: TAMBAHKAN ENTRI LOG BARU ANDA TEPAT DI BAWAH BARIS INI. JANGAN DI PALING BAWAH DOKUMEN!)*
+
+### [2026-07-02 16:58] - Guideline: Main SOP
+> **Branch:** `main` | **Repo:** `ai-orchestrator-template`
+- **Instruksi User:** "harus tetap auto commit dan setiap auto commit harus berdasarkan ticket, jika instruksi tak memiliki ticket maka harus dibuatkan ticket! tambahkan di @[nodes/_template/main.md]"
+- **Perubahan:** Menambahkan poin ke-7 pada SOP di `main.md` yang mewajibkan auto-commit berbasis tiket. Jika tidak ada tiket, AI wajib membuatkannya terlebih dahulu.
+- **Path File:** `nodes/_template/main.md`
+
