@@ -90,7 +90,40 @@ Setelah seluruh dokumen mandatory terlengkapi dan fase di atas selesai sempurna,
 CATATAN PENTING UNTUK AI: JANGAN menghapus folder `nodes/_template/` setelah Anda menggandakannya. Folder tersebut harus tetap utuh dan tidak boleh disentuh sebagai cetak biru untuk penambahan node baru di masa depan!
 ```
 
-### FASE 2: Execution Prompt (Pengerjaan Tugas)
+### FASE 2: Scaling Prompt (Penambahan Node)
+Gunakan *prompt* ini jika Anda ingin menambahkan aplikasi/node baru ke dalam ekosistem proyek yang sudah berjalan. *Prompt* ini akan secara otomatis menangani transisi dokumen jika proyek Anda sebelumnya didefinisikan sebagai *Single-Project*.
+
+Salin, isi bagian `[ DALAM KURUNG SIKU ]`, dan kirimkan utuh ke AI Agent:
+
+```text
+Saya ingin menambahkan Node baru ke dalam ekosistem AI Orchestrator ini.
+
+Berikut adalah definisi Node baru yang akan ditambahkan:
+1. Nama Node: [Nama node baru, misal: Mobile App]
+2. Ide/Konsep Utama: [Jelaskan fungsionalitas utama node ini]
+3. Path Codebase: [Path absolut ke folder node baru, misal: `/Users/.../my-mobile-app`]
+4. Tech Stack: [Misal: Flutter, Firebase]
+
+INSTRUKSI PENAMBAHAN NODE ANDA:
+Berbekal informasi di atas, JANGAN MENULIS KODE APLIKASI SAMA SEKALI. Lakukan langkah-langkah otonom berikut secara berurutan:
+1. Pahami struktur `ai-orchestrator-template` eksisting. Periksa dokumen `global-docs/prd.md` dan diagram arsitektur global.
+2. Deteksi Lingkungan: Periksa apakah ekosistem ini sebelumnya didefinisikan sebagai Single-Project atau Multi-Project. 
+   - JIKA sebelumnya adalah Single-Project: Anda WAJIB mengubah definisi di seluruh dokumen global (`global-docs/prd.md`, `global-docs/design-system.md`, dan diagram arsitektur global) agar mendukung dan mencerminkan ekosistem Multi-Project. Refaktor arsitektur global untuk mengakomodasi interaksi antara Node lama dan Node baru ini.
+   - JIKA sudah Multi-Project: Anda hanya perlu memperbarui dokumen global untuk memasukkan eksistensi Node baru ini ke dalam gambaran besar (*big picture*) arsitektur sistem.
+3. Wawancara Pengguna: Jika informasi Node baru di atas masih kurang jelas, ajukan pertanyaan kritis mengenai batasan teknis dan interaksinya dengan Node lain.
+4. Inisialisasi Node Baru:
+   a. Gandakan (copy) folder `nodes/_template/` menjadi `nodes/[nama-node-baru]/`.
+   b. Pindai (scan) source code asli dari Path Codebase yang diberikan untuk menganalisis pola arsitektur, legacy code, dan pustaka eksisting.
+   c. Tuliskan hasil pindai dan batasan spesifik node tersebut ke dalam `nodes/[nama-node-baru]/guidelines/project-context.md`.
+   d. Buat `nodes/[nama-node-baru]/docs/system-design.md`.
+   e. Rancang seluruh arsitektur node baru menggunakan PlantUML secara eksplisit di dalam folder `nodes/[nama-node-baru]/docs/diagrams/`, lalu tautkan file tersebut ke dalam dokumen yang relevan.
+   f. Buat `nodes/[nama-node-baru]/docs/development-planning.md` untuk backlog tiket node baru ini.
+   g. Tuliskan entri log inisialisasi awal ke dalam file `nodes/[nama-node-baru]/CHANGELOG.md` menggunakan templat `global-docs/templates/changelog_entry_template.md`.
+
+Setelah penambahan Node selesai, berikan saya rangkuman arsitektur ekosistem terbaru dan tanyakan persetujuan saya sebelum kita masuk ke mode eksekusi tiket harian!
+```
+
+### FASE 3: Execution Prompt (Pengerjaan Tugas)
 Gunakan salah satu dari dua Execution Prompt di bawah ini sesuai dengan ruang lingkup tugas yang ingin Anda kerjakan.
 
 #### Opsi A: Execution Prompt (Single-Node)
