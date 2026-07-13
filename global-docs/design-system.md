@@ -15,10 +15,15 @@ Secara rinci, sebuah dokumen Design System wajib memuat komponen-komponen beriku
 *   **Animasi & Interaksi (*Micro-interactions/Animations*):** Standar perilaku gerakan antarmuka, mencakup durasi waktu (*duration*), kurva transisi (*easing curve*), dan *feedback* visual terhadap aksi dari pengguna.
 *   **Standar Aksesibilitas (a11y):** Persyaratan minimum aksesibilitas yang harus ditaati (seperti *color contrast ratio*, *focus states* yang jelas, dan ketersediaan label pembaca layar/*screen reader*).
 
+### Aturan Khusus Ekosistem Multi-Project (Multi-Node)
+Jika ekosistem ini terdiri dari berbagai *platform* atau aplikasi yang memiliki interaksi (*Multi-Node*), strukturkan Design System ini menjadi dua tingkatan:
+1. **Global Tokens:** Aturan fundamental (warna, tipografi utama, aset jenama/logo) yang wajib dipatuhi secara universal oleh seluruh *node* demi konsistensi *brand*.
+2. **Node-Specific Components:** Bagilah daftar komponen UI spesifik ke dalam sub-bab masing-masing *node* (misalnya: sub-bab "Komponen Web-Admin" terpisah dari sub-bab "Komponen Mobile-App") guna mencegah kontaminasi rancangan dan kerancuan (*ambiguity*) ketika AI melakukan koding antarmuka di node tertentu.
+
 ## Cara Melakukan Generate Design System
 Jelaskan "rasa" (*vibe*), tema, gaya visual (*modern*, minimalis, *playful*, dsb), serta preferensi estetika dari aplikasi Anda kepada AI Agent. Kemudian, mintalah AI Agent untuk mengajukan pertanyaan-pertanyaan spesifik terkait aset visual (seperti warna primer/sekunder, bentuk tombol, *dark/light mode*, tipografi) guna memperinci gambaran desain Anda. Berdasarkan interaksi tersebut, AI akan merumuskan dan menyusun pedoman komponen UI yang baku.
 
 > **Kewajiban Uji Validasi HTML:** Desain yang dirumuskan di dokumen ini **TIDAK BOLEH** langsung dikoding ke dalam *framework* asli (Flutter, Next.js, SwiftUI, dll.). AI Agent **WAJIB** membuat sketsa purwarupanya terlebih dahulu dalam format HTML sederhana di direktori `nodes/[nama-node]/prototypes/` dari proyek yang bersangkutan.
-## (_Judul Proyek_)
+## (_Judul Proyek / Nama Ekosistem_)
 
-*(Detail dari komponen, warna, tipografi, dan panduan Design System spesifik untuk aplikasi ini akan ditambahkan di bawah batas ini)*
+*(Detail dari komponen, warna, tipografi, dan panduan Design System spesifik untuk aplikasi atau ekosistem ini akan ditambahkan di bawah batas ini)*

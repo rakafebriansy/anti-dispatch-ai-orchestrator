@@ -17,11 +17,16 @@ Secara rinci, sebuah dokumen PRD wajib memuat komponen-komponen berikut:
 *   **Di Luar Cakupan (*Out of Scope*):** Daftar eksplisit mengenai fungsi atau fitur yang **tidak** akan dikerjakan pada fase/iterasi saat ini untuk menjaga agar fokus eksekusi AI Agent tidak menyimpang.
 *   **Peta Jalan Fase (Milestone/Phase Breakdown):** Pembagian target rilis fitur ke dalam beberapa fase berurut (contoh: v1.0 MVP, v1.1 Lanjutan) agar AI Agent memahami prioritas eksekusi tiket di masa depan.
 
+### Aturan Khusus Ekosistem Multi-Project (Multi-Node)
+Jika proyek ini berkembang atau sejak awal dirancang berskala ekosistem (terdiri dari beberapa *node* terpisah, misalnya Frontend Web, Backend API, dan Mobile App), Anda (AI Agent) **WAJIB MUTLAK** merestrukturisasi isi dokumen PRD ini ke dalam dua tingkatan hierarki:
+1. **Global Scope:** Berisi visi utama proyek, target *user personas*, alur pengguna lintas-sistem, dan asumsi tingkat ekosistem secara menyeluruh.
+2. **Node-Specific Scope:** Pecah dan kelompokkan kebutuhan fungsional (*Functional Requirements*), batasan non-fungsional, dan kriteria penerimaan ke dalam sub-bab khusus untuk masing-masing *node* secara terisolasi.
+
 ## Cara Melakukan Generate PRD
 Ceritakan konsep, ide dasar, dan keseluruhan alur aplikasi yang ingin dibangun secara garis besar. Setelah itu, instruksikan AI Agent untuk secara aktif menanyakan detail-detail apa saja yang masih dibutuhkan untuk memperjelas dan memperinci penjelasan Anda. Proses tanya-jawab ini dilakukan sampai AI memiliki konteks dan informasi yang cukup untuk menyusun draf PRD yang lengkap.
 
 > **Kewajiban Alur (Pipeline Obligation):** Setelah dokumen PRD ini disahkan (selesai di-*generate*), AI Agent **WAJIB MUTLAK** diinstruksikan untuk melanjutkan proses penyusunan arsitektur teknis dengan merujuk pada dokumen `nodes/[nama-node]/docs/system-design.md` milik masing-masing *node*. Dilarang menulis kode sebelum System Design terbentuk!
 
-## (_Judul Proyek_)
+## (_Judul Proyek / Nama Ekosistem_)
 
-*(Isi dari Product Requirements Document spesifik untuk aplikasi ini akan ditambahkan di bawah batas ini)*
+*(Isi dari Product Requirements Document spesifik untuk aplikasi atau ekosistem ini akan ditambahkan di bawah batas ini)*

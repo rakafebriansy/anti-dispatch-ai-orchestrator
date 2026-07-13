@@ -107,10 +107,10 @@ Berikut adalah definisi Node baru yang akan ditambahkan:
 INSTRUKSI PENAMBAHAN NODE ANDA:
 Berbekal informasi di atas, JANGAN MENULIS KODE APLIKASI SAMA SEKALI. Lakukan langkah-langkah otonom berikut secara berurutan:
 1. Pahami struktur `ai-orchestrator-template` eksisting. Periksa dokumen `global-docs/prd.md` dan diagram arsitektur global.
-2. Deteksi Lingkungan: Periksa apakah ekosistem ini sebelumnya didefinisikan sebagai Single-Project atau Multi-Project. 
-   - JIKA sebelumnya adalah Single-Project: Anda WAJIB mengubah definisi di seluruh dokumen global (`global-docs/prd.md`, `global-docs/design-system.md`, dan diagram arsitektur global) agar mendukung dan mencerminkan ekosistem Multi-Project. Refaktor arsitektur global untuk mengakomodasi interaksi antara Node lama dan Node baru ini.
-   - JIKA sudah Multi-Project: Anda hanya perlu memperbarui dokumen global untuk memasukkan eksistensi Node baru ini ke dalam gambaran besar (*big picture*) arsitektur sistem.
-3. Wawancara Pengguna: Jika informasi Node baru di atas masih kurang jelas, ajukan pertanyaan kritis mengenai batasan teknis dan interaksinya dengan Node lain.
+2. Deteksi Lingkungan & Pembaruan Dokumen Global (SANGAT KRUSIAL):
+   - JIKA ekosistem sebelumnya adalah Single-Project: Anda WAJIB SECARA MUTLAK merestrukturisasi dan merombak seluruh dokumen global (`global-docs/prd.md`, `global-docs/design-system.md`, dan diagram arsitektur global) dari format aplikasi tunggal menjadi hierarki Multi-Project/Ecosystem. Pisahkan antara *Global Scope* dan *Node-Specific Scope*.
+   - WAJIB INTEGRASI DOKUMEN: Terlepas dari status sistem sebelumnya, Anda WAJIB memperbarui `global-docs/prd.md` dan `global-docs/design-system.md` untuk secara eksplisit mendaftarkan fitur, kebutuhan fungsional, dan komponen antarmuka dari Node baru ini ke dalam dokumen global yang sudah ada. Jangan sampai Node baru ini tidak terdokumentasi di tingkat ekosistem!
+3. Wawancara Pengguna: Jika informasi Node baru di atas masih kurang jelas atau akan berdampak besar pada arsitektur global, ajukan pertanyaan kritis mengenai batasan teknis dan interaksinya dengan Node eksisting sebelum mengeksekusi pembuatan dokumen.
 4. Inisialisasi Node Baru:
    a. Gandakan (copy) folder `nodes/_template/` menjadi `nodes/[nama-node-baru]/`.
    b. Pindai (scan) source code asli dari Path Codebase yang diberikan untuk menganalisis pola arsitektur, legacy code, dan pustaka eksisting.
