@@ -30,17 +30,19 @@ A. INFORMASI PROYEK
 INSTRUKSI STARTUP ANDA:
 Berbekal informasi di atas, JANGAN MENULIS KODE APLIKASI SAMA SEKALI. Lakukan langkah-langkah otonom berikut secara berurutan:
 1. Pahami struktur `ai-orchestrator-template` ini. Karena ini adalah lingkungan proyek tunggal, kita hanya akan menggunakan satu Node utama.
-2. Evaluasi & Wawancara Pengguna: Jika deskripsi yang saya berikan di atas masih terlalu dangkal atau belum cukup untuk mengisi Dokumen Mandatory secara detail dan maksimal, Anda WAJIB BERHENTI mengeksekusi langkah selanjutnya. (Catatan: Yang tergolong Dokumen Mandatory adalah: `prd.md`, `design-system.md`, `system-design.md`, dan `development-planning.md`). Ajukan daftar pertanyaan kritis kepada saya terkait visi, batasan teknis, target pengguna, dan spesifikasi fungsionalitas. Ulangi proses tanya-jawab ini hingga Anda memiliki konteks yang sangat solid untuk mengisi keempat dokumen wajib tersebut secara mutlak.
+2. Evaluasi & Wawancara Pengguna: Jika deskripsi yang saya berikan di atas masih terlalu dangkal atau belum cukup untuk mengisi Dokumen Mandatory secara detail dan maksimal, Anda WAJIB BERHENTI mengeksekusi langkah selanjutnya. (Catatan: Yang tergolong Dokumen Mandatory adalah: `prd.md`, `design-system.md`, `system-design.md`, dan `development-planning.md`). Ajukan daftar pertanyaan kritis kepada saya terkait visi, batasan teknis, target pengguna, dan spesifikasi fungsionalitas. Selain itu, SEBELUM Anda bertanya tentang Graphify, Anda WAJIB menanyakan: *"Mode Operasional mana yang ingin Anda gunakan secara default? (1) Mode 1: Autonomous Planning (digerakkan oleh roadmap), atau (2) Mode 2: Prompt-Driven (digerakkan instruksi mikro)"*. SETELAH ITU, tanyakan: *"Apakah Anda ingin menggunakan fitur CLI Graphify untuk pemetaan arsitektur otomatis? (Ya/Tidak)"*. Ulangi proses tanya-jawab ini hingga Anda memiliki konteks yang solid.
+2.5. Pengecekan Environment (KONDISIONAL): JIKA pengguna menjawab YA untuk pemakaian Graphify pada tahap wawancara, eksekusi `graphify --version` di terminal. Jika gagal (not found), instal segera dengan `npm install -g @sentropic/graphify`. Jika pengguna menjawab TIDAK, lewati langkah ini sepenuhnya.
 3. Setelah informasi dirasa memadai, buatkan draf komprehensif untuk `global-docs/prd.md` dan `global-docs/design-system.md` berdasarkan spesifikasi proyek di atas.
 4. Buatkan GitHub Project di awal untuk repositori ini. Pastikan GitHub Project tersebut dibuat di bawah kepemilikan (*belongs to*) *User* dan ditautkan (disambungkan) ke repositori ini.
 5. Untuk inisialisasi Node proyek utama:
-   a. Gandakan (copy) folder `nodes/_template/` menjadi `nodes/[nama-proyek]/`.
+   a. Gandakan (copy) folder `nodes/_template/` menjadi `nodes/[nama-proyek]/`. Setelah itu, WAJIB tuliskan Mode Operasional pilihan pengguna (MODE 1 atau MODE 2) ke bagian paling atas file `nodes/[nama-proyek]/main.md` untuk menggantikan placeholder `[PILIH: MODE 1 / MODE 2]`.
    b. Pindai (scan) source code asli dari Path Codebase yang diberikan untuk menganalisis pola arsitektur, legacy code, dan pustaka eksisting.
    c. Tuliskan hasil pindai dan batasan spesifik proyek ke dalam `nodes/[nama-proyek]/guidelines/project-context.md`.
    d. Buat `nodes/[nama-proyek]/docs/system-design.md`.
    e. Berdasarkan tipe aplikasi (Backend, Web, Mobile, Game), rancang seluruh arsitektur menggunakan PlantUML (ERD, Flowchart, State Diagram, User Journey, Use Case). Simpan kode arsitektur tersebut sebagai file-file `.puml` terpisah secara eksplisit di dalam folder `docs/diagrams/` (untuk Node) atau `global-docs/diagrams/` (untuk Global), lalu tautkan (link) file tersebut ke dalam `prd.md` dan `system-design.md` sesuai pedoman.
    f. Buat `nodes/[nama-proyek]/docs/development-planning.md` yang merancang daftar backlog tiket (TICKET-XX.md) yang harus dikerjakan di fase pertama.
    g. Tuliskan entri log inisialisasi awal ke dalam file `nodes/[nama-proyek]/CHANGELOG.md` menggunakan templat dari `global-docs/templates/changelog_entry_template.md` yang mencatat tanggal, status pembuatan node, dan ringkasan arsitektur dasar yang baru saja ditetapkan.
+   h. Sinkronisasi Graf (KONDISIONAL): JIKA pengguna menyetujui penggunaan Graphify di tahap awal, jalankan perintah `graphify build` di terminal pada root proyek untuk membangun Knowledge Graph perdana.
 
 Setelah seluruh dokumen mandatory terlengkapi dan fase di atas selesai sempurna, berikan saya rangkuman singkat terkait struktur baru yang terbentuk dan tanyakan persetujuan saya sebelum kita masuk ke mode eksekusi tiket harian!
 
@@ -73,17 +75,19 @@ B. NODES (Sub-Project Scope)
 INSTRUKSI STARTUP ANDA:
 Berbekal informasi di atas, JANGAN MENULIS KODE APLIKASI SAMA SEKALI. Lakukan langkah-langkah otonom berikut secara berurutan:
 1. Pahami struktur `ai-orchestrator-template` yang berbasis nodes ini.
-2. Evaluasi & Wawancara Pengguna: Jika deskripsi yang saya berikan di atas masih terlalu dangkal atau belum cukup untuk mengisi Dokumen Mandatory secara detail dan maksimal, Anda WAJIB BERHENTI mengeksekusi langkah selanjutnya. (Catatan: Yang tergolong Dokumen Mandatory adalah: `prd.md`, `design-system.md`, `system-design.md`, dan `development-planning.md`). Ajukan daftar pertanyaan kritis kepada saya terkait visi, batasan teknis, target pengguna, dan spesifikasi fungsionalitas. Ulangi proses tanya-jawab ini hingga Anda memiliki konteks yang sangat solid untuk mengisi keempat dokumen wajib tersebut secara mutlak.
+2. Evaluasi & Wawancara Pengguna: Jika deskripsi yang saya berikan di atas masih terlalu dangkal atau belum cukup untuk mengisi Dokumen Mandatory secara detail dan maksimal, Anda WAJIB BERHENTI mengeksekusi langkah selanjutnya. (Catatan: Yang tergolong Dokumen Mandatory adalah: `prd.md`, `design-system.md`, `system-design.md`, dan `development-planning.md`). Ajukan daftar pertanyaan kritis kepada saya terkait visi, batasan teknis, target pengguna, dan spesifikasi fungsionalitas. Selain itu, SEBELUM Anda bertanya tentang Graphify, Anda WAJIB menanyakan: *"Mode Operasional mana yang ingin Anda gunakan secara default? (1) Mode 1: Autonomous Planning (digerakkan oleh roadmap), atau (2) Mode 2: Prompt-Driven (digerakkan instruksi mikro)"*. SETELAH ITU, tanyakan: *"Apakah Anda ingin menggunakan fitur CLI Graphify untuk pemetaan arsitektur otomatis? (Ya/Tidak)"*. Ulangi proses tanya-jawab ini hingga Anda memiliki konteks yang solid.
+2.5. Pengecekan Environment (KONDISIONAL): JIKA pengguna menjawab YA untuk pemakaian Graphify pada tahap wawancara, eksekusi `graphify --version` di terminal. Jika gagal (not found), instal segera dengan `npm install -g @sentropic/graphify`. Jika pengguna menjawab TIDAK, lewati langkah ini sepenuhnya.
 3. Setelah informasi dirasa memadai, buatkan draf komprehensif untuk `global-docs/prd.md` dan `global-docs/design-system.md` berdasarkan spesifikasi lingkungan (Environment) di atas.
 4. Buatkan GitHub Project di awal untuk repositori ini. Pastikan GitHub Project tersebut dibuat di bawah kepemilikan (*belongs to*) *User* dan ditautkan (disambungkan) ke repositori ini.
 5. Untuk SETIAP Node yang terdaftar di atas:
-   a. Gandakan (copy) folder `nodes/_template/` menjadi `nodes/[nama-node]/`.
+   a. Gandakan (copy) folder `nodes/_template/` menjadi `nodes/[nama-node]/`. Setelah itu, WAJIB tuliskan Mode Operasional pilihan pengguna (MODE 1 atau MODE 2) ke bagian paling atas file `nodes/[nama-node]/main.md` untuk menggantikan placeholder `[PILIH: MODE 1 / MODE 2]`.
    b. Pindai (scan) source code asli dari Node tersebut di Path Codebase yang diberikan untuk menganalisis pola arsitektur, legacy code, dan pustaka eksisting.
    c. Tuliskan hasil pindai dan batasan spesifik node tersebut ke dalam `nodes/[nama-node]/guidelines/project-context.md`.
    d. Buat `nodes/[nama-node]/docs/system-design.md` khusus untuk node tersebut.
    e. Berdasarkan tipe aplikasi (Backend, Web, Mobile, Game), rancang seluruh arsitektur menggunakan PlantUML (ERD, Flowchart, State Diagram, User Journey, Use Case). Simpan kode arsitektur tersebut sebagai file-file `.puml` terpisah secara eksplisit di dalam folder `docs/diagrams/` spesifik milik node tersebut, lalu tautkan (link) file tersebut ke dalam prd.md and system-design.md sesuai pedoman.
    f. Buat `nodes/[nama-node]/docs/development-planning.md` yang merancang daftar backlog tiket (TICKET-XX.md) yang harus dikerjakan di fase pertama node ini.
    g. Tuliskan entri log inisialisasi awal ke dalam file `nodes/[nama-node]/CHANGELOG.md` menggunakan templat dari `global-docs/templates/changelog_entry_template.md` yang mencatat tanggal, status pembuatan node, dan ringkasan arsitektur dasar yang baru saja ditetapkan.
+   h. Sinkronisasi Graf (KONDISIONAL): JIKA pengguna menyetujui penggunaan Graphify di tahap awal, setelah seluruh iterasi Node selesai, jalankan perintah `graphify build` di terminal pada root proyek untuk membangun Knowledge Graph.
 
 Setelah seluruh dokumen mandatory terlengkapi dan fase di atas selesai sempurna, berikan saya rangkuman singkat terkait struktur baru yang terbentuk dan tanyakan persetujuan saya sebelum kita masuk ke mode eksekusi tiket harian!
 
@@ -106,19 +110,21 @@ Berikut adalah definisi Node baru yang akan ditambahkan:
 
 INSTRUKSI PENAMBAHAN NODE ANDA:
 Berbekal informasi di atas, JANGAN MENULIS KODE APLIKASI SAMA SEKALI. Lakukan langkah-langkah otonom berikut secara berurutan:
+0. Pengecekan Detektif Lingkungan: Cek apakah terdapat folder tersembunyi `.graphify` di root proyek. JIKA ADA, itu artinya ekosistem ini menggunakan fitur Graphify. Eksekusi `graphify --version` di terminal. Jika gagal, instal dengan `npm install -g @sentropic/graphify`. Jika folder `.graphify` TIDAK ADA, abaikan langkah ini sepenuhnya.
 1. Pahami struktur `ai-orchestrator-template` eksisting. Periksa dokumen `global-docs/prd.md` dan diagram arsitektur global.
 2. Deteksi Lingkungan & Pembaruan Dokumen Global (SANGAT KRUSIAL):
    - JIKA ekosistem sebelumnya adalah Single-Project: Anda WAJIB SECARA MUTLAK merestrukturisasi dan merombak seluruh dokumen global (`global-docs/prd.md`, `global-docs/design-system.md`, dan diagram arsitektur global) dari format aplikasi tunggal menjadi hierarki Multi-Project/Ecosystem. Pisahkan antara *Global Scope* dan *Node-Specific Scope*.
    - WAJIB INTEGRASI DOKUMEN: Terlepas dari status sistem sebelumnya, Anda WAJIB memperbarui `global-docs/prd.md` dan `global-docs/design-system.md` untuk secara eksplisit mendaftarkan fitur, kebutuhan fungsional, dan komponen antarmuka dari Node baru ini ke dalam dokumen global yang sudah ada. Jangan sampai Node baru ini tidak terdokumentasi di tingkat ekosistem!
 3. Wawancara Pengguna: Jika informasi Node baru di atas masih kurang jelas atau akan berdampak besar pada arsitektur global, ajukan pertanyaan kritis mengenai batasan teknis dan interaksinya dengan Node eksisting sebelum mengeksekusi pembuatan dokumen.
 4. Inisialisasi Node Baru:
-   a. Gandakan (copy) folder `nodes/_template/` menjadi `nodes/[nama-node-baru]/`.
+   a. Gandakan (copy) folder `nodes/_template/` menjadi `nodes/[nama-node-baru]/`. Pastikan menyalin Mode Operasional yang sedang digunakan ekosistem ini dan menuliskannya di baris pertama file `nodes/[nama-node-baru]/main.md`.
    b. Pindai (scan) source code asli dari Path Codebase yang diberikan untuk menganalisis pola arsitektur, legacy code, dan pustaka eksisting.
    c. Tuliskan hasil pindai dan batasan spesifik node tersebut ke dalam `nodes/[nama-node-baru]/guidelines/project-context.md`.
    d. Buat `nodes/[nama-node-baru]/docs/system-design.md`.
    e. Rancang seluruh arsitektur node baru menggunakan PlantUML secara eksplisit di dalam folder `nodes/[nama-node-baru]/docs/diagrams/`, lalu tautkan file tersebut ke dalam dokumen yang relevan.
    f. Buat `nodes/[nama-node-baru]/docs/development-planning.md` untuk backlog tiket node baru ini.
    g. Tuliskan entri log inisialisasi awal ke dalam file `nodes/[nama-node-baru]/CHANGELOG.md` menggunakan templat `global-docs/templates/changelog_entry_template.md`.
+   h. Sinkronisasi Graf (KONDISIONAL): JIKA ekosistem ini terdeteksi menggunakan Graphify (dari langkah 0), jalankan perintah `graphify build` di terminal pada root proyek untuk memindai ulang struktur ekosistem.
 
 Setelah penambahan Node selesai, berikan saya rangkuman arsitektur ekosistem terbaru dan tanyakan persetujuan saya sebelum kita masuk ke mode eksekusi tiket harian!
 ```
@@ -130,7 +136,7 @@ Gunakan salah satu dari dua Execution Prompt di bawah ini sesuai dengan ruang li
 Gunakan prompt ini jika Anda hanya ingin fokus mengerjakan fitur di SATU proyek spesifik (misalnya hanya mengubah UI Frontend).
 
 ```text
-Kamu WAJIB membaca `nodes/[NAMA_NODE_ANDA]/main.md` sebagai Master Entrypoint. Patuhi seluruh pedoman arsitektur dan larangan mutlak yang tertulis di dalamnya sebelum menulis satu baris kode pun.
+Kamu WAJIB membaca `nodes/[NAMA_NODE_ANDA]/main.md` sebagai Master Entrypoint. Patuhi seluruh pedoman arsitektur dan larangan mutlak yang tertulis di dalamnya sebelum menulis satu baris kode pun. Setelah kodemu berhasil dan tugas ini rampung, JIKA terdapat direktori `.graphify` di root proyek, kamu WAJIB eksekusi perintah `graphify update` untuk menyinkronkan konteks kode barumu.
 
 Instruksi Tugas: [TULIS_INSTRUKSI_ATAU_ID_TIKET_DI_SINI]
 ```
@@ -139,7 +145,7 @@ Instruksi Tugas: [TULIS_INSTRUKSI_ATAU_ID_TIKET_DI_SINI]
 Gunakan *prompt* ini jika Anda memiliki tugas integrasi besar yang melibatkan banyak proyek sekaligus (misalnya menyambungkan API Backend ke Frontend).
 
 ```text
-Tugas ini bersifat lintas-proyek (Multi-Node). Kamu WAJIB memindai direktori `nodes/` dan membaca file `main.md` dari masing-masing sub-proyek yang relevan. Pastikan integrasi antarsistem mematuhi pedoman global dan tidak merusak arsitektur.
+Tugas ini bersifat lintas-proyek (Multi-Node). Pengecekan Detektif: Cek apakah ada direktori `.graphify` di root. JIKA ADA: Eksekusi `graphify --version` (instal via npm jika gagal), lalu WAJIB gunakan CLI `graphify` untuk mengidentifikasi komponen terdampak, dan baca `main.md` spesifik dari node yang teridentifikasi. JIKA TIDAK ADA: Kamu WAJIB memindai direktori `nodes/` dan membaca file `main.md` dari masing-masing sub-proyek yang relevan secara manual. Pastikan integrasi antarsistem mematuhi pedoman global. Setelah tugas selesai, JIKA memakai Graphify, eksekusi `graphify update`.
 
 Instruksi Tugas: [TULIS_INSTRUKSI_LINTAS_NODE_DI_SINI]
 ```
