@@ -9,6 +9,10 @@ Setiap penambahan log riwayat versi terbaru **WAJIB** diletakkan di bagian **PAL
 ## Kewajiban Informasi Branch & VCS
 Setiap entri pembaruan yang dicatatkan wajib memuat informasi mengenai nama *branch Git* yang sedang digarap, beserta tautan (*link*) menuju repositori *Version Control System* (VCS) yang bersangkutan.
 
+## Aturan Penamaan Branch
+1. **Pada Direktori Project/Node:** Anda **DILARANG KERAS** menggunakan format penamaan *branch* dengan ID tiket kapital seperti `feat(TICKET-XX)`. Penamaan *branch* untuk pengembangan kode aplikasi di dalam *node* diharuskan menggunakan deskripsi fitur secara langsung, contoh: `feat(feature-name)`.
+2. **Pada Repositori Orchestrator:** Khusus untuk repositori ekosistem Orchestrator (template yang sudah di-*startup*), penamaan *branch* **WAJIB MUTLAK** menggunakan ID tiket dengan huruf kecil, contoh: `feat(ticket-xx)` atau gabungan tiket jika ada banyak tugas seperti `feat(ticket-xx,ticket-yy)`.
+
 ## Kewajiban Commit & Mekanisme Rollback
 1. **Wajib Commit Setiap Selesai Pencatatan Changelog:** Setiap kali Anda selesai mengeksekusi sebuah tiket/tugas dan telah mencatat riwayat pembaruan ke dalam file `CHANGELOG.md`, Anda **WAJIB MUTLAK** langsung melakukan *git commit*. Jangan pernah menumpuk banyak perubahan dari berbagai tugas ke dalam satu *commit* besar. Hal ini bertujuan agar setiap tiket atau tugas terisolasi secara aman dan rapi dalam satu *commit history* yang bersih.
 2. **Mekanisme Rollback (Pembatalan Perubahan):** Berkat kewajiban *commit* per-tugas di atas, jika di kemudian hari terjadi *error* fatal, fitur merusak sistem, atau pengguna meminta Anda membatalkan *task* terakhir, Anda **WAJIB** menerapkan mekanisme *rollback* Git (kembali ke versi stabil sebelumnya). Gunakan perintah seperti `git reset --hard HEAD~1` (atau nama *commit hash* terkait). Anda **WAJIB meminta konfirmasi persetujuan pengguna** terlebih dahulu sebelum mengeksekusi *rollback* destruktif semacam ini.
