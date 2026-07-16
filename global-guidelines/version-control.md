@@ -11,11 +11,13 @@ Setiap entri pembaruan yang dicatatkan wajib memuat informasi mengenai nama *bra
 
 ## Aturan Penamaan Branch
 1. **Pada Direktori Project/Node:** Anda **DILARANG KERAS** menggunakan format penamaan *branch* dengan ID tiket kapital seperti `feat(TICKET-XX)`. Penamaan *branch* untuk pengembangan kode aplikasi di dalam *node* diharuskan menggunakan deskripsi fitur secara langsung, contoh: `feat(feature-name)`.
-2. **Pada Repositori Orchestrator:** Khusus untuk repositori ekosistem Orchestrator (template yang sudah di-*startup*), penamaan *branch* **WAJIB MUTLAK** menggunakan ID tiket dengan huruf kecil, contoh: `feat(ticket-xx)` atau gabungan tiket jika ada banyak tugas seperti `feat(ticket-xx,ticket-yy)`.
+2. **Pada Repositori Orchestrator:** Khusus untuk repositori ekosistem Orchestrator (template yang sudah di-*startup*), Anda **TIDAK PERLU** membuat *branch* baru. Semua perubahan pada tingkat Orchestrator (seperti dokumentasi global, template, atau konfigurasi) cukup langsung di-*push* ke `main`.
 
 ## Prosedur Konfirmasi Pembuatan Branch (Branch Switching)
-Setiap kali Anda menerima tugas/instruksi eksekusi baru, Anda **WAJIB** mengevaluasi apakah tugas tersebut berada pada domain fitur yang berbeda atau memiliki konteks yang berbeda (misalnya: *hotfix*, penulisan *testing*, *refactor*, dsb.) dari *branch* yang saat ini sedang aktif.
-Jika konteks atau domain fiturnya dirasa berbeda, Anda **WAJIB** secara otomatis menanyakan dan meminta persetujuan pengguna untuk membuat serta berpindah ke *branch* baru (contoh: `git checkout -b type/nama-branch`) SEBELUM Anda mulai mengeksekusi modifikasi kode apa pun.
+Setiap kali Anda menerima tugas/instruksi eksekusi baru di dalam **direktori Project/Node**, Anda **WAJIB** mengevaluasi apakah tugas tersebut berada pada domain fitur yang berbeda atau memiliki konteks yang berbeda (misalnya: *hotfix*, penulisan *testing*, *refactor*, dsb.) dari *branch* yang saat ini sedang aktif.
+Meskipun pembuatan *branch* baru disarankan untuk domain fitur yang baru, **pastikan tidak setiap instruksi atau setiap tiket dibuatkan *branch* baru**. Jika tugas masih berkaitan erat dengan fitur yang sedang dikembangkan, gunakan *branch* yang sama.
+Jika konteks atau domain fiturnya terbukti berbeda dan benar-benar membutuhkan *branch* baru, Anda **WAJIB** secara otomatis menanyakan dan meminta persetujuan pengguna untuk membuat serta berpindah ke *branch* baru (contoh: `git checkout -b type/nama-branch`) SEBELUM Anda mulai mengeksekusi modifikasi kode apa pun.
+**CATATAN PENTING:** Pembuatan *branch* baru **hanya boleh terjadi pada direktori Project/Node**. Orchestrator tidak perlu membuat *branch* baru dan langsung *push* semua perubahan ke `main`.
 
 ## Kewajiban Commit & Mekanisme Rollback
 1. **Wajib Commit Setiap Selesai Pencatatan Changelog:** Setiap kali Anda selesai mengeksekusi sebuah tiket/tugas dan telah mencatat riwayat pembaruan ke dalam file `CHANGELOG.md`, Anda **WAJIB MUTLAK** langsung melakukan *git commit*. Jangan pernah menumpuk banyak perubahan dari berbagai tugas ke dalam satu *commit* besar. Hal ini bertujuan agar setiap tiket atau tugas terisolasi secara aman dan rapi dalam satu *commit history* yang bersih.
