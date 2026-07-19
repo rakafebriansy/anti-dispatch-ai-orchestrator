@@ -64,3 +64,6 @@ Berikut adalah panduan perintah standar eksekusi pengujian beserta inspeksi *cov
 - **Java / Kotlin (Gradle / Maven dengan Jacoco):**
   - Eksekusi Test (Gradle): `./gradlew test jacocoTestReport`
   - Eksekusi Test (Maven): `mvn clean test jacoco:report`
+
+### 9. Pembersihan Artefak Pengujian (Test Artifact Cleanup)
+Anda **WAJIB** selalu memastikan bahwa setiap file hasil *build* atau file ter-generate (*generated files*) lainnya yang berasal dari sisa hasil pengujian (*testing*) segera dihapus apabila ada. Jangan biarkan file sementara dari pengujian ini mengotori repositori.
