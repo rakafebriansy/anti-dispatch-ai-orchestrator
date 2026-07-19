@@ -39,3 +39,28 @@ Seluruh pengujian yang Anda buat harus didesain sedemikian rupa agar kompatibel 
 Sesuai dengan pedoman di `error-handling.md`, jika eksekusi tes Anda selalu gagal atau buntu (*stuck*) walau sudah dicoba berulang kali (mencapai batas *Max Retry Rule*), Anda **WAJIB** mengeksekusi dua prosedur darurat:
 1. Menghentikan eksperimen paksa dan segera melapor kepada pengguna.
 2. Mencatat kebingungan dan jalan buntu teknis tersebut ke dalam file `nodes/[nama-node]/retrospectives/RETROSPECTIVE.md`.
+
+### 7. Persyaratan Cakupan Pengujian 100% (100% Coverage Requirement)
+Setiap penambahan atau modifikasi *source code* **WAJIB** memenuhi standar **100% *test coverage*** (meliputi *statements*, *branches*, *functions*, dan *lines*). Tidak boleh ada satupun baris kode atau cabang logika yang terlewat dari validasi pengujian. Jika coverage kurang dari 100%, kode tidak boleh dilanjutkan ke tahap berikutnya.
+
+### 8. Perintah Eksekusi Pengujian Spesifik Teknologi (Tech-Specific Testing Commands)
+Berikut adalah panduan perintah standar eksekusi pengujian beserta inspeksi *coverage* berdasarkan ekosistem teknologi yang digunakan. Saat diminta untuk melakukan tes, selalu sertakan parameter *coverage* untuk memvalidasi syarat 100% coverage:
+
+- **Node.js (Jest / Vitest / TypeScript):**
+  - Eksekusi Test: `npm run test` atau `npx jest` / `npx vitest`
+  - Eksekusi Test dengan Coverage (100%): `npm run test:cov` atau `npx jest --coverage` / `npx vitest run --coverage`
+- **Go (Golang):**
+  - Eksekusi Test: `go test ./...`
+  - Eksekusi Test dengan Coverage (100%): `go test ./... -coverprofile=coverage.out && go tool cover -func=coverage.out`
+- **Python (Pytest):**
+  - Eksekusi Test: `pytest`
+  - Eksekusi Test dengan Coverage (100%): `pytest --cov=. --cov-report=term-missing`
+- **Dart (Flutter):**
+  - Eksekusi Test: `flutter test`
+  - Eksekusi Test dengan Coverage (100%): `flutter test --coverage`
+- **Rust:**
+  - Eksekusi Test: `cargo test`
+  - Eksekusi Test dengan Coverage (100%): `cargo tarpaulin --ignore-tests`
+- **Java / Kotlin (Gradle / Maven dengan Jacoco):**
+  - Eksekusi Test (Gradle): `./gradlew test jacocoTestReport`
+  - Eksekusi Test (Maven): `mvn clean test jacoco:report`
