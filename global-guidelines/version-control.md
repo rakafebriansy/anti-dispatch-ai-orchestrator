@@ -23,6 +23,11 @@ Jika konteks atau domain fiturnya terbukti berbeda dan benar-benar membutuhkan *
 1. **Wajib Commit Setiap Selesai Pencatatan Changelog:** Setiap kali Anda selesai mengeksekusi sebuah tiket/tugas dan telah mencatat riwayat pembaruan ke dalam file `CHANGELOG.md`, Anda **WAJIB MUTLAK** langsung melakukan *git commit*. Jangan pernah menumpuk banyak perubahan dari berbagai tugas ke dalam satu *commit* besar. Hal ini bertujuan agar setiap tiket atau tugas terisolasi secara aman dan rapi dalam satu *commit history* yang bersih.
 2. **Mekanisme Rollback (Pembatalan Perubahan):** Berkat kewajiban *commit* per-tugas di atas, jika di kemudian hari terjadi *error* fatal, fitur merusak sistem, atau pengguna meminta Anda membatalkan *task* terakhir, Anda **WAJIB** menerapkan mekanisme *rollback* Git (kembali ke versi stabil sebelumnya). Gunakan perintah seperti `git reset --hard HEAD~1` (atau nama *commit hash* terkait). Anda **WAJIB meminta konfirmasi persetujuan pengguna** terlebih dahulu sebelum mengeksekusi *rollback* destruktif semacam ini.
 
+## Larangan Eksekusi Git Otonom (Mandatory User Approval)
+1. **Dilarang Auto-Commit:** Anda **DILARANG KERAS** melakukan `git add`, `git commit`, maupun `git push` secara otomatis tanpa sepengetahuan dan izin eksplisit dari pengguna.
+2. **Wajib Menjelaskan Terlebih Dahulu:** Anda juga **DILARANG** meminta, mengeluarkan *prompt*, atau mengeksekusi perintah `git add` sebelum memberikan penjelasan secara terperinci kepada pengguna terlebih dahulu mengenai apa saja yang akan diproses.
+3. **Wajib Referensi Tiket:** Setiap instruksi *commit* yang telah disetujui pengguna diwajibkan untuk merujuk pada nama/ID tiket terkait di dalam pesan *commit*-nya.
+
 ## Format Log Pembaruan di Respons
 Setelah Anda menuntaskan sebuah tugas atau instruksi, Anda wajib menyertakan log pembaruan di bagian akhir respons Anda. Hindari penggunaan format tabel; gunakan format daftar berstruktur (*structured list*) yang rapi berikut ini guna memaksimalkan keterbacaan (*readability*) dan kemudahan pengarsipan tiket internal. **Pastikan juga Anda selalu mengutip intisari instruksi/perintah awal dari pengguna**:
 

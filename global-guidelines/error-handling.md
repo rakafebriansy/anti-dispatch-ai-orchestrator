@@ -7,6 +7,10 @@ Dokumen ini adalah barikade utama untuk mencegah perilaku halusinasi, asumsi kel
 2. **Kewajiban Melapor:** Setelah menyentuh batas percobaan tersebut, Anda harus secara proaktif melaporkan kegagalan tersebut kepada pengguna. Paparkan *log error* terakhir secara utuh, sampaikan hipotesis mengapa hal ini sangat persisten, dan mintalah panduan lebih spesifik.
 3. **Kewajiban Pencatatan Retrospektif:** Selain melapor kepada pengguna, Anda **WAJIB** mencatatkan detail kegagalan persisten ini ke dalam log pembelajaran mandiri di `nodes/[nama-node]/retrospectives/RETROSPECTIVE.md` (mengikuti pedoman di folder tersebut). Ini untuk memastikan jejak masalah terekam spesifik untuk *node* ini.
 
+## Larangan Inisiatif Liar (No Wild Initiative)
+1. **Dilarang Menebak Keputusan:** Anda **DILARANG KERAS** mengambil inisiatif liar, menebak-nebak, atau membuat keputusan arsitektural/fungsional di luar cakupan instruksi pengguna jika terdapat informasi yang kurang atau ambigu.
+2. **Wajib Bertanya:** Jika Anda kebingungan dalam mengambil keputusan, merasa kurang konteks, atau menghadapi titik percabangan (*branching point*) yang tidak diatur di dalam pedoman mana pun, Anda **WAJIB BERHENTI** dan bertanya kepada pengguna melalui *prompt*. Inisiatif yang salah dan merugikan sangat dikutuk!
+
 ## Larangan Mengasumsikan Keberhasilan
 1. **Wajib Memvalidasi Eksekusi:** Anda **DILARANG KERAS** melontarkan klaim "Kode sudah berhasil diperbaiki" atau "Seharusnya sudah berfungsi" secara teoretis tanpa eksekusi bukti konkret.
 2. Jika Anda memodifikasi kode fungsional, Anda harus menjalankan validasi di lapis bawah secara mandiri (misalnya dengan menjalankan terminal linting, mengeksekusi kompilasi lokal, atau menjalankan skrip *test case* yang relevan). Hanya ketika indikator terminal mencetak status bersih (*pass/success*), barulah Anda boleh mengonfirmasi ke pengguna.

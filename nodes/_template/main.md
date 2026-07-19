@@ -2,15 +2,43 @@
 
 > 🟢 **STATUS MODE SAAT INI:** [PILIH: MODE 1 / MODE 2]
 
-> ⚠️ **PERHATIAN UNTUK AI AGENT:** 
+> ⚠️ **PERHATIAN UNTUK AI AGENT:**
 > Ini adalah dokumen pertama yang WAJIB Anda baca setiap kali memulai sesi baru atau menerima *Execution Prompt*. Jangan mengeksekusi instruksi koding pengguna sebelum Anda memahami konteks dari dokumen-dokumen di bawah ini!
 
 Tugas Anda sebagai AI Agent bukanlah sekadar *"code generator"*, melainkan seorang Arsitek Perangkat Lunak. Untuk menjaga konsistensi proyek, Anda **WAJIB** membaca file-file fondasi berikut ke dalam konteks memori Anda.
 
-> 🛑 **BATASAN RUANG LINGKUP (ANTI-CROSS CONTAMINATION):**
+---
+
+## BAGIAN A — BATASAN RUANG LINGKUP
+
+> 🛑 **ANTI-CROSS CONTAMINATION:**
 > Node ini terisolasi! Anda **DILARANG KERAS** memodifikasi file di luar direktori *node* ini (seperti mengedit node lain) atau mengubah file di dalam direktori `global-*` kecuali diinstruksikan secara eksplisit oleh *Execution Prompt Multi-Node*. Fokuslah hanya pada *path* lokal di dalam node ini.
 
-## 1. Dokumen Fondasi (Wajib Dibaca Seluruhnya)
+---
+
+## BAGIAN B — PROTOKOL PEMULIHAN KONTEKS (CONTEXT RECOVERY)
+
+> 🔄 **MEKANISME WAJIB BACA ULANG:**
+> Protokol ini adalah mekanisme keselamatan untuk mencegah degradasi kualitas akibat hilangnya konteks (*context loss*) di tengah percakapan panjang.
+
+**Anda WAJIB SECARA OTOMATIS menghentikan sementara eksekusi dan membaca ulang seluruh dokumen ini (`main.md`) beserta file-file referensi yang relevan di dalamnya** jika salah satu kondisi berikut terpenuhi:
+
+1. **Ditegur Pengguna:** Anda ditegur atau dikoreksi oleh pengguna karena melanggar aturan, pedoman, atau konvensi yang sudah ditetapkan di ekosistem ini (seperti melanggar `coding.md`, `design-system.md`, dll).
+2. **Kehilangan Arah:** Anda merasa kebingungan, tidak yakin dengan langkah selanjutnya, atau mulai mengulangi kesalahan yang sama di tengah pengerjaan.
+3. **Inkonsistensi Terdeteksi:** Anda menyadari bahwa output yang Anda hasilkan tidak konsisten dengan keputusan arsitektural atau gaya desain yang sudah ditetapkan sebelumnya di sesi yang sama.
+4. **Sesi Baru atau Konteks Terputus:** Anda memulai sesi percakapan baru, atau percakapan sebelumnya terputus karena batas token atau gangguan jaringan.
+
+**Prosedur Pemulihan:**
+1. Hentikan eksekusi kode yang sedang berjalan.
+2. Baca ulang `main.md` ini secara utuh.
+3. Baca ulang file-file yang relevan dengan tugas saat ini dari **Bagian C** di bawah (minimal: file fondasi yang bersangkutan dan pedoman mutlak terkait).
+4. Laporkan kepada pengguna bahwa Anda telah memulihkan konteks dan siap melanjutkan.
+
+---
+
+## BAGIAN C — DAFTAR BACAAN REFERENSI
+
+### C.1: Dokumen Fondasi (Wajib Dibaca Seluruhnya)
 File-file ini adalah nyawa dari ekosistem proyek ini. Anda harus memahaminya untuk mengetahui fitur global apa yang dibangun dan bagaimana antarmukanya dirancang.
 1. `../../global-docs/prd.md` (Spesifikasi fitur dan alur pengguna global)
 2. `docs/system-design.md` (Arsitektur teknis spesifik node ini)
@@ -18,15 +46,15 @@ File-file ini adalah nyawa dari ekosistem proyek ini. Anda harus memahaminya unt
 4. `docs/development-planning.md` (Peta jalan spesifik node ini)
 5. `CHANGELOG.md` (Untuk mengetahui progres terakhir di node ini)
 
-## 2. Pedoman Mutlak (Wajib Dibaca Seluruhnya)
+### C.2: Pedoman Mutlak (Wajib Dibaca Seluruhnya)
 Hukum besi operasional Anda. Pelanggaran terhadap pedoman ini akan merusak integritas sistem.
 1. `../../global-guidelines/coding.md` (Aturan kualitas kode, modularitas, larangan *hacks*)
-2. `../../global-guidelines/version-control.md` (Protokol Git dan alur kerja berbasis Tiket)
-3. `../../global-guidelines/error-handling.md` (Aturan *Stop-and-Ask* saat Anda terjebak *error*)
+2. `../../global-guidelines/version-control.md` (Protokol Git, alur kerja berbasis Tiket, larangan auto-commit)
+3. `../../global-guidelines/error-handling.md` (Aturan *Stop-and-Ask*, larangan inisiatif liar, batas percobaan)
 4. `../../global-guidelines/security.md` (Larangan *hardcode API keys*)
 5. `guidelines/project-context.md` (Aturan khusus & hasil pemindaian sistem dari node ini)
 
-## 3. Dokumen Kondisional (Baca Saat Dibutuhkan Saja)
+### C.3: Dokumen Kondisional (Baca Saat Dibutuhkan Saja)
 Jangan buang token Anda untuk membaca file ini jika instruksi pengguna tidak berkaitan dengannya.
 *   **Akan mendeploy aplikasi atau mengkonfigurasi CI/CD?** Baca `../../global-guidelines/deployment.md` dan `../../global-guidelines/pipeline.md`.
 *   **Akan menulis unit test?** Baca `../../global-guidelines/testing.md`.
@@ -38,7 +66,10 @@ Jangan buang token Anda untuk membaca file ini jika instruksi pengguna tidak ber
 *   **Ditugaskan membuat tiket Bug?** Baca `../../global-docs/templates/bug_report_template.md`.
 *   **Ditugaskan membuat deskripsi PR/Commit?** Baca `../../global-docs/templates/pull_request_template.md` & `../../global-docs/templates/commit_message_template.md`.
 
-## 4. Aturan Mode Operasional
+---
+
+## BAGIAN D — MODE OPERASIONAL
+
 Ekosistem ini beroperasi dalam salah satu dari dua mode. Anda **WAJIB** mengecek **STATUS MODE SAAT INI** di bagian paling atas dokumen ini sebelum bekerja.
 
 - **MODE 1 (Autonomous Planning):** Digerakkan oleh *roadmap*. Anda harus bertanya kepada developer apa yang harus dikerjakan secara garis besar -> Anda memperbarui `development-planning.md` dan mencetak tiket-tiket kosong yang belum dicentang -> Anda berhenti dan meminta koreksi developer -> Jika disetujui, Anda mengeksekusi semua tiket tersebut secara berurutan dan mencentangnya bila berhasil.
@@ -46,18 +77,42 @@ Ekosistem ini beroperasi dalam salah satu dari dua mode. Anda **WAJIB** mengecek
 
 ---
 
-**STANDARD OPERATING PROCEDURE (SOP) EKSEKUSI AI:**
+## BAGIAN E — STANDARD OPERATING PROCEDURE (SOP) EKSEKUSI
+
 Anda **DIWAJIBKAN SECARA MUTLAK** untuk mematuhi alur kerja berikut tanpa terkecuali setiap kali menerima *Execution Prompt* atau penugasan:
 
-1. **Membaca Changelog:** Anda **WAJIB SELALU** membaca `CHANGELOG.md` terlebih dahulu untuk memahami konteks dan progres terakhir sebelum melakukan eksekusi apa pun.
-2. **Berhenti Berinisiatif Liar (Stop & Ask):** Anda **DILARANG KERAS** mengambil inisiatif liar atau menebak-nebak jika ada informasi yang kurang atau kebingungan dalam mengambil keputusan. Anda **WAJIB BERHENTI** dan bertanya kepada pengguna melalui *prompt*. Inisiatif yang salah dan merugikan sangat dikutuk!
-3. **Pembuatan Tiket Baru (Tergantung Mode):** Jika Anda berada di **MODE 1**, tiket dibuat di awal sebelum eksekusi berdasarkan `development-planning.md`. Jika Anda berada di **MODE 2**, tiket dibuat di akhir eksekusi sebagai rekam jejak (*retrospective*). Anda **WAJIB MUTLAK** menyalin utuh struktur `Boilerplate (Templat)` dari `tickets/README.md`. DILARANG mengarang format *markdown* sendiri.
-4. **Pembuatan Implementation Plan (Wajib):** Anda **DIWAJIBKAN MUTLAK** untuk membuat rencana implementasi (*implementation plan*) yang detail mengenai apa yang akan dikerjakan, dan menunggu persetujuan pengguna sebelum mengeksekusi kode atau membuat perubahan file apa pun.
-5. **Pengerjaan & Pengujian Kode:** Selesaikan instruksi pengguna secara tuntas berdasarkan tiket (MODE 1) atau berdasarkan *prompt* (MODE 2), lalu Anda **WAJIB LANGSUNG** melakukan *testing* (pengujian) untuk memastikan fungsionalitas berjalan normal atau tidak ada *error*.
-6. **Penyelesaian Tiket (Wajib Checklist) & Sinkronisasi:** Setelah selesai mengerjakan tugas, Anda **WAJIB LANGSUNG** memperbarui file tiket tersebut, mengubah *status* menjadi `Done`, dan **MENCENTANG** semua kotak `[ ]` menjadi `[x]` pada bagian `Acceptance Criteria`, serta mengisi `AI Execution Log & Output`. Selain itu, Anda **WAJIB** men-sinkronkan *tickets* di folder tiket lokal node terkait dengan GitHub Projects milik pengguna.
-7. **Pencatatan Changelog (Wajib Descending & Menyeluruh):** 
-   - Anda **WAJIB MUTLAK** mencatat riwayat pembaruan ke dalam file `CHANGELOG.md` lokal node.
-   - Catatan baru **WAJIB** disisipkan di baris **PALING ATAS** daftar (*descending* / *reverse-chronological*). AI **DILARANG KERAS** menaruhnya di urutan terbawah!
-   - Anda **WAJIB** mencatat **SEMUA** jenis kategori perubahan, **BUKAN HANYA** modifikasi kode (`Implementation`). Pembaruan pedoman (`guidelines`), teks `README.md`, pembuatan file tiket, dan modifikasi arsitektur semuanya wajib dicatat!
-8. **Kebijakan Version Control (Git):** Anda **DILARANG KERAS** melakukan `git add`, `git commit`, maupun `git push` secara otomatis tanpa sepengetahuan dan izin eksplisit dari pengguna. Anda juga **DILARANG** meminta, mengeluarkan *prompt*, atau mengeksekusi perintah `git add` sebelum memberikan penjelasan secara terperinci kepada pengguna terlebih dahulu mengenai apa saja yang akan diproses. Setiap instruksi commit nantinya tetap diwajibkan untuk merujuk pada nama/ID tiket setelah disetujui.
-9. **Sinkronisasi Konteks (Kondisional):** JIKA di dalam root repositori ini terdapat direktori tersembunyi `.graphify`, maka setelah tugas selesai dan di-commit, kamu WAJIB menjalankan perintah `graphify update` di terminal. Jika folder tersebut tidak ada, maka abaikan langkah ini sepenuhnya.
+### E.1: Membaca Changelog (Wajib Awal)
+Anda **WAJIB SELALU** membaca `CHANGELOG.md` terlebih dahulu untuk memahami konteks dan progres terakhir sebelum melakukan eksekusi apa pun.
+
+### E.2: Berhenti & Bertanya (Stop & Ask)
+Rujuk dan patuhi secara mutlak seluruh aturan di `../../global-guidelines/error-handling.md`, khususnya seksi **"Stop-and-Ask (Anti-Looping)"** dan **"Larangan Inisiatif Liar (No Wild Initiative)"**.
+
+### E.3: Manajemen Tiket (Tergantung Mode)
+Rujuk dan patuhi secara mutlak seluruh aturan di `../../global-guidelines/version-control.md` seksi **"Ticket-Driven Development Workflow"** dan format boilerplate di `tickets/README.md`.
+- Jika Anda berada di **MODE 1**, tiket dibuat di awal sebelum eksekusi berdasarkan `development-planning.md`.
+- Jika Anda berada di **MODE 2**, tiket dibuat di akhir eksekusi sebagai rekam jejak (*retrospective*).
+- Anda **WAJIB MUTLAK** menyalin utuh struktur `Boilerplate (Templat)` dari `tickets/README.md`. DILARANG mengarang format *markdown* sendiri.
+
+### E.4: Pembuatan Implementation Plan (Wajib)
+Anda **DIWAJIBKAN MUTLAK** untuk membuat rencana implementasi (*implementation plan*) yang detail mengenai apa yang akan dikerjakan, dan menunggu persetujuan pengguna sebelum mengeksekusi kode atau membuat perubahan file apa pun.
+
+### E.5: Pengerjaan & Pengujian Kode
+Selesaikan instruksi pengguna secara tuntas, lalu Anda **WAJIB LANGSUNG** melakukan *testing* sesuai standar di `../../global-guidelines/testing.md` untuk memastikan fungsionalitas berjalan normal.
+
+### E.6: Penyelesaian & Sinkronisasi Tiket
+Rujuk dan patuhi aturan pemutakhiran status tiket di `../../global-guidelines/version-control.md` seksi **"Ticket-Driven Development Workflow"** poin 3–5. Pastikan:
+- Status tiket diubah menjadi `Done`.
+- Seluruh *checkbox* `[ ]` diubah menjadi `[x]` pada bagian `Acceptance Criteria`.
+- Seksi `AI Execution Log & Output` terisi lengkap.
+- Tiket disinkronkan dengan GitHub Projects.
+
+### E.7: Pencatatan Changelog
+Rujuk dan patuhi secara mutlak seluruh aturan di `../../global-guidelines/version-control.md` seksi **"Wajib Mencatat Setiap Perubahan"**, **"Penambahan Secara Reverse-Chronological"**, dan **"Format Log Pembaruan di Respons"**. Ringkasan:
+- Catatan baru **WAJIB** disisipkan di baris **PALING ATAS** daftar (*descending*).
+- Anda **WAJIB** mencatat **SEMUA** jenis perubahan, **BUKAN HANYA** kode (`Implementation`).
+
+### E.8: Kebijakan Version Control (Git)
+Rujuk dan patuhi secara mutlak seluruh aturan di `../../global-guidelines/version-control.md` seksi **"Larangan Eksekusi Git Otonom"**, **"Kewajiban Commit"**, dan **"Prosedur Konfirmasi Pembuatan Branch"**.
+
+### E.9: Sinkronisasi Konteks (Kondisional — Graphify)
+JIKA di dalam root repositori ini terdapat direktori tersembunyi `.graphify`, maka setelah tugas selesai dan di-commit, kamu WAJIB menjalankan perintah `graphify update` di terminal. Jika folder tersebut tidak ada, maka abaikan langkah ini sepenuhnya.
