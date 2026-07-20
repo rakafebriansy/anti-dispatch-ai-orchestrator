@@ -84,35 +84,38 @@ Anda **DIWAJIBKAN SECARA MUTLAK** untuk mematuhi alur kerja berikut tanpa terkec
 ### E.1: Membaca Changelog (Wajib Awal)
 Anda **WAJIB SELALU** membaca `CHANGELOG.md` terlebih dahulu untuk memahami konteks dan progres terakhir sebelum melakukan eksekusi apa pun.
 
-### E.2: Berhenti & Bertanya (Stop & Ask)
+### E.2: Pengecekan Graphify (Kondisional)
+Sebelum melakukan pemindaian atau eksekusi manual yang memakan banyak *token*, Anda **WAJIB** mengecek apakah terdapat direktori `.graphify` di dalam *Path Codebase* (direktori proyek asli) dari node ini. JIKA ADA, gunakan fitur CLI `graphify` (contoh: `graphify query`) di dalam direktori tersebut untuk memahami konteks dan arsitektur alih-alih membaca file secara manual.
+
+### E.3: Berhenti & Bertanya (Stop & Ask)
 Rujuk dan patuhi secara mutlak seluruh aturan di `../../global-guidelines/error-handling.md`, khususnya seksi **"Stop-and-Ask (Anti-Looping)"** dan **"Larangan Inisiatif Liar (No Wild Initiative)"**.
 
-### E.3: Manajemen Tiket (Tergantung Mode)
+### E.4: Manajemen Tiket (Tergantung Mode)
 Rujuk dan patuhi secara mutlak seluruh aturan di `../../global-guidelines/version-control.md` seksi **"Ticket-Driven Development Workflow"** dan format boilerplate di `tickets/README.md`.
 - Jika Anda berada di **MODE 1**, tiket dibuat di awal sebelum eksekusi berdasarkan `development-planning.md`.
 - Jika Anda berada di **MODE 2**, tiket dibuat di akhir eksekusi sebagai rekam jejak (*retrospective*).
 - Anda **WAJIB MUTLAK** menyalin utuh struktur `Boilerplate (Templat)` dari `tickets/README.md`. DILARANG mengarang format *markdown* sendiri.
 
-### E.4: Pembuatan Implementation Plan (Wajib)
+### E.5: Pembuatan Implementation Plan (Wajib)
 Anda **DIWAJIBKAN MUTLAK** untuk membuat rencana implementasi (*implementation plan*) yang detail mengenai apa yang akan dikerjakan, dan menunggu persetujuan pengguna sebelum mengeksekusi kode atau membuat perubahan file apa pun.
 
-### E.5: Pengerjaan & Pengujian Kode
+### E.6: Pengerjaan & Pengujian Kode
 Selesaikan instruksi pengguna secara tuntas, lalu Anda **WAJIB LANGSUNG** melakukan *testing* sesuai standar di `../../global-guidelines/testing.md` untuk memastikan fungsionalitas berjalan normal.
 
-### E.6: Penyelesaian & Sinkronisasi Tiket
+### E.7: Penyelesaian & Sinkronisasi Tiket
 Rujuk dan patuhi aturan pemutakhiran status tiket di `../../global-guidelines/version-control.md` seksi **"Ticket-Driven Development Workflow"** poin 3–5. Pastikan:
 - Status tiket diubah menjadi `Done`.
 - Seluruh *checkbox* `[ ]` diubah menjadi `[x]` pada bagian `Acceptance Criteria`.
 - Seksi `AI Execution Log & Output` terisi lengkap.
 - Tiket disinkronkan dengan GitHub Projects.
 
-### E.7: Pencatatan Changelog
+### E.8: Pencatatan Changelog
 Rujuk dan patuhi secara mutlak seluruh aturan di `../../global-guidelines/version-control.md` seksi **"Wajib Mencatat Setiap Perubahan"**, **"Penambahan Secara Reverse-Chronological"**, dan **"Format Log Pembaruan di Respons"**. Ringkasan:
 - Catatan baru **WAJIB** disisipkan di baris **PALING ATAS** daftar (*descending*).
 - Anda **WAJIB** mencatat **SEMUA** jenis perubahan, **BUKAN HANYA** kode (`Implementation`).
 
-### E.8: Kebijakan Version Control (Git)
+### E.9: Kebijakan Version Control (Git)
 Rujuk dan patuhi secara mutlak seluruh aturan di `../../global-guidelines/version-control.md` seksi **"Larangan Eksekusi Git Otonom"**, **"Kewajiban Commit"**, dan **"Prosedur Konfirmasi Pembuatan Branch"**.
 
-### E.9: Sinkronisasi Konteks (Kondisional — Graphify)
-JIKA di dalam root repositori ini terdapat direktori tersembunyi `.graphify`, maka setelah tugas selesai dan di-commit, kamu WAJIB menjalankan perintah `graphify update` di terminal. Jika folder tersebut tidak ada, maka abaikan langkah ini sepenuhnya.
+### E.10: Sinkronisasi Konteks (Kondisional — Graphify)
+JIKA di dalam *Path Codebase* node ini terdapat direktori tersembunyi `.graphify`, maka setelah tugas selesai dan di-commit, kamu WAJIB masuk ke direktori tersebut (`cd`) dan menjalankan perintah `graphify update` di terminal. Jika folder tersebut tidak ada, maka abaikan langkah ini sepenuhnya.

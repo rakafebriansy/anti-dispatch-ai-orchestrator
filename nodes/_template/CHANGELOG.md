@@ -52,6 +52,12 @@ Setiap penambahan log versi terbaru **WAJIB MUTLAK** diletakkan di baris **PALIN
 
 *(⚠️ PERHATIAN AI AGENT: TAMBAHKAN ENTRI LOG BARU ANDA TEPAT DI BAWAH BARIS INI. JANGAN DI PALING BAWAH DOKUMEN!)*
 
+### [2026-07-20 18:48] - Enhancement: Node-Level Graphify Integration
+> **Branch:** `main` | **Repo:** `ai-orchestrator-template`
+- **Instruksi User:** "ubahlah pendekatan graphify, jangan dibuat di directory orchestrator melainkan dibuat di directory milik project/node... mintalah cek terlebih dahulu apakah ada graphify di dalam project/node... sebelum melakukan eksekusi/scanning manual"
+- **Perubahan:** Mengubah referensi `graphify build` dan `graphify update` pada root `README.md` dan `nodes/_template/main.md` agar menargetkan direktori spesifik *Path Codebase*. Menambahkan langkah wajib baru di SOP `main.md` (Poin E.2) untuk mengecek ketersediaan `.graphify` demi menghemat *token* sebelum pemindaian manual.
+- **Path File:** `README.md`, `nodes/_template/main.md`
+
 ### [2026-07-19 22:43] - Guideline: Master Entrypoint & SOP
 > **Branch:** `main` | **Repo:** `ai-orchestrator-template`
 - **Instruksi User:** "masukkan aturan ke @[/Users/rakafebriansyahputra/Developer/repositories/boilerplates/ai-orchestrator-template/nodes/_template/main.md] dan refine lah main md buatlah lebih terstruktur, dan refine lagi terkait hierarki supaya tidak tumpang tindih. berlakukan aturan ke seluruh file di orchestrator template"
