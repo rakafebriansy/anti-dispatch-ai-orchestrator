@@ -10,6 +10,9 @@ Setiap file tiket baru yang dibuat di dalam direktori ini **WAJIB** dikonstruksi
 ## Sumber Tiket (Backlog Source of Truth)
 Anda (AI Agent) **DILARANG KERAS** mengarang, mencetuskan, atau mendesain tiket tugas baru secara sembarangan di luar kendali pengguna. Setiap instruksi untuk mendesain file tiket baru di folder ini **WAJIB MUTLAK** diimpor wujudnya dari *backlog* yang telah disetujui sebelumnya di dalam peta jalan `docs/development-planning.md`.
 
+## Kebijakan Pemisahan Tiket UI Prototyping & Implementasi
+Apabila Anda diinstruksikan untuk membuat tiket yang berkaitan dengan *UI Slicing*, Anda **WAJIB** mengonfirmasi kepada pengguna apakah desain antarmukanya sudah tersedia atau perlu dirancang melalui prototipe HTML di direktori `prototypes/`. Jika pengguna memilih mekanisme *prototyping*, Anda **WAJIB MEMISAHKAN** antara tiket pembuatan prototipe desain dengan tiket implementasi kode ke dalam sistem utama. Jangan pernah menggabungkan kedua fase ini dalam satu tiket tugas.
+
 ## Konsep "AI Execution Log & Output"
 Ini adalah fitur ruang kerja reflektif mandiri bagi AI di dalam setiap *file* tiket. Ketika AI Agent menerima tugas pengerjaan atas sebuah tiket, ia dilarang hanya berfokus mengubah baris kode program saja. AI Agent **wajib** kembali ke file tiket ini dan merangkum jejak kerjanya di seksi khusus tersebut.
 

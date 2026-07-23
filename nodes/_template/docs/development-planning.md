@@ -8,6 +8,7 @@ Dalam pendekatan *Vibe Coding* dengan AI Agent, dokumen ini sangat krusial sebag
 ## Aturan Sinkronisasi Tiket
 1.  **Dilarang Mengarang Tiket (Khusus MODE 1):** Pada Mode 1, AI Agent **DILARANG KERAS** mengarang, mencetuskan, atau membuat file tiket baru di direktori `tickets/` jika tiket tersebut belum tercatat sebagai target *backlog* di dalam file `development-planning.md` ini. Namun pada **MODE 2**, aturan ini dibatalkan dan AI justru diwajibkan membuat tiket retrospektif setelah menyelesaikan setiap *prompt* dari *developer*.
 2.  **Transisi Status:** Jika sebuah tiket dari dokumen ini telah dipindahkan wujudnya menjadi file *markdown* di folder `tickets/`, AI wajib kembali ke dokumen ini dan menandai tiket tersebut sebagai `[CREATED]` atau mencoretnya.
+3.  **Kebijakan UI Slicing & Prototyping:** Khusus untuk tiket yang berkaitan dengan perancangan antarmuka (*UI Slicing*), AI Agent **WAJIB** menanyakan terlebih dahulu kepada pengguna apakah desainnya sudah ada atau perlu di-*generate* via HTML melalui direktori `prototypes/`. Apabila diputuskan menggunakan mekanisme prototipe, maka tiket untuk perancangan prototipe **WAJIB dipisahkan** dari tiket implementasi ke dalam *codebase* proyek.
 
 ## Struktur Rencana Pengembangan
 
