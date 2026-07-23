@@ -10,13 +10,13 @@ Setiap penambahan log riwayat versi terbaru **WAJIB** diletakkan di bagian **PAL
 Setiap entri pembaruan yang dicatatkan wajib memuat informasi mengenai nama *branch Git* yang sedang digarap, beserta tautan (*link*) menuju repositori *Version Control System* (VCS) yang bersangkutan.
 
 ## Aturan Penamaan Branch
-1. **Pada Direktori Project/Node:** Anda **DILARANG KERAS** menggunakan format penamaan *branch* dengan ID tiket kapital seperti `feat(TICKET-XX)`. Penamaan *branch* untuk pengembangan kode aplikasi di dalam *node* diharuskan menggunakan deskripsi fitur secara langsung tanpa mengandung unsur istilah orchestrator, contoh: `feat(feature-name)`.
+1. **Pada Direktori Project/Node:** Anda **DILARANG KERAS** menggunakan format penamaan *branch* dengan ID tiket kapital seperti `feat(TICKET-XX)`. Penamaan *branch* untuk pengembangan kode aplikasi di dalam *node* diharuskan menggunakan deskripsi fitur secara langsung tanpa mengandung unsur istilah dari ai orchestrator, contoh: `feat(feature-name)`.
 2. **Pada Repositori Orchestrator:** Khusus untuk repositori ekosistem Orchestrator (template yang sudah di-*startup*), Anda **TIDAK PERLU** membuat *branch* baru. Semua perubahan pada tingkat Orchestrator (seperti dokumentasi global, template, atau konfigurasi) cukup langsung di-*push* ke `main`.
 
 ## Aturan Penggunaan Istilah Orchestrator (seperti ticket, prd, design system, guideline, dll)
 Untuk seluruh aksi Git (*commit*, penamaan *branch*, *Pull Request*, dsb):
-- **Di Project/Node:** Anda **DILARANG KERAS** menggunakan istilah orchestrator di dalam *commit message*, *branch*, *PR*, dan semua aksi Git.
-- **Di Repositori Orchestrator:** Anda **WAJIB** menggunakan istilah orchestrator sebagai scope dalam *commit message* (misal: `docs(template): update`), *branch*, *PR*, dan aksi Git terkait lainnya.
+- **Di Project/Node:** Anda **DILARANG KERAS** menggunakan istilah dari ai orchestrator di dalam *commit message*, *branch*, *PR*, dan semua aksi Git.
+- **Di Repositori Orchestrator:** Anda **WAJIB** menggunakan istilah dari ai orchestrator sebagai scope dalam *commit message* (misal: `docs(template): update`), *branch*, *PR*, dan aksi Git terkait lainnya.
 
 ## Prosedur Konfirmasi Pembuatan Branch (Branch Switching)
 Setiap kali Anda menerima tugas/instruksi eksekusi baru di dalam **direktori Project/Node**, Anda **WAJIB** mengevaluasi apakah tugas tersebut berada pada domain fitur yang berbeda atau memiliki konteks yang berbeda (misalnya: *hotfix*, penulisan *testing*, *refactor*, dsb.) dari *branch* yang saat ini sedang aktif.
