@@ -30,6 +30,7 @@ labels: [Bug]
 - [ ] Bug berhasil dieliminasi dan tidak dapat direproduksi lagi menggunakan langkah di atas.
 - [ ] Logika perbaikan tidak merusak fitur lain di sekitarnya (*no regression*).
 - [ ] (Opsional) Telah ditambahkan *unit test* baru untuk mencegah bug ini terulang.
+- [ ] Branch dan aksi Git terkait perbaikan ini mematuhi aturan istilah "orchestrator" (Dilarang di Project/Node, Wajib di Orchestrator).
 
 ## Target Lingkup File (Affected Files)
 *Daftar path file yang dicurigai menjadi penyebab atau berpotensi diubah.*

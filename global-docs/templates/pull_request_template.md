@@ -16,3 +16,4 @@
 - [ ] Jika memuat pembaruan UI, bentuk antarmuka telah disesuaikan ketat dengan prototipe kanvas di `prototypes/`.
 - [ ] Bagian *AI Execution Log & Output* telah didokumentasikan sepenuhnya di bagian dasar file tiket lokal.
 - [ ] Rekam jejak pembaruan ini telah didaftarkan ke dalam file `CHANGELOG.md` menggunakan standar hierarki blok.
+- [ ] Aturan istilah "orchestrator" dipatuhi (Dilarang ada kata "orchestrator" untuk PR/Branch di Project/Node, Wajib ada kata "orchestrator" untuk PR/Branch di Orchestrator).

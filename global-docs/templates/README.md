@@ -18,3 +18,8 @@ Direktori ini menampung seluruh *boilerplate* (templat cetak biru) dokumen yang 
 
 ## Kewajiban Penggunaan bagi AI Agent
 Sistem *AI Orchestrator* telah mengikat file-file *guideline* untuk selalu merujuk ke templat ini. Anda dilarang mengarang format dokumen baru yang melenceng dari struktur di atas saat ditugaskan untuk menuliskan salah satu dari kelima jenis dokumen tersebut.
+
+## Aturan Penggunaan Istilah "Orchestrator" (Git Actions)
+Dalam segala aksi Git (commit, branch, PR) yang mengacu ke pembuatan/pengubahan template ini, perhatikan posisi repositori Anda:
+- **Di Project/Node:** **DILARANG KERAS** menggunakan kata/istilah `orchestrator` dalam aksi Git.
+- **Di Repositori Orchestrator:** **WAJIB** menyertakan kata/istilah `orchestrator` dalam setiap aksi Git (misal: pesan commit, penamaan branch).

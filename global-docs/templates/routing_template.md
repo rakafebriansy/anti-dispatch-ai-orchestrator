@@ -24,3 +24,5 @@
 | :--- | :---: | :--- | :--- | :--- |
 | `/users` | `GET` | `UserController.index` | `AuthGuard, AdminRole` | Mendapatkan daftar seluruh pengguna |
 | `/users/:id`| `GET` | `UserController.show` | `AuthGuard` | Mendapatkan detail satu pengguna spesifik |
+
+<!-- Catatan Git: Saat melakukan commit/PR untuk dokumen ini, patuhi aturan istilah "orchestrator" (Dilarang di Project/Node, Wajib di Orchestrator). -->
