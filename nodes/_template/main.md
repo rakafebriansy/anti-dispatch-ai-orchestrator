@@ -48,18 +48,18 @@ File-file ini adalah nyawa dari ekosistem proyek ini. Anda harus memahaminya unt
 
 ### C.2: Pedoman Mutlak (Wajib Dibaca Seluruhnya)
 Hukum besi operasional Anda. Pelanggaran terhadap pedoman ini akan merusak integritas sistem.
-1. `../../global-guidelines/coding.md` (Aturan kualitas kode, modularitas, larangan *hacks*)
-2. `../../global-guidelines/version-control.md` (Protokol Git, alur kerja berbasis Tiket, larangan auto-commit)
-3. `../../global-guidelines/error-handling.md` (Aturan *Stop-and-Ask*, larangan inisiatif liar, batas percobaan)
-4. `../../global-guidelines/security.md` (Larangan *hardcode API keys*)
-5. `guidelines/project-context.md` (Aturan khusus & hasil pemindaian sistem dari node ini)
+1. `../../global-guidelines/error-handling.md` (Aturan *Stop-and-Ask*, larangan inisiatif liar, batas percobaan)
+2. `../../global-guidelines/security.md` (Larangan *hardcode API keys*)
+3. `guidelines/project-context.md` (Aturan khusus & hasil pemindaian sistem dari node ini)
 
 ### C.3: Dokumen Kondisional (Baca Saat Dibutuhkan Saja)
 Jangan buang token Anda untuk membaca file ini jika instruksi pengguna tidak berkaitan dengannya.
-*   **Akan mendeploy aplikasi atau mengkonfigurasi CI/CD?** Baca `../../global-guidelines/deployment.md` dan `../../global-guidelines/pipeline.md`.
+*   **Akan menulis atau memodifikasi source code (coding)?** Baca `../../global-guidelines/coding.md` (khususnya: **ZERO-COMMENT POLICY** dan **No Hacks**).
+*   **Akan melakukan aktivitas Git (commit, branch, push, pengelolaan tiket)?** Baca `../../global-guidelines/version-control.md`.
+*   **Akan mendeploy aplikasi, mengkonfigurasi CI/CD, atau melakukan rilis/version bump?** Baca `../../global-guidelines/deployment.md` dan `../../global-guidelines/pipeline.md`.
 *   **Akan menulis unit test?** Baca `../../global-guidelines/testing.md`.
 *   **Akan membuat/mengelola dependensi?** Baca `../../global-guidelines/dependencies.md`.
-*   **Akan merancang UI, mengelola aset, atau menambahkan bahasa?** Baca `../../global-guidelines/ui-and-assets.md` dan `../../global-guidelines/localization.md`.
+*   **Akan merancang UI, mengelola aset, melakukan slicing pada frontend, atau menambahkan bahasa?** Baca `../../global-guidelines/ui-and-assets.md` dan `../../global-guidelines/localization.md`.
 *   **Akan membuat sketsa prototipe tampilan baru?** Baca `prototypes/README.md`.
 *   **Akan mengambil, membaca, atau membuat tiket tugas?** Baca `tickets/README.md`.
 *   **Terjebak error yang sama berkali-kali?** Baca `retrospectives/RETROSPECTIVE.md` untuk melihat apakah AI sebelumnya pernah memecahkan masalah ini di node ini.
@@ -97,7 +97,7 @@ Rujuk dan patuhi secara mutlak seluruh aturan di `../../global-guidelines/versio
 - Anda **WAJIB MUTLAK** menyalin utuh struktur `Boilerplate (Templat)` dari `tickets/README.md`. DILARANG mengarang format *markdown* sendiri.
 
 ### E.5: Pembuatan Implementation Plan (Wajib)
-Anda **DIWAJIBKAN MUTLAK** untuk membuat rencana implementasi (*implementation plan*) yang detail mengenai apa yang akan dikerjakan, dan menunggu persetujuan pengguna sebelum mengeksekusi kode atau membuat perubahan file apa pun.
+Anda **DIWAJIBKAN MUTLAK** untuk membuat rencana implementasi (*implementation plan*) yang detail mengenai apa yang akan dikerjakan, dan menunggu persetujuan pengguna sebelum mengeksekusi kode atau membuat perubahan file apa pun. *Implementation Plan* ini adalah file markdown sementara (misalnya `implementation_plan.md` di root workspace) yang **WAJIB ANDA HAPUS** dari disk setelah instruksi sesuai/selesai dilakukan atau sesi berakhir (sebagaimana kebiasaan pendekatan *review-driven* pada AI agent).
 
 ### E.6: Pengerjaan & Pengujian Kode
 Selesaikan instruksi pengguna secara tuntas, lalu Anda **WAJIB LANGSUNG** melakukan *testing* sesuai standar di `../../global-guidelines/testing.md` untuk memastikan fungsionalitas berjalan normal.

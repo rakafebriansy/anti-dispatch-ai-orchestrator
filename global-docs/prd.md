@@ -27,6 +27,8 @@ Ceritakan konsep, ide dasar, dan keseluruhan alur aplikasi yang ingin dibangun s
 
 > **Kewajiban Alur (Pipeline Obligation):** Setelah dokumen PRD ini disahkan (selesai di-*generate*), AI Agent **WAJIB MUTLAK** diinstruksikan untuk melanjutkan proses penyusunan arsitektur teknis dengan merujuk pada dokumen `nodes/[nama-node]/docs/system-design.md` milik masing-masing *node*. Dilarang menulis kode sebelum System Design terbentuk!
 
-## (_Judul Proyek / Nama Ekosistem_)
+## [GANTI_DENGAN_NAMA_PROYEK]
+
+> ⚠️ AI Agent: Hapus placeholder judul di atas dan ganti dengan nama proyek atau ekosistem yang sebenarnya.
 
 *(Isi dari Product Requirements Document spesifik untuk aplikasi atau ekosistem ini akan ditambahkan di bawah batas ini)*

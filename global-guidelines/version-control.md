@@ -10,15 +10,27 @@ Setiap penambahan log riwayat versi terbaru **WAJIB** diletakkan di bagian **PAL
 Setiap entri pembaruan yang dicatatkan wajib memuat informasi mengenai nama *branch Git* yang sedang digarap, beserta tautan (*link*) menuju repositori *Version Control System* (VCS) yang bersangkutan.
 
 ## Aturan Penamaan Branch
+
+### Decision Gate: Identifikasi Lingkungan Kerja
+Sebelum mengeksekusi aksi Git apa pun (commit, branch, push, PR), Anda **WAJIB MUTLAK** mengidentifikasi terlebih dahulu di lingkungan mana Anda sedang bekerja:
+- **Repositori Orchestrator** (`ai-orchestrator-template/` — mencakup `global-docs/`, `global-guidelines/`, `nodes/`, `README.md`, dan seluruh file di dalamnya): Anda bekerja di lingkup **Orchestrator**. **Semua** perubahan langsung di-push ke `main`. **DILARANG** membuat branch baru.
+- **Repositori Project/Node** (source code aplikasi asli seperti `frontend-app/`, `backend-api/`, dll. yang berada di **luar** `ai-orchestrator-template/`): Anda bekerja di lingkup **Project/Node**. Ikuti prosedur branch di bawah ini.
+
+**Gate ini WAJIB dievaluasi setiap kali** menerima tugas baru. Jangan pernah melewatkannya.
+
 1. **Pada Direktori Project/Node:** Anda **DILARANG KERAS** menggunakan format penamaan *branch* dengan ID tiket kapital seperti `feat(TICKET-XX)`. Penamaan *branch* untuk pengembangan kode aplikasi di dalam *node* diharuskan menggunakan deskripsi fitur secara langsung tanpa mengandung unsur istilah dari ai orchestrator, contoh: `feat(feature-name)`.
 2. **Pada Repositori Orchestrator:** Khusus untuk repositori ekosistem Orchestrator (template yang sudah di-*startup*), Anda **TIDAK PERLU** membuat *branch* baru. Semua perubahan pada tingkat Orchestrator (seperti dokumentasi global, template, atau konfigurasi) cukup langsung di-*push* ke `main`.
 
 ## Aturan Penggunaan Istilah Orchestrator (seperti ticket, prd, design system, guideline, dll)
+Istilah-istilah yang dimaksud meliputi namun tidak terbatas pada: *ticket*, *prd*, *design system*, *guideline*, *system design*, *development planning*, *changelog* (dalam konteks orchestrator), *retrospective*, *prototype*, *node*, *orchestrator*, *template*, dan seluruh terminologi yang merujuk pada artefak ekosistem AI Orchestrator ini.
 Untuk seluruh aksi Git (*commit*, penamaan *branch*, *Pull Request*, dsb):
 - **Di Project/Node:** Anda **DILARANG KERAS** menggunakan istilah dari ai orchestrator di dalam *commit message*, *branch*, *PR*, dan semua aksi Git.
 - **Di Repositori Orchestrator:** Anda **WAJIB** menggunakan istilah dari ai orchestrator sebagai scope dalam *commit message* (misal: `docs(template): update`), *branch*, *PR*, dan aksi Git terkait lainnya.
 
 ## Prosedur Konfirmasi Pembuatan Branch (Branch Switching)
+
+> **PRASYARAT WAJIB:** Evaluasi **Decision Gate** di atas terlebih dahulu. Jika Anda sedang berada di **Repositori Orchestrator**, **HENTIKAN** prosedur ini sepenuhnya — Anda **TIDAK** memerlukan branch baru dan **WAJIB** langsung bekerja di `main`. Prosedur di bawah ini **HANYA** berlaku untuk direktori **Project/Node**.
+
 Setiap kali Anda menerima tugas/instruksi eksekusi baru di dalam **direktori Project/Node**, Anda **WAJIB** mengevaluasi apakah tugas tersebut berada pada domain fitur yang berbeda atau memiliki konteks yang berbeda (misalnya: *hotfix*, penulisan *testing*, *refactor*, dsb.) dari *branch* yang saat ini sedang aktif.
 Meskipun pembuatan *branch* baru disarankan untuk domain fitur yang baru, **pastikan tidak setiap instruksi atau setiap tiket dibuatkan *branch* baru**. Jika tugas masih berkaitan erat dengan fitur yang sedang dikembangkan, gunakan *branch* yang sama.
 Jika konteks atau domain fiturnya terbukti berbeda dan benar-benar membutuhkan *branch* baru, Anda **WAJIB** secara otomatis menanyakan dan meminta persetujuan pengguna untuk membuat serta berpindah ke *branch* baru (contoh: `git checkout -b type/nama-branch`) SEBELUM Anda mulai mengeksekusi modifikasi kode apa pun.
@@ -34,20 +46,15 @@ Jika konteks atau domain fiturnya terbukti berbeda dan benar-benar membutuhkan *
 3. **Wajib Referensi Tiket:** Setiap instruksi *commit* yang telah disetujui pengguna diwajibkan untuk merujuk pada nama/ID tiket terkait di dalam pesan *commit*-nya.
 
 ## Format Log Pembaruan di Respons
-Setelah Anda menuntaskan sebuah tugas atau instruksi, Anda wajib menyertakan log pembaruan di bagian akhir respons Anda. Hindari penggunaan format tabel; gunakan format daftar berstruktur (*structured list*) yang rapi berikut ini guna memaksimalkan keterbacaan (*readability*) dan kemudahan pengarsipan tiket internal. **Pastikan juga Anda selalu mengutip intisari instruksi/perintah awal dari pengguna**:
+Setelah Anda menuntaskan sebuah tugas atau instruksi, Anda wajib menyertakan log pembaruan di bagian akhir respons Anda. Hindari penggunaan format tabel; gunakan format daftar berstruktur (*structured list*) yang rapi guna memaksimalkan keterbacaan (*readability*) dan kemudahan pengarsipan tiket internal. 
 
-### [YYYY-MM-DD HH:MM] - [Kategori Utama]
-> **Branch:** `branch-name` | **Repo:** `https://github.com/...`
-- **Instruksi User:** "[Teks atau intisari perintah yang diberikan oleh pengguna]"
-- **Perubahan:** [Detail penjelasan perubahan spesifik. Khusus kategori Implementation sisipkan tag seperti `[Added]` di awal teks]
-- **Path File:** `path/ke/file.ext`
-
-> **Catatan Penting Konteks Instruksi:**
-> Jika pesan pengguna hanyalah instruksi penyambung seperti *"Continue"* atau *"Lanjutkan"*, AI Agent **DILARANG** menelan mentah-mentah kata tersebut ke dalam kolom log. AI Agent wajib merujuk kembali ke percakapan sebelumnya dan mengekstrak perintah asli yang sedang diselesaikan agar konteks riwayat perubahan tetap utuh.
+> ⚠️ **Penting: Single Source of Truth Format**
+> AI Agent dilarang mengarang format pencatatan log. Anda **WAJIB MUTLAK** menyalin, merujuk, dan mematuhi struktur baku yang terdapat pada template berikut:
+> `global-docs/templates/changelog_entry_template.md`
 
 ## Ticket-Driven Development Workflow
 Infrastruktur proyek AI Orchestrator ini menganut sistem manajemen tugas *offline* terpusat berbasis tiket di direktori `tickets/` yang berada di dalam masing-masing *node*. Selaku AI Agent, Anda dituntut mematuhi protokol berikut selama fase pengerjaan kode:
-1.  **Rujuk pada Tiket:** Jangan mengeksekusi logika secara membabi buta tanpa arah. Pertama-tama, Anda **WAJIB membaca panduan struktural tiket** pada file referensi **`nodes/_template/tickets/README.md`** (atau `README.md` lokal di *node* Anda). Jika diperintahkan **membuat tiket baru**, Anda **wajib menyalin mentah-mentah format Boilerplate** dari file tersebut. Setelah memahaminya, barulah buka file tiket spesifik yang relevan (contoh: `nodes/[nama-node]/tickets/TICKET-01-login.md`). Apabila tiket tersebut berisi laporan masalah, tiket **WAJIB** dikonstruksikan menggunakan standar `global-docs/templates/bug_report_template.md`.
+1.  **Rujuk pada Tiket:** Jangan mengeksekusi logika secara membabi buta tanpa arah. Pertama-tama, Anda **WAJIB membaca panduan struktural tiket** pada file referensi **`nodes/[nama-node]/tickets/README.md`**. Jika diperintahkan **membuat tiket baru**, Anda **wajib menyalin mentah-mentah format Boilerplate** dari file tersebut. Setelah memahaminya, barulah buka file tiket spesifik yang relevan (contoh: `nodes/[nama-node]/tickets/TICKET-01-login.md`). Apabila tiket tersebut berisi laporan masalah, tiket **WAJIB** dikonstruksikan menggunakan standar `global-docs/templates/bug_report_template.md`.
 2.  **Pengujian Kode (Testing):** Setelah Anda menyelesaikan perombakan logika/kode pada tiket, Anda **WAJIB LANGSUNG** melakukan uji coba fungsional (testing) untuk mendeteksi *error* kompilasi atau galat logika.
 3.  **Pemutakhiran Status & Checklist:** Saat Anda mulai menggarap sebuah tugas, Anda berhak mengubah properti *frontmatter* `status: Todo` menjadi `status: In Progress` pada file tiket lokal. Jika seluruh kriteria pengerjaan dan pengujian telah sukses secara tuntas, Anda **WAJIB LANGSUNG** mengubahnya menjadi `status: Done` dan menandai secara mutlak (*mencentang*) seluruh *checkbox* (`- [x]`) di bagian *Acceptance Criteria* tiket tersebut.
 4.  **Kewajiban Pengisian Log AI:** Anda diwajibkan menjabarkan secara rinci jejak teknis, modifikasi, dan pertimbangan arsitektural di bawah seksi `AI Execution Log & Output` pada dasar file tiket terkait agar transparansi keputusan terjamin.

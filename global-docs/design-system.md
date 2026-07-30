@@ -24,6 +24,8 @@ Jika ekosistem ini terdiri dari berbagai *platform* atau aplikasi yang memiliki 
 Jelaskan "rasa" (*vibe*), tema, gaya visual (*modern*, minimalis, *playful*, dsb), serta preferensi estetika dari aplikasi Anda kepada AI Agent. Kemudian, mintalah AI Agent untuk mengajukan pertanyaan-pertanyaan spesifik terkait aset visual (seperti warna primer/sekunder, bentuk tombol, *dark/light mode*, tipografi) guna memperinci gambaran desain Anda. Berdasarkan interaksi tersebut, AI akan merumuskan dan menyusun pedoman komponen UI yang baku.
 
 > **Kewajiban Uji Validasi HTML:** Desain yang dirumuskan di dokumen ini **TIDAK BOLEH** langsung dikoding ke dalam *framework* asli (Flutter, Next.js, SwiftUI, dll.). AI Agent **WAJIB** membuat sketsa purwarupanya terlebih dahulu dalam format HTML sederhana di direktori `nodes/[nama-node]/prototypes/` dari proyek yang bersangkutan.
-## (_Judul Proyek / Nama Ekosistem_)
+## [GANTI_DENGAN_NAMA_PROYEK]
+
+> ⚠️ AI Agent: Hapus placeholder judul di atas dan ganti dengan nama proyek atau ekosistem yang sebenarnya.
 
 *(Detail dari komponen, warna, tipografi, dan panduan Design System spesifik untuk aplikasi atau ekosistem ini akan ditambahkan di bawah batas ini)*

@@ -1,7 +1,25 @@
 # Code Quality & Formatting Standard
 
 ## ZERO-COMMENT POLICY
-Anda **DILARANG KERAS** menambahkan komentar apa pun di dalam *source code* yang Anda hasilkan (seperti `// ini fungsi untuk...` atau `/* penjelasan */`). Kode harus sangat bersih, jelas, dan bisa menjelaskan dirinya sendiri (*self-documenting code*). Jika Anda perlu menjelaskan logika atau alur kode, berikan penjelasan tersebut secara naratif di dalam teks Markdown (di luar blok kode).
+Anda **DILARANG KERAS** menambahkan komentar apa pun di dalam *source code* yang Anda hasilkan. Kode harus sangat bersih, jelas, dan bisa menjelaskan dirinya sendiri (*self-documenting code*). Jika Anda perlu menjelaskan logika atau alur kode, berikan penjelasan tersebut secara naratif di dalam teks Markdown (di luar blok kode).
+
+### Cakupan Larangan
+Larangan ini mencakup **seluruh bentuk** anotasi teks non-fungsional di dalam kode dari berbagai kerangka kerja (*framework*) dan bahasa pemrograman, tanpa terkecuali:
+- **Komentar JSX/TSX (React/Next.js/React Native):** `{/* ini komponen header */}`, `{/* TODO: refactor state */}`
+- **Komentar HTML/Vue/Svelte/Angular:** `<!-- bagian sidebar -->`, `<!-- // HACK: z-index fix -->`
+- **Inline comment (JS/TS/Go/Dart/Java/C/PHP dll):** `// ini fungsi login`, `// validasi regex`
+- **Inline comment (Python/Ruby/Bash/YAML):** `# ambil data user`, `# setup environment`
+- **Block comment (CSS/SCSS/JS/TS/SQL dll):** `/* background khusus dark mode */`, `/* index tabel users */`
+- **Multi-line Docstring (Python):** `""" kelas ini menangani autentikasi pengguna """`
+- **Trailing comment:** `const x = 10; // jumlah maksimal`, `margin-top: 10px; /* spacing */`
+- **Penanda sementara (Universal):** `// TODO:`, `// FIXME:`, `// HACK:`, `// NOTE:`, `<!-- TODO: -->`, `{# FIXME: #}`
+- **Docstring deskriptif naratif:** Penjelasan fungsi yang bersifat *narasi* atau *tutorial* (seperti `/// Fungsi ini digunakan untuk...`). **Pengecualian:** *Type annotations*, *parameter hints*, atau *contract-based annotations* yang **secara fungsional** dibutuhkan oleh compiler/linter (seperti `@override`, `@param {string}` tanpa deskripsi naratif, `@throws`, tipe return) **DIIZINKAN** karena bersifat fungsional, bukan komentar.
+
+### Kewajiban Self-Check Sebelum Menyerahkan Kode
+Sebelum Anda menyerahkan atau menampilkan blok kode apa pun kepada pengguna, Anda **WAJIB** melakukan pemeriksaan mandiri berikut:
+1. Pindai setiap baris kode yang Anda tulis/modifikasi. Jika ditemukan komentar → **hapus segera**.
+2. Jika kode yang Anda edit sudah memiliki komentar bawaan dari penulisnya, **jangan sentuh** komentar eksisting tersebut. Aturan ini berlaku hanya untuk kode **baru** yang Anda hasilkan.
+3. Pelanggaran terhadap kebijakan ini dianggap sebagai **kegagalan eksekusi** yang setara dengan *compile error*.
 
 ## Modularitas & Linter
 1.  **Linter & Formatter:** Pastikan konfigurasi linter (misalnya: ESLint, Pylint, SwiftLint) dan *formatter* (misalnya: Prettier, Black, Gofmt) yang Anda berikan tidak saling bentrok. Selalu gunakan konfigurasi standar yang direkomendasikan secara global.
@@ -11,9 +29,10 @@ Anda **DILARANG KERAS** menambahkan komentar apa pun di dalam *source code* yang
 ## Penjelasan Skrip CLI
 1.  Jika Anda memberikan perintah terminal/CLI (seperti eksekusi skrip, instalasi dependensi, atau *build*), jelaskan secara ringkas fungsi dari setiap *flag* atau argumen yang digunakan di luar blok kode agar mudah dipahami.
 
-## Hindari Hardcoded Default Values
-1.  **DILARANG memberikan *default value* di dalam definisi inti:** Jangan pernah menetapkan nilai bawaan (*default value*) secara *hardcode* di dalam definisi parameter komponen, fungsi, atau kelas utama.
-2.  Segala bentuk *default value* atau nilai awal harus diinjeksi atau diberikan secara eksplisit melalui argumen/parameter saat fungsi atau komponen tersebut dipanggil (diinisialisasi), untuk memaksimalkan penggunaan ulang (*reusability*) di skenario yang berbeda.
+## Hindari Hardcoded Default Values (Khusus Konfigurasi Bisnis)
+1.  **DILARANG memberikan *default value* di dalam definisi inti:** Jangan pernah menetapkan nilai bawaan (*default value*) secara *hardcode* di dalam definisi parameter komponen, fungsi, atau kelas utama jika parameter tersebut bersifat **konfigurasi bisnis** (contoh: harga, parameter lingkungan, URL).
+2.  Segala bentuk *default value* bisnis harus diinjeksi atau diberikan secara eksplisit melalui argumen/parameter saat fungsi atau komponen tersebut dipanggil (diinisialisasi), untuk memaksimalkan penggunaan ulang (*reusability*) di skenario yang berbeda.
+3.  **Pengecualian Mutlak:** Aturan larangan di atas **TIDAK BERLAKU** untuk *default value* yang berakar dari **konvensi framework** atau kepraktisan UX (seperti properti `defaultProps` di React, argumen `limit=10` untuk paginasi, nilai opsional konfigurasi UI). Default jenis ini justru didorong pemakaiannya.
 
 ## Dilarang Mem-Bypass Arsitektur (No Hacks)
 1.  **DILARANG KERAS menggunakan *inline styles* atau jalan pintas (*shortcuts*):** Anda dilarang menggunakan pendekatan pintas (seperti *inline styles* pada UI atau *hardcode* modifikasi lokal) sekadar untuk mengakali *bug* atau kegagalan konfigurasi spesifik.
@@ -29,6 +48,9 @@ Sistem dokumentasi arsitektur di ekosistem ini **DILARANG KERAS** menggunakan la
 Saat membangun fungsi-fungsi fundamental tertentu, Anda diwajibkan menyusun dokumentasinya menggunakan struktur *boilerplate* yang telah disediakan:
 1.  **Dokumentasi API (`global-docs/templates/api_documentation_template.md`):** Khusus apabila Anda sedang merancang aplikasi yang bersifat API (seperti *backend server* atau integrasi *endpoint* murni), semua struktur URL dan *payload* wajib didokumentasikan menggunakan templat tersebut. *(Peringatan: Gunakan templat ini HANYA pada proyek berbasis API)*.
 2.  **Peta Perutean (`global-docs/templates/routing_template.md`):** Segala bentuk tata letak lalu lintas halaman antarmuka (untuk Web/Frontend) atau rute lalu lintas API (untuk Backend) wajib dipetakan kelebarannya secara terpusat menggunakan standar templat *routing* ini guna mencegah rute yatim-piatu (*orphan routes*).
+
+---
+
 ## Strict Directory & Documentation Boundaries
 
 ### Pemisahan Kode dan Dokumentasi

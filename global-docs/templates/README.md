@@ -17,7 +17,7 @@ Direktori ini menampung seluruh *boilerplate* (templat cetak biru) dokumen yang 
    Standar penulisan entri log riwayat perubahan yang digunakan di dalam file `CHANGELOG.md` pada setiap *node*. Memastikan format tanggal, referensi *branch*, instruksi pengguna, serta detail file yang diubah tercatat seragam secara *reverse-chronological*.
 
 ## Kewajiban Penggunaan bagi AI Agent
-Sistem *AI Orchestrator* telah mengikat file-file *guideline* untuk selalu merujuk ke templat ini. Anda dilarang mengarang format dokumen baru yang melenceng dari struktur di atas saat ditugaskan untuk menuliskan salah satu dari kelima jenis dokumen tersebut.
+Sistem *AI Orchestrator* telah mengikat file-file *guideline* untuk selalu merujuk ke templat ini. Anda dilarang mengarang format dokumen baru yang melenceng dari struktur di atas saat ditugaskan untuk menuliskan salah satu dari keenam jenis dokumen tersebut.
 
 ## Aturan Penggunaan Istilah "Orchestrator" (Git Actions)
 Dalam segala aksi Git (commit, branch, PR) yang mengacu ke pembuatan/pengubahan template ini, perhatikan posisi repositori Anda:

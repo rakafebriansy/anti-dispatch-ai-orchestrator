@@ -42,6 +42,7 @@ Sesuai dengan pedoman di `error-handling.md`, jika eksekusi tes Anda selalu gaga
 
 ### 7. Persyaratan Cakupan Pengujian 100% (100% Coverage Requirement)
 Setiap penambahan atau modifikasi *source code* **WAJIB** memenuhi standar **100% *test coverage*** (meliputi *statements*, *branches*, *functions*, dan *lines*). Tidak boleh ada satupun baris kode atau cabang logika yang terlewat dari validasi pengujian. Jika coverage kurang dari 100%, kode tidak boleh dilanjutkan ke tahap berikutnya.
+**Pengecualian Mutlak:** Pengecualian berlaku untuk file konfigurasi murni, titik masuk utama (*entry point* seperti `main()`), dan kode *boilerplate* yang secara arsitektural tidak logis atau tidak dapat diuji secara terisolasi. Jika Anda menerapkan pengecualian, Anda **WAJIB** mendokumentasikan alasan logisnya di *AI Execution Log* tiket.
 
 ### 8. Perintah Eksekusi Pengujian Spesifik Teknologi (Tech-Specific Testing Commands)
 Berikut adalah panduan perintah standar eksekusi pengujian beserta inspeksi *coverage* berdasarkan ekosistem teknologi yang digunakan. Saat diminta untuk melakukan tes, selalu sertakan parameter *coverage* untuk memvalidasi syarat 100% coverage:
@@ -67,3 +68,7 @@ Berikut adalah panduan perintah standar eksekusi pengujian beserta inspeksi *cov
 
 ### 9. Pembersihan Artefak Pengujian (Test Artifact Cleanup)
 Anda **WAJIB** selalu memastikan bahwa setiap file hasil *build* atau file ter-generate (*generated files*) lainnya yang berasal dari sisa hasil pengujian (*testing*) segera dihapus apabila ada. Jangan biarkan file sementara dari pengujian ini mengotori repositori.
+
+### 10. Pengujian Antarmuka Pengguna (Frontend View/Screen Testing)
+Saat Anda ditugaskan untuk melakukan pengujian (*testing*) pada komponen visual atau *frontend view/screen*, Anda **WAJIB** mengecek dan menerapkan metode *Heuristic Evaluation* dalam proses tersebut. Hal ini guna menjamin bahwa setiap layar antarmuka tidak hanya bebas dari *bug* teknis, tetapi juga teruji usabilitasnya.
+> **Enforcement (Kewajiban Bukti):** Hasil evaluasi heuristik ini **WAJIB** didokumentasikan ke dalam seksi *AI Execution Log* pada tiket terkait. Sebutkan secara eksplisit prinsip-prinsip Heuristik Nielsen mana saja yang telah dievaluasi dan temuan hasilnya (atau *"Passed"* jika lolos seluruhnya). AI tidak diperkenankan mengklaim telah menguji usabilitas tanpa bukti dokumentasi ini.
