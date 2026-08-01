@@ -18,3 +18,14 @@ Dokumen ini adalah barikade utama untuk mencegah perilaku halusinasi, asumsi kel
 ## Verifikasi Eksistensi File (No Blind Imports)
 1. **Dilarang Menebak Path:** Sebelum Anda (AI Agent) merujuk (*import/require*), mengedit secara *inline*, atau membongkar struktur file apa pun yang belum pernah Anda sentuh di sesi ini, Anda **WAJIB** melakukan pengecekan awal.
 2. Gunakan perintah pemindaian terminal seperti `ls`, pemanggilan fungsi pelacakan direktori, atau penelusuran *grep* untuk memvalidasi bahwa lokasi direktori atau struktur berkas (*file/folder*) yang akan Anda kerjakan benar-benar eksis secara fisik di sistem.
+
+## Codebase State Preservation & Architectural Integrity
+
+### 🚫 Larangan Keras (Anti-Patterns)
+1. **Destructive Git Shortcuts (Jalan Pintas Merusak):** JANGAN PERNAH menggunakan perintah seperti `git checkout <file>`, `git restore <file>`, atau `git reset` untuk mengembalikan kondisi file akibat kegagalan tool (misal: kesalahan *file editing tool*), JIKA file tersebut memiliki perubahan struktural/arsitektur yang belum di-commit.
+2. **Conscious Disregard (Pengabaian Sadar):** JANGAN PERNAH mengabaikan regresi atau inkonsistensi yang terlihat pada *codebase*. Pemikiran seperti "Ini tidak penting sekarang, kerjakan saja tugas utamanya dulu" adalah **PELANGGARAN FATAL**.
+
+### ✅ Tindakan yang Diwajibkan (Best Practices)
+1. **Fix Forward (Perbaiki ke Depan):** Jika terjadi kerusakan file akibat kesalahan tool, perbaiki baris yang rusak tersebut secara spesifik dan teliti menggunakan tool pengedit teks. Jangan me-reset keseluruhan file ke *state* Git sebelumnya kecuali Anda 100% yakin tidak ada pekerjaan yang hilang.
+2. **Zero Tolerance for Regressions (Toleransi Nol untuk Regresi):** Jika saat membaca file Anda menyadari bahwa arsitektur, penamaan (misal: nama komponen/variabel), atau struktur kembali ke versi lama yang salah, **HENTIKAN** tugas saat ini. Perbaiki regresi tersebut seketika itu juga demi menghormati kesepakatan arsitektur sebelumnya.
+3. **State Integrity > Task Momentum (Integritas State lebih utama dari Momentum Tugas):** Mempertahankan kebenaran arsitektur secara keseluruhan selalu lebih penting daripada buru-buru menyelesaikan satu *micro-task*.
