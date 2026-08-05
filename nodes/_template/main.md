@@ -113,6 +113,7 @@ Rujuk dan patuhi aturan pemutakhiran status tiket di `../../global-guidelines/ve
 Rujuk dan patuhi secara mutlak seluruh aturan di `../../global-guidelines/version-control.md` seksi **"Wajib Mencatat Setiap Perubahan"**, **"Penambahan Secara Reverse-Chronological"**, dan **"Format Log Pembaruan di Respons"**. Ringkasan:
 - Catatan baru **WAJIB** disisipkan di baris **PALING ATAS** daftar (*descending*).
 - Anda **WAJIB** mencatat **SEMUA** jenis perubahan, **BUKAN HANYA** kode (`Implementation`).
+- Anda **WAJIB MUTLAK** menyalin dan mematuhi struktur baku dari referensi berikut untuk format log Anda: `../../global-docs/templates/changelog_entry_template.md`. Dilarang mengarang format sendiri!
 
 ### E.9: Kebijakan Version Control (Git)
 Rujuk dan patuhi secara mutlak seluruh aturan di `../../global-guidelines/version-control.md` seksi **"Larangan Eksekusi Git Otonom"**, **"Kewajiban Commit"**, dan **"Prosedur Konfirmasi Pembuatan Branch"**.
