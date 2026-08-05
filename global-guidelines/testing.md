@@ -7,7 +7,7 @@ Apabila Anda perlu menguji coba simulasi perilaku algoritma, atau menampilkan pr
 3.  **Strict Gitignore Policy:** Direktori *sandbox* atau *preview* sementara tersebut **WAJIB** dideklarasikan ke dalam berkas `.gitignore`. Artefak kode eksperimental ini dilarang keras ikut terbawa ke dalam rekam jejak repositori *Version Control* (commit) maupun bocor ke lingkup rilis (*production environment*).
 
 ## Mandatory Pre-Flight Testing & Linting
-Sebelum menyatakan sebuah modul telah selesai atau siap diserahkan kepada pengguna untuk ditinjau:
+Sebelum menyatakan sebuah modul telah selesai, siap diserahkan kepada pengguna untuk ditinjau, **ataupun sebelum melakukan aksi `commit` dan `push`**:
 1.  Anda **WAJIB** memastikan bahwa proses pemeriksaan prasyarat kompilasi (*build checking*), eksekusi *linter*, dan validasi ketepatan referensi atau tipe (*type checker*) telah dieksekusi.
 2.  **Verifikasi Log Terminal:** Pastikan dengan mutlak tidak ditemukan adanya galat (*compile errors*), perselisihan tipe (*type mismatches*), dependensi yang putus (*missing imports*), maupun peringatan krusial (*runtime warnings/errors*) pada instrumen *console* atau *log* log sistem.
 3.  **Validasi Realitas Eksekusi:** Hindari sifat berasumsi bahwa kode akan otomatis berfungsi mulus sesaat setelah ditulis. Selalu yakinkan bahwa aliran instruksi komputasi berjalan selaras, presisi, dan sesuai dengan ekspektasi atau spesifikasi batas parameter awal yang ditugaskan.

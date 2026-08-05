@@ -40,6 +40,13 @@ Jika konteks atau domain fiturnya terbukti berbeda dan benar-benar membutuhkan *
 1. **Kewajiban Meminta Persetujuan Commit:** Setiap kali Anda selesai mengeksekusi sebuah tiket/tugas dan telah mencatat riwayat pembaruan ke dalam file `CHANGELOG.md`, Anda **DILARANG KERAS** melakukan *auto-commit*. Anda **WAJIB MUTLAK** meminta izin dan persetujuan pengguna terlebih dahulu sebelum mengeksekusi *git commit*. Jangan pernah menumpuk banyak perubahan dari berbagai tugas ke dalam satu *commit* besar. Hal ini bertujuan agar setiap tiket atau tugas terisolasi secara aman dan rapi dalam satu *commit history* yang bersih.
 2. **Mekanisme Rollback (Pembatalan Perubahan):** Berkat kewajiban *commit* per-tugas di atas, jika di kemudian hari terjadi *error* fatal, fitur merusak sistem, atau pengguna meminta Anda membatalkan *task* terakhir, Anda **WAJIB** menerapkan mekanisme *rollback* Git (kembali ke versi stabil sebelumnya). Gunakan perintah seperti `git reset --hard HEAD~1` (atau nama *commit hash* terkait). Anda **WAJIB meminta konfirmasi persetujuan pengguna** terlebih dahulu sebelum mengeksekusi *rollback* destruktif semacam ini.
 
+## Kewajiban Pre-Commit & Pre-Push (Testing & Linting)
+Sebelum Anda (AI Agent) meminta persetujuan pengguna untuk melakukan aksi `git commit` maupun `git push`, Anda **WAJIB MUTLAK** menjalankan dan memastikan hal-hal berikut:
+1. **Untuk Backend/Fullstack:** Mengeksekusi seluruh *unit test* dan memastikannya berjalan sukses tanpa galat (*error/fail*).
+2. **Untuk Frontend/Mobile/Fullstack:** Mengeksekusi *linter*, *type checker*, dan *unit test* (jika ada) serta memastikannya lolos 100%.
+
+Anda **DILARANG KERAS** mengajukan permohonan `commit` atau `push` jika tahapan validasi prasyarat ini belum dijalankan atau masih membuang kode galat. Untuk detail standar pengujian dan perintah spesifik, Anda **WAJIB** merujuk pada pedoman di **[testing.md](./testing.md)**.
+
 ## Larangan Eksekusi Git Otonom (Mandatory User Approval)
 1. **Dilarang Auto-Commit:** Anda **DILARANG KERAS** melakukan `git add`, `git commit`, maupun `git push` secara otomatis tanpa sepengetahuan dan izin eksplisit dari pengguna.
 2. **Wajib Menjelaskan Terlebih Dahulu:** Anda juga **DILARANG** meminta, mengeluarkan *prompt*, atau mengeksekusi perintah `git add` sebelum memberikan penjelasan secara terperinci kepada pengguna terlebih dahulu mengenai apa saja yang akan diproses.
