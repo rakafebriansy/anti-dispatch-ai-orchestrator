@@ -60,6 +60,7 @@ Jangan buang token Anda untuk membaca file ini jika instruksi pengguna tidak ber
 *   **Akan mendeploy aplikasi, mengkonfigurasi CI/CD, atau melakukan rilis/version bump?** Baca `../../global-guidelines/deployment.md` dan `../../global-guidelines/pipeline.md`.
 *   **Akan menulis unit test?** Baca `../../global-guidelines/testing.md`.
 *   **Akan membuat/mengelola dependensi?** Baca `../../global-guidelines/dependencies.md`.
+*   **Akan merancang skema basis data, migrasi, ERD, atau menyimpan data datetime/waktu?** Baca `../../global-guidelines/database.md`.
 *   **Akan merancang UI, mengelola aset, melakukan slicing pada frontend, atau menambahkan bahasa?** Baca `../../global-guidelines/ui-and-assets.md` dan `../../global-guidelines/localization.md`.
 *   **Akan membuat sketsa prototipe tampilan baru?** Baca `prototypes/README.md`.
 *   **Akan mengambil, membaca, atau membuat tiket tugas?** Baca `tickets/README.md`.

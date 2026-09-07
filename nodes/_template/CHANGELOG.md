@@ -33,6 +33,12 @@ Setiap penambahan log versi terbaru **WAJIB MUTLAK** diletakkan di baris **PALIN
 
 *(⚠️ PERHATIAN AI AGENT: TAMBAHKAN ENTRI LOG BARU ANDA TEPAT DI BAWAH BARIS INI. JANGAN DI PALING BAWAH DOKUMEN!)*
 
+### [2026-09-07 17:47:00] - Guideline: Database & Datetime Storage Standard
+> **Trigger:** Prompt Driven | **Branch:** `main` | **Repo:** `ai-orchestrator-template`
+- **Konteks:** "tambahkan panduan di orchestrator, untuk menyimpan datetime di aplikasi database buatlah dua opsi, yakni menggunakan epoch time millis (konversi jam saat ini ke epoch time) dan menyimpan timestamp + timezone utc di database (konversi jam saat ini di timezone user ke utc, baru di insert)"
+- **Perubahan:** `[Added]` Menambahkan pedoman universal `database.md` yang menetapkan standar penyimpanan datetime di basis data dengan dua opsi baku (Opsi 1: Epoch Time Milliseconds / `BIGINT` dan Opsi 2: Timestamp with Timezone UTC / `TIMESTAMPTZ` / ISO-8601 UTC) beserta aturan konversi, tipe data, skenario penggunaan, dan matriks perbandingan. Memperbarui `global-guidelines/README.md`, `nodes/_template/main.md`, dan `nodes/_template/docs/system-design.md` dengan cross-reference ke pedoman baru tersebut.
+- **Path File:** `global-guidelines/database.md`, `global-guidelines/README.md`, `nodes/_template/main.md`, `nodes/_template/docs/system-design.md`, `nodes/_template/CHANGELOG.md`
+
 ### [2026-09-02 08:14:00] - Guideline: Safe File Operations Policy
 > **Trigger:** Prompt Driven | **Branch:** `main` | **Repo:** `ai-orchestrator-template`
 - **Konteks:** "saya seringkali kehilangan kesempatan me-review ketika mengiyakan ai agent untuk menggunakan: 1. scripts (perubahan massal) dengan js, python, dll 2. sed -i ... 3. git checkout <file> 4. git restore <file> berikan batasan untuk penggunaan hal tersebut"
