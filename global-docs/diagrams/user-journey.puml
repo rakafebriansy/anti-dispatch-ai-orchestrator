@@ -1,0 +1,71 @@
+@startuml user-journey
+title User Journey - Anti Dispatch (macOS Dynamic Island & Workspace Orchestrator)
+
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+skinparam roundcorner 10
+skinparam monochrome false
+skinparam responseMessageBelowArrow true
+
+actor Developer as Dev
+participant "Notch HUD / Menu Bar" as HUD
+participant "Launcher Engine\n(LauncherService)" as Launcher
+participant "Git Worktree Engine\n(GitWorktreeService)" as GitService
+participant "Antigravity IDE\n(Electron Instance)" as IDE
+participant "CDP Monitoring Engine\n(CDPService)" as CDP
+
+== 1. Skenario Standby & Peluncuran Proyek (Single Project) ==
+Dev -> HUD : Klik "Open Project..."
+activate HUD
+HUD -> HUD : Tampilkan Native NSOpenPanel
+Dev -> HUD : Pilih direktori proyek ~/work/my-app
+HUD -> Launcher : launch(workspaceURL: ~/work/my-app)
+activate Launcher
+Launcher -> Launcher : Generate Path Hash & Target Data-Dir\n(~/.antigravity-multi/a1b2c3_my-app)
+Launcher -> Launcher : Scan Port Bebas (misal: 9221)
+Launcher -> IDE : Launch Process (--remote-debugging-port=9221\n--user-data-dir=~/.antigravity-multi/...)
+activate IDE
+Launcher --> HUD : Return PID
+deactivate Launcher
+HUD -> CDP : Start Monitoring(port: 9221, PID)
+activate CDP
+
+== 2. Pemantauan Sesi Aktif di Notch (Glanceable HUD) ==
+loop Polling Adaptif (800ms saat RUNNING / 3000ms saat IDLE)
+    CDP -> IDE : WebSocket CDP: Runtime.evaluate (DOM Query)
+    IDE --> CDP : Return { state: "RUNNING", headline: "Analyzing auth.ts", subSteps: [...] }
+    CDP -> HUD : Update Live State Model
+    HUD -> HUD : Render Animasi Notch (Cyan Glow: "Thinking... 4s")
+end
+
+== 3. Skenario Multi-Worktree / Branch Baru ==
+Dev -> HUD : Klik "Open New Branch..."
+HUD -> HUD : Buka Modal Form BranchCreatorSheet
+Dev -> HUD : Input: Branch "feat/oauth", Base: "main"
+HUD -> GitService : prepareWorktree(branch: "feat/oauth", in: repoURL)
+activate GitService
+GitService -> GitService : Git rev-parse & worktree add ~/work/my-app-feat-oauth
+GitService --> HUD : Return Target Worktree URL
+deactivate GitService
+HUD -> Launcher : launch(workspaceURL: ~/work/my-app-feat-oauth, branch: "feat/oauth")
+activate Launcher
+Launcher -> Launcher : Scan Port Bebas Baru (9222)
+Launcher -> IDE : Launch Instance 2 (--remote-debugging-port=9222\n--user-data-dir=~/.antigravity-multi/x9y8z7_my-app_feat_oauth)
+activate IDE
+Launcher --> HUD : Return PID 2
+deactivate Launcher
+HUD -> CDP : Register Session 2 (Port 9222)
+HUD -> HUD : Beralih ke Mode Accordion Multi-Session (2 Active Agents)
+
+== 4. Interaksi Fokus & Penutupan Sesi ==
+Dev -> HUD : Klik Card Sesi Proyek
+HUD -> IDE : Activate Window via NSRunningApplication
+Dev -> HUD : Klik "x" (Close Instance)
+HUD -> IDE : Terminate Process PID
+HUD -> CDP : Stop CDP Connection
+HUD -> HUD : Re-render Notch Layout
+deactivate IDE
+deactivate CDP
+deactivate HUD
+
+@enduml

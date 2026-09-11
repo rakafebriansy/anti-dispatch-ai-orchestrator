@@ -1,0 +1,58 @@
+@startuml erd
+title Entity Relationship & Data Model - Anti Dispatch (macOS Node)
+
+skinparam linetype ortho
+skinparam roundcorner 8
+
+entity "WorkspaceSession" as Session {
+    * id : UUID <<PK>>
+    --
+    * workspaceName : String
+    * workspacePath : String
+    branchName : String?
+    * pid : Int32
+    * cdpPort : Int
+    * state : Enum(STANDBY, IDLE, RUNNING, DONE, DISCONNECTED)
+    headline : String
+    subSteps : Array<String>
+    * createdAt : Date
+    * updatedAt : Date
+}
+
+entity "WorktreeConfig" as Worktree {
+    * id : UUID <<PK>>
+    --
+    * repoPath : String
+    * branchName : String
+    * targetWorktreePath : String
+    * baseBranch : String
+    * isTemporary : Bool
+    * createdAt : Date
+}
+
+entity "AgentLogEntry" as LogEntry {
+    * id : UUID <<PK>>
+    --
+    * sessionId : UUID <<FK>>
+    * timestamp : Date
+    * rawState : String
+    * headline : String
+    * analyzedFiles : Array<String>
+}
+
+entity "AppPreferences" as Prefs {
+    * id : UUID <<PK>>
+    --
+    * cdpPortRangeStart : Int (Default: 9221)
+    * cdpPortRangeEnd : Int (Default: 9229)
+    * customDataDirRoot : String (Default: "~/.antigravity-multi")
+    * pollingIntervalRunningMs : Int (Default: 800)
+    * pollingIntervalIdleMs : Int (Default: 3000)
+    * launchAtLogin : Bool (Default: true)
+}
+
+Session ||..o{ LogEntry : "merekam log per sesi"
+Worktree ||..o| Session : "mendasari direktori sesi"
+Session }o..|| Prefs : "menggunakan konfigurasi global"
+
+@enduml

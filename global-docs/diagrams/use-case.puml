@@ -1,0 +1,59 @@
+@startuml use-case
+title Use Case Diagram - Anti Dispatch (macOS Orchestrator & Dynamic Island)
+
+left to right direction
+skinparam packageStyle rectangle
+skinparam roundcorner 8
+
+actor "macOS Developer" as Dev
+actor "Antigravity IDE\n(Target Process)" as IDE
+
+rectangle "Anti Dispatch System" {
+    package "Launcher & Workspace Management" {
+        usecase "Buka Proyek Baru / Recent" as UC_OpenProject
+        usecase "Buat Worktree & Branch Baru" as UC_CreateWorktree
+        usecase "Isolasi Memori & User-Data-Dir" as UC_IsolateData
+        usecase "Alokasi Port CDP Dinamis (9221-9229)" as UC_AllocatePort
+    }
+
+    package "Notch HUD & UI Interaction" {
+        usecase "Pantau Status Agen Glanceable (Notch)" as UC_MonitorHUD
+        usecase "Ekspansi Accordion Multi-Session" as UC_Accordion
+        usecase "Fokus Jendela IDE (Jump to Window)" as UC_JumpIDE
+        usecase "Tutup Sesi IDE (Close Instance)" as UC_CloseSession
+        usecase "Akses Cepat via Status Item Menu Bar" as UC_MenuBar
+    }
+
+    package "CDP Engine & Background Monitor" {
+        usecase "Deteksi & Verifikasi Port (/json/version)" as UC_ProbePort
+        usecase "Ekstraksi DOM Resilient (Runtime.evaluate)" as UC_ExtractDOM
+        usecase "Adaptive Polling (800ms / 3000ms)" as UC_AdaptivePoll
+    }
+
+    package "System Preferences & Updates" {
+        usecase "Konfigurasi Port Range & Polling Interval" as UC_Config
+        usecase "Periksa Pembaruan via Sparkle 2" as UC_AutoUpdate
+    }
+}
+
+Dev --> UC_OpenProject
+Dev --> UC_CreateWorktree
+Dev --> UC_MonitorHUD
+Dev --> UC_Accordion
+Dev --> UC_JumpIDE
+Dev --> UC_CloseSession
+Dev --> UC_MenuBar
+Dev --> UC_Config
+Dev --> UC_AutoUpdate
+
+UC_OpenProject ..> UC_IsolateData : <<include>>
+UC_OpenProject ..> UC_AllocatePort : <<include>>
+UC_CreateWorktree ..> UC_IsolateData : <<include>>
+UC_CreateWorktree ..> UC_AllocatePort : <<include>>
+
+UC_MonitorHUD ..> UC_ExtractDOM : <<include>>
+UC_ExtractDOM ..> UC_AdaptivePoll : <<include>>
+UC_ProbePort ..> IDE : Verifikasi Target
+UC_ExtractDOM ..> IDE : Evaluasi CDP WebSocket
+
+@enduml

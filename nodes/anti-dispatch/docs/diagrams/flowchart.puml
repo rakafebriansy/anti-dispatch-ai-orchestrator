@@ -1,0 +1,44 @@
+@startuml flowchart
+title Flowchart - Siklus Pemantauan CDP & Pembaruan Status (Anti Dispatch)
+
+start
+
+:Anti Dispatch Diluncurkan;
+:Inisialisasi NotchPanel & MenuBarItem;
+:Mulai Port Scanner (Rentang 9221 - 9229);
+
+while (Aplikasi Berjalan?) is (Ya)
+    :Probe Port HTTP 127.0.0.1:<port>/json/version;
+    if (Port Merespons?) then (Ya)
+        :Verifikasi Identitas Target (Browser/Protocol);
+        if (Target adalah Antigravity IDE?) then (Ya)
+            if (WebSocket CDP Terhubung?) then (Tidak)
+                :Buka WebSocket ke webSocketDebuggerUrl;
+            endif
+            :Kirim Runtime.evaluate (DOM Inspection Script);
+            :Terima Payload JSON Status Agen;
+            :Parse JSON ke AgentLiveState (State, Headline, SubSteps);
+            :Perbarui State Model di MainActor;
+            :Render Pembaruan ke Notch View;
+
+            if (State == "RUNNING") then (Ya)
+                :Set Polling Interval = 800ms;
+            else (IDLE / DONE)
+                :Set Polling Interval = 3000ms;
+            endif
+        else (Bukan Antigravity)
+            :Masukkan Port ke Skip List;
+        endif
+    else (Tidak Aktif)
+        if (Ada Sesi Terdaftar di Port ini?) then (Ya)
+            :Tutup Sesi (Sesi Berakhir / IDE Ditutup);
+            :Perbarui Daftar Sesi Aktif di Notch;
+        endif
+        :Set Polling Interval = 3000ms (Standby);
+    endif
+    :Tidur Sesuai Polling Interval;
+endwhile (Berhenti)
+
+stop
+
+@enduml

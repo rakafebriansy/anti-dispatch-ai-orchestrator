@@ -1,0 +1,53 @@
+@startuml state-diagram
+title State Diagram - Siklus Hidup Status Agen Antigravity (Anti Dispatch)
+
+[*] --> STANDBY : Tidak Ada Sesi IDE Aktif
+
+state STANDBY {
+    [*] --> StandbyHUD
+    StandbyHUD : Tombol "Open Project..."
+    StandbyHUD : Tombol "Open New Branch..."
+}
+
+STANDBY --> IDLE : Instans Antigravity Terdeteksi / Diluncurkan
+
+state IDLE {
+    [*] --> IdleHUD
+    IdleHUD : Indikator Titik Abu-abu / Muted
+    IdleHUD : Polling Interval 3000ms
+}
+
+IDLE --> RUNNING : Agen AI Memulai Perintah (Spinner / Progress Aktif)
+RUNNING --> RUNNING : Update Sub-Steps / Analisis File
+
+state RUNNING {
+    [*] --> RunningHUD
+    RunningHUD : Indikator Berdenyut (Electric Cyan Glow)
+    RunningHUD : Polling Interval 800ms
+    RunningHUD : Live File Sub-steps Activity
+}
+
+RUNNING --> DONE : Agen Selesai ("worked for", "completed", "done")
+
+state DONE {
+    [*] --> DoneHUD
+    DoneHUD : Indikator Centang Hijau Emerald
+    DoneHUD : Polling Interval 3000ms
+}
+
+DONE --> RUNNING : Prompt Baru Dikirim ke Agen
+DONE --> IDLE : Sesi Tidak Aktif / Reset
+IDLE --> DISCONNECTED : Port CDP Ditutup / IDE Ditutup
+RUNNING --> DISCONNECTED : Crash / Force Terminate
+DONE --> DISCONNECTED : IDE Ditutup Pengguna
+
+state DISCONNECTED {
+    [*] --> CleanupSession
+    CleanupSession : Hapus WebSocket Client
+    CleanupSession : Re-evaluate Sesi Tersisa
+}
+
+DISCONNECTED --> STANDBY : Sisa Sesi = 0
+DISCONNECTED --> IDLE : Masih Ada Sesi Lain Aktif
+
+@enduml
