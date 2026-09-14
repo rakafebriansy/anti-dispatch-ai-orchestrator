@@ -67,6 +67,7 @@ Jangan buang token Anda untuk membaca file ini jika instruksi pengguna tidak ber
 *   **Terjebak error yang sama berkali-kali?** Baca `retrospectives/RETROSPECTIVE.md` untuk melihat apakah AI sebelumnya pernah memecahkan masalah ini di node ini.
 *   **Ditugaskan membuat tiket Bug?** Baca `../../global-docs/templates/bug_report_template.md`.
 *   **Ditugaskan membuat deskripsi PR/Commit?** Baca `../../global-docs/templates/pull_request_template.md` & `../../global-docs/templates/commit_message_template.md`.
+*   **Ditugaskan menjawab pertanyaan pengguna seputar implementasi/arsitektur (Q&A)?** Baca dan patuhi protokol pencatatan di `../../global-docs/LEARN.md`.
 
 ---
 

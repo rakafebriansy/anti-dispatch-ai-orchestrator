@@ -6,7 +6,7 @@ Selamat datang di ekosistem **AI Orchestrator**. Berbeda dengan sekadar *prompti
 
 ## 🚀 Cara Penggunaan
 
-Proses pengembangan dengan Orchestrator ini dibagi menjadi dua fase Prompt.
+Proses pengembangan dan interaksi dengan Orchestrator ini dibagi menjadi 4 fase Prompt utama: Inisialisasi (*Startup*), Penambahan Node (*Scaling*), Pengerjaan Tugas (*Execution*), dan Tanya-Jawab Implementasi (*Knowledge Q&A*).
 
 ### FASE 1: Startup Prompt (Inisialisasi Proyek)
 Gunakan salah satu *prompt* di bawah ini hanya **satu kali** di awal proyek (tergantung apakah proyek Anda hanya satu aplikasi tunggal atau gabungan dari beberapa aplikasi/node). Tujuannya adalah menginisialisasi seluruh dokumen kosong di `docs/` dan menyiapkan pedoman proyek Anda.
@@ -150,4 +150,37 @@ Tugas ini bersifat lintas-proyek (Multi-Node). Pengecekan Detektif: Cek apakah a
 Instruksi Tugas: [TULIS_INSTRUKSI_LINTAS_NODE_DI_SINI]
 ```
 
-Dengan *prompt* super simpel yang hanya butuh 2 pengisian ini, AI akan senantiasa *context-aware*, disiplin, dan patuh pada pedoman tanpa Anda harus mengulang-ulang instruksi setiap kalinya.
+---
+
+### FASE 4: Implementation Q&A Prompt (Tanya Jawab Implementasi & Knowledge Base)
+Berbeda dengan *Execution Prompt* yang bertujuan untuk memodifikasi kode atau menyelesaikan tiket tugas, **Implementation Q&A Prompt** dirancang khusus saat Anda ingin mengajukan pertanyaan eksplisit mengenai implementasi teknis, keputusan arsitektur, atau alur logika sistem yang telah dibangun.
+
+**Karakteristik & Mekanisme Kerja:**
+1. **Hanya Menjawab Pertanyaan Eksplisit:** AI Agent **TIDAK AKAN** membuat penjelasan otomatis yang tidak diminta. Agen hanya akan menganalisis dan menjawab daftar pertanyaan yang secara eksplisit Anda berikan (contoh: *1. Pertanyaan A, 2. Pertanyaan B*).
+2. **Grounding Nyata Berbasis Codebase:** Setiap jawaban didasarkan langsung pada analisis kode sumber (*source code*) aktual dan dokumen referensi orchestrator, lengkap dengan rujukan file dan penjelasannya (bebas dari halusinasi).
+3. **Dual Output & Auto-Archive:** AI Agent akan mengetikkan jawaban terstruktur langsung di **chat sidebar** percakapan **DAN** secara otomatis mencatat, mengkategorisasikan, serta menyimpannya ke dalam file `global-docs/LEARN.md` sebagai *Knowledge Base* permanen agar mudah dibaca dan dicari di masa depan.
+
+Salin, isi bagian `[ DALAM KURUNG SIKU ]`, dan kirimkan ke AI Agent:
+
+```text
+Saya memiliki beberapa pertanyaan spesifik terkait implementasi pada proyek ini.
+
+Cakupan / Node: [Global / Nama Node spesifik, misal: Frontend / Backend / Path Codebase]
+
+Daftar Pertanyaan Eksplisit:
+1. [Tulis pertanyaan 1 di sini, misal: Bagaimana alur autentikasi JWT diimplementasikan antara frontend dan backend?]
+2. [Tulis pertanyaan 2 di sini, misal: Mengapa memilih Zustand dibandingkan Redux untuk state management di node ini?]
+(Tambahkan pertanyaan lain jika ada)
+
+INSTRUKSI AI AGENT:
+1. JANGAN memodifikasi kode aplikasi atau mengambil inisiatif tugas koding baru dalam sesi ini.
+2. BACA `global-docs/LEARN.md` untuk memahami protokol Q&A, format boilerplate, dan taksonomi kategori.
+3. Jawab HANYA pertanyaan-pertanyaan yang saya ajukan di atas secara eksplisit.
+4. Dasarkan seluruh jawaban Anda pada analisis nyata terhadap codebase dan dokumen orchestrator terkait (sertakan path file dan baris kode sebagai referensi konkret).
+5. Berikan jawaban komprehensif, terstruktur, dan mudah dipahami secara langsung di chat sidebar.
+6. Simpan rekaman Tanya-Jawab ini secara utuh ke dalam `global-docs/LEARN.md` sesuai format entri baku, kategorisasikan dengan tepat (Kategori Utama & Tags), dan perbarui Indeks Kategori di file tersebut.
+```
+
+---
+
+Dengan *prompt* terstruktur di atas, ekosistem pengembangan Anda tidak hanya menghasilkan kode yang disiplin, tetapi juga membangun *Knowledge Base* yang terdokumentasi rapi seiring berjalannya proyek.
