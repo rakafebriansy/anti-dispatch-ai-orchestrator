@@ -33,6 +33,13 @@ Setiap penambahan log versi terbaru **WAJIB MUTLAK** diletakkan di baris **PALIN
 
 *(⚠️ PERHATIAN AI AGENT: TAMBAHKAN ENTRI LOG BARU ANDA TEPAT DI BAWAH BARIS INI. JANGAN DI PALING BAWAH DOKUMEN!)*
 
+### [2026-09-16 19:43:00] - Implementation: Jump to App PID Resolution via TCP LISTEN Filtering (TICKET-06)
+> **Trigger:** Prompt Driven | **Branch:** `main` | **Repo:** `https://github.com/rakafebriansy/anti-dispatch-ai-orchestrator.git`
+- **Konteks:** "di saat ini, sekarang ini, terjadi lagi jump to app yang gagal, saat ini di /Users/raka/Developer/playground/ namun ke directory /Users/raka/Developer/repositories/projects/wealthy-people-org/omen-dir/omen bisa (aplikasi sedang menyala saat ini), carilah penyebabnya! ... ya buatkan, sebab jika di case omen, antigravity nya sudah muncul duluan dan di case playground saya pakai "open project"" (Referensi: TICKET-06)
+- **Perubahan:** `[Fixed]` Memperbaiki kegagalan aktivasi jendela pada tombol *Jump to App* dengan membatasi query `lsof` pada `getAllPidsForPort(_:)` khusus pada socket berstatus `LISTEN` (`["-tiTCP:\(port)", "-sTCP:LISTEN", "-n", "-P"]`) serta mengecualikan PID aplikasi Anti Dispatch sendiri (`ProcessInfo.processInfo.processIdentifier`), mencegah Anti Dispatch secara keliru mengaktifkan dirinya sendiri saat PID Antigravity lebih besar daripada PID Anti Dispatch. `[Added]` Menambahkan unit test `testPidDiscoveryExcludesSelf` pada `Anti_DispatchTests.swift`.
+- **Path File:** `Anti Dispatch/Presentation/Notch/ViewModels/NotchViewModel.swift`, `Anti DispatchTests/Anti_DispatchTests.swift`, `nodes/anti-dispatch/tickets/TICKET-06-jump-to-app-pid-resolution.md`, `nodes/anti-dispatch/CHANGELOG.md`
+
+
 ### [2026-09-16 18:20:00] - Implementation: Decision Prompt Scoped Modal Extraction (TICKET-05)
 > **Trigger:** Prompt Driven | **Branch:** `main` | **Repo:** `https://github.com/rakafebriansy/anti-dispatch-ai-orchestrator.git`
 - **Konteks:** "BUATLAH IMPLEMENTATION PLAN SAJA dari: kenapa decision required modal malah muncul "Antigravity is waiting for your input or decision" harusnya label questionnya seperti "Allow running this command?. apa yang salah? contohnya mengambil "Allow committing and pushing?" di: <div class="relative flex flex-col gap-8 text-foreground px-2">..." (Referensi: TICKET-05)
