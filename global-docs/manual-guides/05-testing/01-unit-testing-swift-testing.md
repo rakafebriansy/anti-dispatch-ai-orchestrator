@@ -1,12 +1,12 @@
-# Modul 05.01: Unit Testing dengan Swift Testing
+# Module 05.01: Unit Testing with Swift Testing
 
-Dokumen ini memandu penulisan test suite modern menggunakan framework resmi Apple **`Swift Testing`** (`import Testing` / `@Test`) untuk memvalidasi fungsi-fungsi inti Anti Dispatch.
+This document guides the creation of a modern unit test suite using Apple's official **Swift Testing** framework (`import Testing` / `@Test`) to validate the core engine functionalities of Anti Dispatch.
 
 ---
 
-## 1. Kode Test Suite Lengkap (`Anti_DispatchTests.swift`)
+## 1. Complete Test Suite Code (`Anti_DispatchTests.swift`)
 
-Simpan kode ini di dalam direktori `Anti DispatchTests/Anti_DispatchTests.swift`:
+Save this code in the directory `Anti DispatchTests/Anti_DispatchTests.swift`:
 
 ```swift
 import Testing
@@ -17,7 +17,7 @@ import Foundation
 struct AntiDispatchCoreTests {
 
     // MARK: - 1. PathHasher Tests
-    @Test("Uji komputasi short hash MD5 6 karakter")
+    @Test("Verify 6-character MD5 short hash computation")
     func testShortHashComputation() {
         let pathA = "/Users/raka/Developer/my-app"
         let pathB = "/Users/raka/Developer/my-app"
@@ -32,7 +32,7 @@ struct AntiDispatchCoreTests {
         #expect(hashA != hashC)
     }
 
-    @Test("Uji sanitasi nama branch untuk nama folder worktree")
+    @Test("Verify branch name sanitization for worktree folder naming")
     func testBranchSanitization() {
         let branch = "feat/user:auth*test?"
         let sanitized = PathHasher.sanitizeBranchForFolderName(branch)
@@ -43,7 +43,7 @@ struct AntiDispatchCoreTests {
         #expect(sanitized == "feat-user-auth-test")
     }
 
-    @Test("Uji resolusi direktori isolasi data lengkap")
+    @Test("Verify complete isolated data directory resolution")
     func testDataDirectoryResolution() {
         let workspace = URL(fileURLWithPath: "/Users/raka/Projects/backend")
         let resolved = PathHasher.resolveDataDirectory(for: workspace, branch: "feat/oauth")
@@ -53,7 +53,7 @@ struct AntiDispatchCoreTests {
     }
 
     // MARK: - 2. Launcher Port Allocation Tests
-    @Test("Uji port scanner mengembalikan port valid antara 9221-9229")
+    @Test("Verify port scanner returns valid port in 9221-9229 range")
     func testAvailablePortFinder() async {
         let launcher = LauncherService()
         let port = await launcher.findAvailablePort(startPort: 9221, endPort: 9229)
@@ -63,7 +63,7 @@ struct AntiDispatchCoreTests {
     }
 
     // MARK: - 3. CDP Extracted State Decoder Tests
-    @Test("Uji JSON decoding untuk CDPExtractedState")
+    @Test("Verify JSON decoding for CDPExtractedState")
     func testCDPExtractedStateDecoding() throws {
         let jsonString = """
         {
@@ -88,7 +88,7 @@ struct AntiDispatchCoreTests {
 
 ---
 
-## 2. Cara Menjalankan Test
-1. Buka project di Xcode (`Anti Dispatch.xcodeproj`).
-2. Tekan pintasan **⌘ + U** (*Command + U*) atau klik tombol *Play* di samping `@Suite`.
-3. Seluruh assertions `#expect` akan dievaluasi secara konkuren dan cepat dengan output laporan grafis di Xcode Test Navigator.
+## 2. Running the Tests
+1. Open the project in Xcode (`Anti Dispatch.xcodeproj`).
+2. Press **⌘ + U** (*Command + U*) or click the *Play* icon next to `@Suite`.
+3. All `#expect` assertions will be evaluated concurrently with rich graphical feedback in Xcode's Test Navigator.

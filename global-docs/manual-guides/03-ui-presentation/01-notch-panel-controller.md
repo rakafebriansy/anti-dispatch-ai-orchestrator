@@ -26,7 +26,8 @@ public final class NotchPanel: NSPanel {
     override public var canBecomeMain: Bool { false }
 }
 
-public final class NotchPanelController: ObservableObject {
+@MainActor
+public final class NotchPanelController {
     
     private var panel: NotchPanel?
     private let viewModel: NotchViewModel
@@ -44,11 +45,13 @@ public final class NotchPanelController: ObservableObject {
             defer: false
         )
         
-        notchPanel.level = .floating
+        notchPanel.level = NSWindow.Level.statusBar
         notchPanel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
         notchPanel.isOpaque = false
-        notchPanel.backgroundColor = .clear
+        notchPanel.backgroundColor = NSColor.clear
         notchPanel.hasShadow = true
+        notchPanel.isMovable = false
+        notchPanel.hidesOnDeactivate = false
         
         // Host SwiftUI Root View
         let rootView = NotchContainerView(viewModel: viewModel)
@@ -61,21 +64,27 @@ public final class NotchPanelController: ObservableObject {
     }
     
     /// Mengatur posisi panel menempel di Notch MacBook atau menjadi Capsule Pill
-    public func updatePosition(width: CGFloat = 340, height: CGFloat = 36) {
-        guard let screen = NSScreen.main, let panel = panel else { return }
-        
+    public func updatePosition(width: CGFloat = 340, height: CGFloat = 38) {
+        // Prioritaskan layar yang memiliki notch fisik, fallback ke layar utama
+        guard let screen = NSScreen.screens.first(where: { $0.safeAreaInsets.top > 0 })
+              ?? NSScreen.screens.first
+              ?? NSScreen.main,
+              let panel = panel else {
+            return
+        }
+         
         let screenFrame = screen.frame
         let hasPhysicalNotch = screen.safeAreaInsets.top > 0
         
-        let targetX = screenFrame.midX - (width / 2.0)
+        let targetX = screenFrame.minX + ((screenFrame.width - width) / 2.0)
         let targetY: CGFloat
         
         if hasPhysicalNotch {
-            // Menempel rata di bagian paling atas display
+            // Menempel rata di bagian paling atas display (area notch fisik)
             targetY = screenFrame.maxY - height
         } else {
-            // Floating Pill dengan sedikit jarak dari atas menu bar
-            targetY = screenFrame.maxY - height - 6
+            // Floating Pill dengan sedikit jarak dari atas menu bar pada layar biasa
+            targetY = screenFrame.maxY - height - 4
         }
         
         let targetRect = NSRect(x: targetX, y: targetY, width: width, height: height)
@@ -97,7 +106,7 @@ public struct NotchContainerView: View {
                 MultiSessionAccordionView(viewModel: viewModel)
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 }
 ```

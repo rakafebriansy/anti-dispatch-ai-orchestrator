@@ -31,6 +31,10 @@ public final class NotchViewModel {
     public var selectedSessionForModal: WorkspaceSession? = nil
     public var errorMessage: String? = nil
     
+    public var hasRunningAgent: Bool {
+        activeSessions.contains { $0.state == .running }
+    }
+    
     // MARK: - Services
     private let launcherService: LauncherService
     private let cdpService: CDPService
@@ -50,11 +54,8 @@ public final class NotchViewModel {
         startMonitoringLoop()
     }
     
-    deinit {
-        monitoringTask?.cancel()
-    }
-    
     // MARK: - Monitoring Loop
+    
     public func startMonitoringLoop() {
         monitoringTask?.cancel()
         
@@ -161,7 +162,11 @@ public final class NotchViewModel {
     /// Membawa jendela Antigravity IDE sesi ini ke layar depan
     public func focusSession(_ session: WorkspaceSession) {
         if session.pid > 0, let app = NSRunningApplication(processIdentifier: session.pid) {
-            app.activate(options: [.activateIgnoringOtherApps])
+            if #available(macOS 14.0, *) {
+                app.activate()
+            } else {
+                app.activate(options: [.activateIgnoringOtherApps])
+            }
         }
     }
     
@@ -183,3 +188,4 @@ public final class NotchViewModel {
 ## 3. Poin Kunci
 * Seluruh mutasi `activeSessions` terjadi di `@MainActor`, menjamin tidak ada glitch atau race condition pada rendering SwiftUI.
 * Fitur auto-discovery mendeteksi sesi baru maupun sesi yang ditutup secara real-time.
+* Siklus hidup `monitoringTask` aman 100% dari *data race* (tanpa memerlukan `unsafe` atau `deinit`) karena menggunakan `[weak self]` di dalam loop `Task`. Ketika `NotchViewModel` dilepas dari memori, `guard let self = self else { break }` otomatis menghentikan loop pemantau secara alami.

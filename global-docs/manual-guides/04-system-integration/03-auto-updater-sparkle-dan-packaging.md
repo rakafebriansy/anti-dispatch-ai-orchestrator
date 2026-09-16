@@ -16,9 +16,9 @@ Dokumen ini memandu integrasi framework pembaruan otomatis **Sparkle 2** dan pem
 
 ---
 
-## 2. Inisialisasi Updater Controller
+## 2. Inisialisasi Updater Service (`AppUpdater.swift`)
 
-Di dalam `AppDelegate.swift` atau modul updater:
+Simpan kode ini di dalam berkas terpisah `Anti Dispatch/Core/Services/AppUpdater.swift`:
 
 ```swift
 import Foundation
@@ -39,6 +39,19 @@ public final class AppUpdater {
     public func checkForUpdates() {
         updaterController.checkForUpdates(nil)
     }
+}
+```
+
+### Integrasi dengan Menu Bar (`StatusBarController.swift`)
+Anda dapat menambahkan opsi pembaruan pada menu dropdown Menu Bar:
+```swift
+let updateItem = NSMenuItem(title: "Check for Updates...", action: #selector(checkUpdatesAction), keyEquivalent: "")
+updateItem.target = self
+menu.addItem(updateItem)
+
+// Action handler:
+@objc private func checkUpdatesAction() {
+    AppUpdater.shared.checkForUpdates()
 }
 ```
 

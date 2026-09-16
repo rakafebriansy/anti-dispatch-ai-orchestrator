@@ -23,6 +23,7 @@ Simpan kode ini di dalam direktori `Anti Dispatch/Presentation/MenuBar/StatusBar
 import AppKit
 import SwiftUI
 
+@MainActor
 public final class StatusBarController: NSObject {
     
     private var statusItem: NSStatusItem?

@@ -75,18 +75,23 @@ public struct StandbyNotchView: View {
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 6)
-        .background(.ultraThinMaterial)
+        .background(
+            ZStack {
+                Color.black.opacity(0.95)
+                Rectangle().fill(.ultraThinMaterial).opacity(0.3)
+            }
+        )
         .clipShape(UnevenRoundedRectangle(
             topLeadingRadius: 0,
-            bottomLeadingRadius: 14,
-            bottomTrailingRadius: 14,
+            bottomLeadingRadius: 16,
+            bottomTrailingRadius: 16,
             topTrailingRadius: 0
         ))
         .overlay(
             UnevenRoundedRectangle(
                 topLeadingRadius: 0,
-                bottomLeadingRadius: 14,
-                bottomTrailingRadius: 14,
+                bottomLeadingRadius: 16,
+                bottomTrailingRadius: 16,
                 topTrailingRadius: 0
             )
             .stroke(Color.white.opacity(0.12), lineWidth: 0.5)

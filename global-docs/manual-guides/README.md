@@ -54,7 +54,18 @@ Panduan ini disusun secara modular dari level fondasi arsitektur hingga integras
 * [01 - Unit Testing dengan Swift Testing](./05-testing/01-unit-testing-swift-testing.md)
   * Penulisan test suite modern menggunakan `Swift Testing` (`import Testing` / `@Test`) untuk menguji logika path hasher, git parser, port probing, dan CDP parser.
 
+### 06. Productive Island Notch Architecture & Fluid Morphing
+* [01 - Deteksi Geometri Hardware Notch & NSPanel Canvas](./06-productive-island-notch-morphing/01-notch-geometry-dan-hardware-detection.md)
+  * Mengukur lebar fisik notch presisi via `auxiliaryTopLeftArea` / `auxiliaryTopRightArea`, struct `Notch`, dan arsitektur *Single-Sized Fixed Canvas NSPanel* bebas jitter.
+* [02 - IslandShape Custom Bezier & Jet-Black Surface](./06-productive-island-notch-morphing/02-island-shape-surface-dan-fluid-morphing.md)
+  * Pembuatan bentuk geometri adaptif `IslandShape` dengan lengkungan kurva kuadratik (*outward curls*), mode detached pill, dan background Jet-Black Glassmorphism (`IslandSurface`).
+* [03 - Lobe Slot Architecture & Cursor Linger Engine](./06-productive-island-notch-morphing/03-lobe-slot-architecture-dan-hover-engine.md)
+  * Tata letak 3 slot (Sayap Kiri, Celah Kamera Kosong, Sayap Kanan), bar aktivitas animasi (`ActivityBars`), dan engine pelacak kursor `NSEvent.mouseLocation` dengan linger timer 1.8 detik.
+* [04 - Integrasi Lengkap Anti Dispatch Dynamic Notch](./06-productive-island-notch-morphing/04-integrasi-anti-dispatch-dynamic-notch.md)
+  * Implementasi terintegrasi `DynamicNotchRootView.swift` yang menyatukan seluruh arsitektur Productive Island dengan alur kerja orchestrator Anti Dispatch.
+
 ---
 
 ## 💡 Rekomendasi Urutan Pengerjaan
-Mulailah secara berurutan dari **Bagian 00**, lalu selesaikan **Bagian 01 (Core Engine)** sebelum beralih ke **Bagian 02 & 03 (UI & Presentation)**. Hal ini memastikan seluruh fondasi data dan background actor telah siap sebelum dihubungkan ke antarmuka SwiftUI.
+Mulailah secara berurutan dari **Bagian 00**, lalu selesaikan **Bagian 01 (Core Engine)** sebelum beralih ke **Bagian 02 & 03 (UI & Presentation)** atau langsung mengadopsi **Bagian 06 (Productive Island Architecture)** untuk antarmuka notch modern. Hal ini memastikan seluruh fondasi data dan background actor telah siap sebelum dihubungkan ke antarmuka SwiftUI.
+
