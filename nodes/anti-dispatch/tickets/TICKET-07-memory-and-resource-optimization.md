@@ -24,7 +24,7 @@ Tiket ini mengimplementasikan rangkaian optimasi performa dan efisiensi memori u
 - [x] `resolveWorkspaceURLForPort` dilengkapi dengan `resolvedWorkspaceCache` berbasis TTL 10 detik.
 - [x] Instance `CDPService` menggunakan konfigurasi `URLSession(configuration: .ephemeral)` untuk menonaktifkan caching memori & disk.
 - [x] String fallback extraction script dikonversi menjadi `private static let fallbackScript` pada `CDPService`.
-- [x] Port yang belum terhubung di-probe dengan throttled interval (setiap siklus ke-3).
+- [x] Port yang belum terhubung di-probe dengan throttled interval (setiap siklus ke-3), dengan *immediate full scan* pada startup (siklus pertama) dan saat interaksi pengguna (hover/tap/expand).
 - [x] Animasi equalizer audio bar di-gate hanya saat `hasRunningAgent && isContainerExpanded` dan interval dinaikkan ke 280ms.
 - [x] Interval hover tracking pada notch view dinaikkan dari 80ms ke 150ms.
 - [x] Nilai `latestResponse` dibatasi maksimal 500 karakter.
@@ -46,9 +46,10 @@ Tiket ini mengimplementasikan rangkaian optimasi performa dan efisiensi memori u
   1. Mengaudit penggunaan memori, potensi leak, dan efisiensi background process, serta menyusun dokumen analisis dan *implementation plan*.
   2. Mengubah `CDPService.swift` untuk mengadopsi `URLSession(configuration: .ephemeral)` dan memindahkan fallback JS string ke `private static let fallbackScript`.
   3. Menambahkan `pendingBranchTasks`, `resolvedWorkspaceCache` (TTL 10s), `probeTickCount` (throttled 3-cycle probe), dan pemotongan `latestResponse` ke 500 karakter pada `NotchViewModel.swift`.
-  4. Memperbarui `DynamicNotchRootView.swift` untuk meng-gate animasi waveform equalizer saat notch dalam kondisi terbuka (`isContainerExpanded`) serta mengatur polling hover ke 150ms.
-  5. Menambahkan unit test baru pada `Anti_DispatchTests.swift` untuk validasi `latestResponse` truncation dan custom script init.
-  6. Menjalankan seluruh test suite menggunakan `xcodebuild test` dan memverifikasi kelulusan 100%.
+  4. Menambahkan `isFirstTick` immediate scan dan fungsi `triggerImmediateScan()` pada `NotchViewModel.swift`.
+  5. Memperbarui `DynamicNotchRootView.swift` untuk meng-gate animasi waveform equalizer saat notch dalam kondisi terbuka (`isContainerExpanded`), mengatur polling hover ke 150ms, serta memicu `triggerImmediateScan()` saat hover/tap/expand.
+  6. Menambahkan unit test baru pada `Anti_DispatchTests.swift` untuk validasi `latestResponse` truncation dan custom script init.
+  7. Menjalankan seluruh test suite menggunakan `xcodebuild test` dan memverifikasi kelulusan 100%.
 
 - **Ringkasan File Terpengaruh:**
   - `Anti Dispatch/Anti Dispatch/Core/Services/CDPService.swift`
