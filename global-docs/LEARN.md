@@ -112,7 +112,7 @@ AI Agent **WAJIB** menyalin struktur *markdown* berikut saat menambahkan rekaman
   - `[QA-20260912-01]` [GitWorktreeService, Subprocess CLI, dan POSIX Exit Codes](#qa-20260912-01-gitworktreeservice-subprocess-cli-dan-posix-exit-codes)
   - `[QA-20260911-02]` [PathHasher, Data Buffer, MD5 Mapping, dan Direktori Isolasi](#qa-20260911-02-pathhasher-data-buffer-md5-mapping-dan-direktori-isolasi)
 - **State Management & Data Flow**
-  - *(Belum ada entri)*
+  - `[QA-20260918-01]` [Penyebab State Waiting Dianggap Done pada Modal Izin Antigravity ("Allow testing proxy endpoint...")](#qa-20260918-01-penyebab-state-waiting-dianggap-done-pada-modal-izin-antigravity-allow-testing-proxy-endpoint)
 - **Database & Data Modeling**
   - *(Belum ada entri)*
 - **API & Network Integration**
@@ -133,6 +133,79 @@ AI Agent **WAJIB** menyalin struktur *markdown* berikut saat menambahkan rekaman
 ---
 
 ## 📚 Arsip Log Tanya-Jawab
+
+### [QA-20260918-01] Penyebab State Waiting Dianggap Done pada Modal Izin Antigravity ("Allow testing proxy endpoint...")
+- **Tanggal**: 2026-09-18 14:30
+- **Scope / Target Node**: `nodes/anti-dispatch` (`Anti Dispatch/Resources/Scripts/extract_state.js`, `Anti Dispatch/Core/Services/CDPService.swift`)
+- **Kategori**: `State Management & Data Flow`
+- **Tags**: `#cdp-state-extraction #waiting-state #decision-prompt #extract-state #dom-heuristics #regex-matching #antigravity-permissions`
+- **File Referensi**:
+  - `Anti Dispatch/Resources/Scripts/extract_state.js` (L206-L333)
+  - `Anti Dispatch/Core/Services/CDPService.swift` (L285-L415)
+  - `Anti Dispatch/Presentation/Notch/ViewModels/NotchViewModel.swift` (L252-L368)
+
+#### ❓ Pertanyaan Pengguna
+1. **Kenapa masih ada waiting dianggap done contohnya saat "Allow testing proxy endpoint on fashionforth.id?" di `/Users/raka/Developer/repositories/projects/fashionforth-org/ff-prod`? Caritahu penyebabnya!**
+2. **Kenapa saat agen sedang Working... (contohnya saat menjalankan Goal / subagent: "Navigate to https://fashionforth.id and inspect the console logs...") malah dianggap WAITING (Decision Required)? Caritahu penyebabnya!**
+
+#### 💡 Jawaban & Penjelasan Implementasi
+
+##### 1. Masalah Kasus 1: State Waiting Dianggap DONE (Waiting -> Done Misclassification)
+- **Akar Masalah 1.1 (Evaluasi Regex/Substring Tombol Keputusan):** Fungsi `isDecisionButton` (L206–L218) menggunakan matching kaku `txt.startsWith(k + ' ')` yang gagal ketika teks tombol memiliki tanda koma (misal: `"Yes, allow this time"`), variasi domain dinamis (`"Allow on fashionforth.id"`), atau kata kunci tindakan lain (`"Trust"`, `"Accept"`, `"Run"`).
+- **Akar Masalah 1.2 (Scope Seleksi Modal Terlalu Sempit):** `activeModals` dan `permissionCards` (L223–L243) hanya memindai selector class tertentu, mengabaikan kartu izin proxy inline atau custom widget dengan class Tailwind generik (`border rounded-xl bg-card p-4`).
+- **Akar Masalah 1.3 (Isolasi Scope ke targetTurn):** `targetTurn` hanya memeriksa bubble chat terakhir (`.scroll-mt-4`), mengabaikan widget izin yang berada di luar chat turn (seperti di docked footer atau portal container).
+- **Akar Masalah 1.4 (Radio/Checkbox Semantik ARIA Tidak Terdeteksi):** Pilihan radio modern dirender sebagai `<button role="radio">` dan bukan native `<input type="radio">`, sehingga selector `input[type="radio"]` menghasilkan panjang `0`.
+- **Akar Masalah 1.5 (State Fallthrough Prematur ke DONE):** Saat agen berhenti menunggu klik user, spinner mati (`hasSpinner = false`) dan tombol Stop hilang (`hasStopButton = false`). Karena `isWaitingForInput` gagal terdeteksi (`false`), percabangan langsung jatuh ke `else if (latestResponse || steps.some(...))` yang bernilai `true` karena riwayat chat asisten, sehingga status diset menjadi `"DONE"`.
+
+##### 2. Masalah Kasus 2: State Working/Running Dianggap WAITING (Working -> Waiting False Positive)
+- **Akar Masalah 2.1 (Pemeriksaan activeModals Tanpa Validasi isDecisionButton):**
+  Pada `extract_state.js` (L223–L232), ketika Antigravity membuka panel/dialog subagent, Goal view, atau editor tool yang memiliki atribut `[role="dialog"]` atau `.interactive-modal`, script hanya mengecek apakah ada tombol apa pun di dalamnya (`modalBtns.length > 0`). Script **TIDAK** memverifikasi apakah tombol-tombol tersebut adalah tombol izin (`isDecisionButton`). Akibatnya, tombol biasa seperti "Close", "Stop", atau "Inspect" di dalam dialog Goal langsung menjadikan panel tersebut sebagai `decisionContainer` aktif.
+- **Akar Masalah 2.2 (False Positive Keyword Tombol pada targetTurn):**
+  Daftar `decisionKeywords` memuat kata-kata umum seperti `'submit'`, `'skip'`, `'proceed'`, dan `'no'`. Tombol "Submit" pada area chat input (`<button aria-label="Submit">`), tombol "Skip" pada langkah Goal, atau elemen dengan `aria-label="No logs"` secara keliru memicu `isDecisionButton = true` pada `targetTurn`.
+- **Akar Masalah 2.3 (Hierarki Precedence State yang Terbalik / Pembajakan Status RUNNING):**
+  Pada L315 dan L324:
+  ```javascript
+  const isRunning = !isWaitingForInput && (hasStopButton || hasSpinner || hasActiveTaskElement || hasStatusBarRunning || isLastStepActive);
+
+  if (isWaitingForInput) {
+      state = "WAITING";
+  } else if (isRunning) {
+      state = "RUNNING";
+  }
+  ```
+  Evaluasi `if (isWaitingForInput)` diletakkan **SEBELUM** `isRunning`, dan variabel `isRunning` dipaksa bernilai `false` jika `isWaitingForInput` bernilai `true` (`!isWaitingForInput`).
+  Akibatnya, meskipun agen sedang aktif bekerja (spinner berputar, `hasSpinner = true`, dan tombol Stop aktif `hasStopButton = true`), keberadaan false positive `isWaitingForInput` langsung membajak (*override*) status eksekusi menjadi `WAITING`.
+- **Akar Masalah 2.4 (Ekstraksi Paragraf Goal sebagai decisionPrompt):**
+  Ketika `decisionContainer` keliru terpilih sebagai `targetTurn`, parser `promptEl` (L265) mencari elemen `strong`, `h1-h4`, atau `span.font-medium` yang mencocokkan tag `<strong>Goal</strong>`. Karena teks `"Goal"` terlalu pendek (< 5 karakter), fallback `lines.find(l => l.length > 5...)` (L277) mengambil baris paragraf pertama di bawah Goal (`"Navigate to https://fashionforth.id and inspect the console logs..."`) dan menetapkannya sebagai `decisionPrompt`. Hal inilah yang memicu munculnya modal HUD "Decision Required" berisi instruksi Goal lengkap.
+
+##### 3. Rujukan Kode Sumber & Bukti Teknis
+```javascript
+// Anti Dispatch/Resources/Scripts/extract_state.js: L223-L232
+const activeModals = Array.from(document.querySelectorAll('[role="dialog"], [role="radiogroup"], .interactive-modal...')).filter(isVisible);
+let decisionContainer = activeModals.length > 0 ? activeModals[activeModals.length - 1] : null;
+
+if (decisionContainer) {
+    // BUG: Hanya mengecek keberadaan tombol sembarang tanpa memvalidasi isDecisionButton!
+    const modalBtns = Array.from(decisionContainer.querySelectorAll('button')).filter(b => isVisible(b) && !b.disabled);
+    const modalRadios = Array.from(decisionContainer.querySelectorAll('input[type="radio"]:not(:disabled), input[type="checkbox"]:not(:disabled)')).filter(isVisible);
+    if (modalBtns.length === 0 && modalRadios.length === 0) {
+        decisionContainer = null;
+    }
+}
+
+// Anti Dispatch/Resources/Scripts/extract_state.js: L315-L327
+// BUG: isWaitingForInput membajak isRunning secara absolut
+const isRunning = !isWaitingForInput && (hasStopButton || hasSpinner || hasActiveTaskElement || hasStatusBarRunning || isLastStepActive);
+
+let state = "IDLE";
+if (isWaitingForInput) {
+    state = "WAITING";
+} else if (isRunning) {
+    state = "RUNNING";
+}
+```
+
+---
 
 ### [QA-20260913-01] LauncherService, POSIX Socket Probing, dan Memory Layout Pointers
 - **Tanggal**: 2026-09-13 19:30
