@@ -109,9 +109,11 @@ AI Agent **WAJIB** menyalin struktur *markdown* berikut saat menambahkan rekaman
 *AI Agent WAJIB memperbarui tautan indeks di bawah ini setiap kali menambahkan entri baru (urutkan dari yang terbaru / descending).*
 
 - **Architecture & Pattern**
+  - `[QA-20260919-02]` [Rasional Duplikasi Script Ekstraksi DOM pada extract_state.js dan CDPService.fallbackScript](#qa-20260919-02-rasional-duplikasi-script-ekstraksi-dom-pada-extract_statejs-dan-cdpservicefallbackscript)
   - `[QA-20260912-01]` [GitWorktreeService, Subprocess CLI, dan POSIX Exit Codes](#qa-20260912-01-gitworktreeservice-subprocess-cli-dan-posix-exit-codes)
   - `[QA-20260911-02]` [PathHasher, Data Buffer, MD5 Mapping, dan Direktori Isolasi](#qa-20260911-02-pathhasher-data-buffer-md5-mapping-dan-direktori-isolasi)
 - **State Management & Data Flow**
+  - `[QA-20260919-01]` [Analisis Arsitektur Polling vs WebSocket, State Done Misclassification, dan Resolusi Nama Workspace Untitled](#qa-20260919-01-analisis-arsitektur-polling-vs-websocket-state-done-misclassification-dan-resolusi-nama-workspace-untitled)
   - `[QA-20260918-01]` [Penyebab State Waiting Dianggap Done pada Modal Izin Antigravity ("Allow testing proxy endpoint...")](#qa-20260918-01-penyebab-state-waiting-dianggap-done-pada-modal-izin-antigravity-allow-testing-proxy-endpoint)
 - **Database & Data Modeling**
   - *(Belum ada entri)*
@@ -133,6 +135,107 @@ AI Agent **WAJIB** menyalin struktur *markdown* berikut saat menambahkan rekaman
 ---
 
 ## 📚 Arsip Log Tanya-Jawab
+
+### [QA-20260919-02] Rasional Duplikasi Script Ekstraksi DOM pada extract_state.js dan CDPService.fallbackScript
+- **Tanggal**: 2026-09-19 08:30
+- **Scope / Target Node**: `nodes/anti-dispatch` (`Anti Dispatch/Resources/Scripts/extract_state.js`, `Anti Dispatch/Core/Services/CDPService.swift`)
+- **Kategori**: `Architecture & Pattern`
+- **Tags**: `#cdp-service #extract-state-js #fallback-script #bundle-resources #unit-testing-resiliency #architecture-decisions`
+- **File Referensi**:
+  - `Anti Dispatch/Core/Services/CDPService.swift` (L79-L578, L580-L598)
+  - `Anti Dispatch/Resources/Scripts/extract_state.js` (L1-L476)
+
+#### ❓ Pertanyaan Pengguna
+1. **Kenapa kamu membuat dua script di `CDPService.swift` dan `extract_state.js`?**
+
+#### 💡 Jawaban & Penjelasan Implementasi
+
+##### 1. Alasan Arsitektural Dual-Script (Bundle Resource vs Embedded Static Fallback)
+- **Ringkasan Inti**: `extract_state.js` adalah berkas sumber utama untuk produksi dan kemudahan pengembangan, sedangkan `fallbackScript` di `CDPService.swift` adalah mekanisme ketahanan (*fail-safe*) bawaan untuk lingkungan Unit Test dan kondisi runtime tanpa App Bundle.
+- **Detail Implementasi & Logika**:
+  Pada `CDPService.init()` ([CDPService.swift:L580-L598](file:///Users/raka/Developer/repositories/projects/anti-dispatch-dir/Anti%20Dispatch/Anti%20Dispatch/Core/Services/CDPService.swift#L580-L598)), inisialisasi skrip berjalan dengan hierarki:
+  1. **Custom Script Parameter**: Menggunakan skrip kustom yang diinjeksi melalui argumen `init(customScript:)`.
+  2. **Dynamic Bundle Loading (Runtime Produksi)**: Mencari file `Resources/Scripts/extract_state.js` di dalam `Bundle.main`. Pada aplikasi `.app` yang terkompilasi penuh, skrip dibaca dari berkas fisik ini. Keberadaan file `.js` terpisah mempermudah *syntax highlighting*, pengujian via browser DevTools, dan *linting*.
+  3. **Embedded Static Fallback (`Self.fallbackScript`)**: Jika `Bundle.main` gagal menemukan file (misalnya saat test runner Xcode `xcodebuild test` atau SPM berjalan di mana `Bundle.main` merujuk ke bundle test runner dan bukan `.app` utama, atau jika resource bundle tidak ter-copy saat build command line), inisialisasi tidak akan crash ataupun mengembalikan skrip kosong, melainkan menggunakan `Self.fallbackScript`.
+- **Rujukan Kode Sumber**:
+  ```swift
+  public init(customScript: String? = nil) {
+      let config = URLSessionConfiguration.ephemeral
+      self.urlSession = URLSession(configuration: config)
+      
+      if let customScript = customScript {
+          self.extractStateScript = customScript
+      } else if let scriptURL = Bundle.main.url(forResource: "extract_state", withExtension: "js", subdirectory: "Resources/Scripts"),
+                let loadedScript = try? String(contentsOf: scriptURL, encoding: .utf8) {
+          self.extractStateScript = loadedScript
+      } else if let scriptURL = Bundle.main.url(forResource: "extract_state", withExtension: "js", subdirectory: "Scripts"),
+                let loadedScript = try? String(contentsOf: scriptURL, encoding: .utf8) {
+          self.extractStateScript = loadedScript
+      } else if let fallbackURL = Bundle.main.url(forResource: "extract_state", withExtension: "js"),
+                let loadedScript = try? String(contentsOf: fallbackURL, encoding: .utf8) {
+          self.extractStateScript = loadedScript
+      } else {
+          self.extractStateScript = Self.fallbackScript
+      }
+  }
+  ```
+- **Rasional & Keputusan Teknis**:
+  - **Trade-off Resiliency vs Duplikasi**: Pendekatan ini memprioritaskan keandalan *zero-crash* dan kemudahan eksekusi test runner independen tanpa setup bundle kompleks. Konsekuensinya, setiap pembaruan logika DOM parser harus diselaraskan pada kedua berkas.
+
+---
+
+### [QA-20260919-01] Analisis Arsitektur Polling vs WebSocket, State Done Misclassification, dan Resolusi Nama Workspace Untitled
+- **Tanggal**: 2026-09-19 08:15
+- **Scope / Target Node**: `nodes/anti-dispatch` (`Anti Dispatch/Resources/Scripts/extract_state.js`, `Anti Dispatch/Core/Services/CDPService.swift`, `Anti Dispatch/Presentation/Notch/ViewModels/NotchViewModel.swift`)
+- **Kategori**: `State Management & Data Flow`
+- **Tags**: `#cdp-state-extraction #polling-vs-websocket #done-state #workspace-name-resolution #dom-heuristics #runtime-evaluate`
+- **File Referensi**:
+  - `Anti Dispatch/Resources/Scripts/extract_state.js`
+  - `Anti Dispatch/Core/Services/CDPService.swift`
+  - `Anti Dispatch/Presentation/Notch/ViewModels/NotchViewModel.swift`
+
+#### ❓ Pertanyaan Pengguna
+1. **Done masih dianggap working, padahal teksnya sudah output selesai (contoh: teks status sinkronisasi, Zero-Comment Policy, graphify update, tiket retrospektif, CHANGELOG)?**
+2. **Saat terjadi Untitled workspace dilabeli "Code Search", padahal harusnya nama projectnya "ff-prod"?**
+3. **Apakah ketidaksesuaian seperti poin 1 terjadi karena kita melakukan polling dan terjadi bug di sana? Jika iya, tidakkah memakai WebSocket saja? Atau bagaimana?**
+
+#### 💡 Jawaban & Penjelasan Implementasi
+
+##### 1. Akar Masalah State Done Dianggap Working
+- **Ringkasan Inti**: Status terkunci di `RUNNING` karena label accordion step masa lalu (misal: `"Working..."`) dan selektor spinner Monaco yang broad dievaluasi sebagai proses aktif yang menimpa keberadaan teks respons final.
+- **Detail Implementasi & Logika**:
+  Pada `extract_state.js`, array `steps` mengekstrak seluruh teks tombol/elemen yang diawali kata kerja proses. Ketika turn telah selesai, teks seperti `"Working..."` atau `"Thinking..."` masih tersisa di DOM accordion. Variabel `isLastStepActive` mengevaluasi teks ini sebagai aktif. Ditambah lagi, `visibleSpinners` memuat class luas seperti `[class*="loading"]` dan `.monaco-progress-container.active` yang selalu aktif di Monaco editor. Karena `isRunning` dievaluasi sebelum `latestResponse`, status tidak pernah jatuh ke cabang `DONE`.
+  Perbaikan dilakukan dengan guard `hasDefinitelyFinished = !!latestResponse && !hasStopButton && !hasExplicitDecisionModal` yang langsung memprioritaskan status `DONE` dan mengabaikan teks step accordion lampau.
+- **Rujukan Kode Sumber**:
+  ```javascript
+  const hasDefinitelyFinished = !!latestResponse && !hasStopButton && !hasExplicitDecisionModal;
+  const isRunning = !hasDefinitelyFinished && (hasStopButton || hasSpinner || (hasActiveTaskElement && !latestResponse) || hasStatusBarRunning || isLastStepActive);
+  if (isWaitingForInput && (!isRunning || hasExplicitDecisionModal)) {
+      state = "WAITING";
+  } else if (hasDefinitelyFinished && !isRunning) {
+      state = "DONE";
+  }
+  ```
+- **Rasional & Keputusan Teknis**:
+  Tombol Stop (`hasStopButton`) adalah satu-satunya indikator fisik terkuat bahwa Antigravity sedang melakukan stream pembuatan respons. Ketika tombol Stop hilang dan `latestResponse` terisi, agen secara definitif telah selesai (`DONE`).
+
+##### 2. Resolusi Nama Untitled Workspace dengan View "Code Search"
+- **Ringkasan Inti**: Title Antigravity berformat `View - Workspace - App` diambil secara naif pada segmen pertama, dan string `"Code Search"` tidak disaring sebagai generic view sehingga gagal memicu fallback ke folder path asli (`"ff-prod"`).
+- **Detail Implementasi & Logika**:
+  Window title VS Code/Antigravity pada workspace untitled yang membuka panel pencarian adalah `"Code Search - Untitled (Workspace) - Antigravity"`. Regex ekstraksi awal memotong pada pemisah pertama dan mengambil `"Code Search"`. Karena `"Code Search"` tidak memuat kata `"untitled"`, filter `isUntitledOrGeneric` menganggapnya sebagai nama proyek valid.
+  Perbaikan dilakukan dengan parser multi-segmen (mengambil segmen workspace penultimate) dan menambahkan daftar komprehensif nama view generik (`code search`, `search`, `explorer`, `settings`, `welcome`, `extensions`, dll.) pada `extract_state.js`, `CDPService.swift`, dan `NotchViewModel.swift` sehingga nama selalu me-resolve ke `folderFromPath` / `validURL.lastPathComponent` (`"ff-prod"`).
+- **Rasional & Keputusan Teknis**:
+  Menyelaraskan kamus view generic di sisi JavaScript dan Swift menjamin konsistensi nama folder proyek meskipun user membuka sembarang tab extension atau view internal VS Code.
+
+##### 3. Analisis Polling vs WebSocket & Evaluasi Arsitektural
+- **Ringkasan Inti**: Anti Dispatch telah menggunakan WebSocket sejak awal; bug Poin 1 murni terjadi pada logika heuristik DOM parser JS dan bukan akibat mekanisme polling.
+- **Detail Implementasi & Logika**:
+  Anti Dispatch menginisialisasi `URLSessionWebSocketTask` ke endpoint CDP Chrome (`ws://127.0.0.1:<port>/devtools/page/...`). Anti Dispatch mengirimkan perintah `Runtime.evaluate` secara periodik (500ms saat aktif, 1500ms saat idle) melalui koneksi WebSocket tersebut.
+  Jika diganti dengan pure WebSocket DOM push (misal: memasang `MutationObserver` yang mem-push event setiap ada perubahan DOM), Electron renderer VS Code/Antigravity yang memicu ratusan mutasi DOM per detik (animasi cursor, tokenizer syntax, event scroll) akan membanjiri WebSocket dengan event spam, menyebabkan lonjakan CPU dan konsumsi memori tinggi (kontraproduktif terhadap optimasi TICKET-07).
+- **Rasional & Keputusan Teknis**:
+  Pola *Periodic Evaluation over WebSocket* adalah arsitektur paling stabil, minim beban CPU/memori, dan *self-healing*. Solusi yang tepat dan definitif adalah memperbaiki logika evaluasi DOM dan precedence state pada skrip ekstraksi.
+
+---
 
 ### [QA-20260918-01] Penyebab State Waiting Dianggap Done pada Modal Izin Antigravity ("Allow testing proxy endpoint...")
 - **Tanggal**: 2026-09-18 14:30

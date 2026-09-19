@@ -33,6 +33,24 @@ Setiap penambahan log versi terbaru **WAJIB MUTLAK** diletakkan di baris **PALIN
 
 *(⚠️ PERHATIAN AI AGENT: TAMBAHKAN ENTRI LOG BARU ANDA TEPAT DI BAWAH BARIS INI. JANGAN DI PALING BAWAH DOKUMEN!)*
 
+### [2026-09-19 08:30:00] - Guideline: Architectural Rationale - Dual Extraction Scripts in CDPService & extract_state.js (QA-20260919-02)
+> **Trigger:** Prompt Driven | **Branch:** `main` | **Repo:** `https://github.com/rakafebriansy/anti-dispatch-ai-orchestrator.git`
+- **Konteks:** "kenapa kamu membuat dua script di CDPService.swift dan extract_state.js ?" (Referensi: QA-20260919-02)
+- **Perubahan:** `[Added]` Menyusun dokumentasi ke dalam `global-docs/LEARN.md` (entri `[QA-20260919-02]`) terkait alasan arsitektural di balik keberadaan dua skrip ekstraksi: `extract_state.js` sebagai sumber utama produksi berbasis bundle resource dan `fallbackScript` statis di dalam `CDPService.swift` sebagai mekanisme ketahanan (*fail-safe zero-crash*) untuk eksekusi test runner independen (`xcodebuild test`).
+- **Path File:** `anti-dispatch-ai-orchestrator/global-docs/LEARN.md`, `anti-dispatch-ai-orchestrator/nodes/anti-dispatch/CHANGELOG.md`
+
+### [2026-09-19 08:20:00] - Implementation: State Done Detection & Untitled Workspace Resolution (TICKET-11)
+> **Trigger:** Prompt Driven | **Branch:** `main` | **Repo:** `https://github.com/rakafebriansy/anti-dispatch-ai-orchestrator.git`
+- **Konteks:** "1. done masih dianggap working. padahal teksnya: '''Status Sinkronisasi:...''' 2. saat terjadi Untitled workspace dilabeli "Code Search", padahal harusnya nama projectnya "ff-prod" 3. apakah ketidak sesuaian seperti poin 1 terjadi karena kita melakukan pooling dan terjadi bug disana? jika iya tidakkah memakai websocket saja? atau bagaimana" (Referensi: TICKET-11)
+- **Perubahan:** `[Fixed]` Memperbaiki false positive status RUNNING saat agen telah selesai mengeksekusi tugas dengan menambahkan guard `hasDefinitelyFinished = !!latestResponse && !hasStopButton && !hasExplicitDecisionModal`, membersihkan selektor `visibleSpinners` dari Monaco progressbar dan elemen statis, serta mengabaikan label step accordion lampau pada `extract_state.js` dan fallback `CDPService.swift`. `[Fixed]` Memperbaiki ekstraksi nama workspace pada untitled workspace dengan parsing multi-segmen title Antigravity (`View - Workspace - App`) dan memperluas filter view generic (`code search`, `search`, `explorer`, `settings`, `welcome`, `extensions`, `output`, `debug`, `terminal`, `problems`, dll.) pada `extract_state.js`, `CDPService.swift`, dan `NotchViewModel.swift`, sehingga nama workspace untitled yang membuka view pencarian selalu me-resolve ke folder proyek asli (`"ff-prod"`). `[Added]` Menambahkan unit test `testCompletedTurnWithSyncTextClassifiedAsDone` dan `testUntitledWorkspaceWithCodeSearchTitleResolvesToProjectFolder` pada `Anti_DispatchTests.swift`.
+- **Path File:** `Anti Dispatch/Anti Dispatch/Resources/Scripts/extract_state.js`, `Anti Dispatch/Anti Dispatch/Core/Services/CDPService.swift`, `Anti Dispatch/Anti Dispatch/Presentation/Notch/ViewModels/NotchViewModel.swift`, `Anti Dispatch/Anti DispatchTests/Anti_DispatchTests.swift`, `anti-dispatch-ai-orchestrator/nodes/anti-dispatch/tickets/TICKET-11-state-done-detection-and-workspace-naming.md`, `anti-dispatch-ai-orchestrator/nodes/anti-dispatch/CHANGELOG.md`
+
+### [2026-09-19 08:15:00] - Guideline: Architectural Analysis - Polling vs WebSocket & Workspace Resolution (QA-20260919-01)
+> **Trigger:** Prompt Driven | **Branch:** `main` | **Repo:** `https://github.com/rakafebriansy/anti-dispatch-ai-orchestrator.git`
+- **Konteks:** "apakah ketidak sesuaian seperti poin 1 terjadi karena kita melakukan pooling dan terjadi bug disana? jika iya tidakkah memakai websocket saja? atau bagaimana" (Referensi: QA-20260919-01)
+- **Perubahan:** `[Added]` Menyusun dokumentasi komprehensif ke dalam `global-docs/LEARN.md` (entri `[QA-20260919-01]`) terkait analisis arsitektur *Polling Runtime.evaluate over WebSocket vs Pure DOM Push*, akar masalah state misclassification pada accordion DOM, serta resolusi nama workspace untitled.
+- **Path File:** `anti-dispatch-ai-orchestrator/global-docs/LEARN.md`, `anti-dispatch-ai-orchestrator/nodes/anti-dispatch/CHANGELOG.md`
+
 ### [2026-09-18 14:45:00] - Implementation: CDP Permission Prompt Detection & Working Goal State Precedence (TICKET-09 & TICKET-10)
 > **Trigger:** Prompt Driven | **Branch:** `main` | **Repo:** `https://github.com/rakafebriansy/anti-dispatch-ai-orchestrator.git`
 - **Konteks:** "keduanya buatkan masing-masing ticket dan langsung implementasi keduanya" (Referensi: TICKET-09 & TICKET-10)
