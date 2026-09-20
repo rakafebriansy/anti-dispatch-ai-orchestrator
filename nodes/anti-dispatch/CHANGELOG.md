@@ -33,6 +33,12 @@ Setiap penambahan log versi terbaru **WAJIB MUTLAK** diletakkan di baris **PALIN
 
 *(⚠️ PERHATIAN AI AGENT: TAMBAHKAN ENTRI LOG BARU ANDA TEPAT DI BAWAH BARIS INI. JANGAN DI PALING BAWAH DOKUMEN!)*
 
+### [2026-09-20 09:07:00] - Implementation: Monaco Editor Find Widget False Positive WAITING State Fix (TICKET-12)
+> **Trigger:** Prompt Driven | **Branch:** `main` | **Repo:** `https://github.com/rakafebriansy/anti-dispatch-ai-orchestrator.git`
+- **Konteks:** "terjadi bug dimana di /Users/raka/Developer/repositories/projects/wealthy-people-org/omen-dir/omen saat ini selalu dianggap waiting, tidak ada update sama sekali" (Referensi: TICKET-12)
+- **Perubahan:** `[Fixed]` Mengeliminasi false positive status WAITING yang mengunci status workspace tanpa pembaruan saat pengguna membuka widget pencarian editor Monaco (`.find-widget.visible` / `Ctrl+F`) dengan menambahkan helper `isMonacoEditorWidget` pada `extract_state.js` dan fallback `CDPService.swift`, mengecualikan dialog dan widget editor internal dari `activeModals`, `permissionCards`, `potentialCards`, `isDecisionButton`, serta `isSemanticRadioOrCheckbox`, dan memvalidasi `hasRadios` agar hanya mengaktifkan `hasExplicitDecisionModal` pada modal keputusan agen yang sah. `[Added]` Menambahkan unit test `testMonacoFindWidgetDoesNotTriggerWaitingState` dan `testGenuineDecisionModalClassification` pada `Anti_DispatchTests.swift`.
+- **Path File:** `Anti Dispatch/Anti Dispatch/Resources/Scripts/extract_state.js`, `Anti Dispatch/Anti Dispatch/Core/Services/CDPService.swift`, `Anti Dispatch/Anti DispatchTests/Anti_DispatchTests.swift`, `anti-dispatch-ai-orchestrator/nodes/anti-dispatch/tickets/TICKET-12-editor-widget-waiting-state-fix.md`, `anti-dispatch-ai-orchestrator/nodes/anti-dispatch/CHANGELOG.md`
+
 ### [2026-09-19 08:30:00] - Guideline: Architectural Rationale - Dual Extraction Scripts in CDPService & extract_state.js (QA-20260919-02)
 > **Trigger:** Prompt Driven | **Branch:** `main` | **Repo:** `https://github.com/rakafebriansy/anti-dispatch-ai-orchestrator.git`
 - **Konteks:** "kenapa kamu membuat dua script di CDPService.swift dan extract_state.js ?" (Referensi: QA-20260919-02)
