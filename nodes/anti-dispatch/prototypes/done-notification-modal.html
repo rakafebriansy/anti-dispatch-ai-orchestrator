@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Done Notification HUD Prototype</title>
+    <style>
+        :root {
+            --bg-color: #0d0f12;
+            --hud-bg: rgba(22, 22, 24, 0.96);
+            --decision-border: rgba(255, 204, 0, 0.55);
+            --done-border: rgba(48, 209, 88, 0.55);
+            --yellow-accent: #ffd60a;
+            --green-accent: #30d158;
+            --cyan-accent: #00d2ff;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.88);
+            --text-muted: rgba(255, 255, 255, 0.6);
+            --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+            --font-mono: "SF Mono", Menlo, Monaco, Consolas, monospace;
+            --stack-gap: 10px;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(48, 209, 88, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(255, 214, 10, 0.05) 0px, transparent 50%);
+            color: var(--text-primary);
+            font-family: var(--font-family);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0 0 6px 0;
+        }
+
+        .header p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-ctrl {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 7px 14px;
+            border-radius: 8px;
+            font-family: var(--font-family);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-ctrl:hover {
+            background: rgba(255, 255, 255, 0.18);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .btn-ctrl-green {
+            background: rgba(48, 209, 88, 0.15);
+            border-color: rgba(48, 209, 88, 0.4);
+            color: var(--green-accent);
+        }
+
+        .btn-ctrl-green:hover {
+            background: rgba(48, 209, 88, 0.25);
+            border-color: var(--green-accent);
+        }
+
+        .btn-ctrl-yellow {
+            background: rgba(255, 214, 10, 0.15);
+            border-color: rgba(255, 214, 10, 0.4);
+            color: var(--yellow-accent);
+        }
+
+        .btn-ctrl-yellow:hover {
+            background: rgba(255, 214, 10, 0.25);
+            border-color: var(--yellow-accent);
+        }
+
+        /* Screen Simulation Container */
+        .screen-canvas {
+            width: 860px;
+            height: 520px;
+            background: rgba(18, 20, 24, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+        }
+
+        .desktop-bar {
+            height: 28px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            font-size: 11px;
+            color: var(--text-muted);
+            justify-content: space-between;
+        }
+
+        .notification-column {
+            position: absolute;
+            top: 44px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: var(--stack-gap);
+            align-items: flex-end;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        /* Decision Required HUD (Width: 365px, Height: ~135px) */
+        .decision-hud {
+            width: 365px;
+            background: var(--hud-bg);
+            border: 1px solid var(--decision-border);
+            border-radius: 14px;
+            padding: 14px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 214, 10, 0.15);
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: auto;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: slideIn 0.25s ease-out;
+        }
+
+        /* Done Notification HUD (Width: 310px, Height: ~68px, Lifespan: 3s) */
+        .done-hud {
+            width: 310px;
+            background: var(--hud-bg);
+            border: 1px solid var(--done-border);
+            border-radius: 12px;
+            padding: 10px 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 12px rgba(48, 209, 88, 0.15);
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            pointer-events: auto;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: slideIn 0.25s ease-out;
+        }
+
+        .done-hud:hover {
+            border-color: rgba(48, 209, 88, 0.85);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5), 0 0 16px rgba(48, 209, 88, 0.25);
+        }
+
+        .progress-bar-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--green-accent);
+            width: 100%;
+            animation: countdown 3s linear forwards;
+        }
+
+        .hud-header {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .hud-icon-green {
+            font-size: 14px;
+            color: var(--green-accent);
+            display: flex;
+            align-items: center;
+        }
+
+        .hud-icon-yellow {
+            font-size: 14px;
+            color: var(--yellow-accent);
+            display: flex;
+            align-items: center;
+        }
+
+        .hud-title-done {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .workspace-badge-green {
+            margin-left: auto;
+            font-size: 9px;
+            font-weight: 600;
+            font-family: var(--font-mono);
+            color: var(--green-accent);
+            background: rgba(48, 209, 88, 0.18);
+            border: 0.5px solid rgba(48, 209, 88, 0.35);
+            border-radius: 4px;
+            padding: 1.5px 5px;
+        }
+
+        .workspace-badge-yellow {
+            margin-left: auto;
+            font-size: 9px;
+            font-weight: 600;
+            font-family: var(--font-mono);
+            color: var(--yellow-accent);
+            background: rgba(255, 214, 10, 0.18);
+            border-radius: 4px;
+            padding: 1.5px 5px;
+        }
+
+        .done-body-text {
+            font-size: 10.5px;
+            line-height: 1.35;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .decision-body-text {
+            font-size: 11px;
+            line-height: 1.4;
+            color: var(--text-secondary);
+        }
+
+        .hud-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 2px;
+        }
+
+        .btn {
+            border: none;
+            outline: none;
+            cursor: pointer;
+            border-radius: 6px;
+            font-family: var(--font-family);
+            font-size: 11px;
+            font-weight: 600;
+            padding: 5px 11px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .btn-ignore {
+            color: rgba(255, 255, 255, 0.75);
+            background: rgba(255, 255, 255, 0.10);
+            border: 0.8px solid rgba(255, 255, 255, 0.16);
+        }
+
+        .btn-agree-secondary {
+            color: rgba(255, 255, 255, 0.90);
+            background: rgba(255, 255, 255, 0.14);
+            border: 0.8px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .btn-jump-primary {
+            color: #000000;
+            background: var(--yellow-accent);
+            border: 0.8px solid rgba(255, 214, 10, 0.95);
+            font-weight: 700;
+        }
+
+        .spacer {
+            flex: 1;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-8px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes countdown {
+            from {
+                width: 100%;
+            }
+            to {
+                width: 0%;
+            }
+        }
+
+        .fade-out {
+            opacity: 0 !important;
+            transform: translateY(-6px) scale(0.96) !important;
+            transition: all 0.3s ease-out !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Done Notification HUD - Stacking & Auto-Dismiss System</h1>
+        <p>3-Second Lifespan &bull; Compact Card Size (~310pt) &bull; Seamless Vertical Stacking below Decision Modal with Identical Gap (10pt)</p>
+    </div>
+
+    <div class="controls">
+        <button class="btn-ctrl btn-ctrl-green" onclick="spawnDone('omen', 'Completed database seed & schema migration')">+ Trigger Done (omen)</button>
+        <button class="btn-ctrl btn-ctrl-green" onclick="spawnDone('ff-prod', 'Automated test suite passed 100%')">+ Trigger Done (ff-prod)</button>
+        <button class="btn-ctrl btn-ctrl-green" onclick="spawnDone('anti-dispatch', 'Refactored state machine')">+ Trigger Done (anti-dispatch)</button>
+        <button class="btn-ctrl btn-ctrl-yellow" onclick="toggleDecision()">Toggle Decision Required Modal</button>
+        <button class="btn-ctrl" onclick="clearAll()">Clear Notifications</button>
+    </div>
+
+    <div class="screen-canvas">
+        <div class="desktop-bar">
+            <span>Finder &nbsp; File &nbsp; Edit &nbsp; View &nbsp; Window</span>
+            <span>Mon Sep 21 &nbsp; 13:10</span>
+        </div>
+
+        <div class="notification-column" id="notifColumn">
+            <!-- Dynamic notifications injected here -->
+        </div>
+    </div>
+
+    <script>
+        let hasDecision = true;
+
+        function renderDecisionHUD() {
+            if (!hasDecision) return '';
+            return `
+                <div class="decision-hud" id="decisionModal">
+                    <div class="hud-header">
+                        <span class="hud-icon-yellow">⚠️</span>
+                        <span class="hud-title-done">Decision Required</span>
+                        <span class="workspace-badge-yellow">omen</span>
+                    </div>
+                    <div class="decision-body-text">
+                        Allow running "git push origin main" on omen?
+                    </div>
+                    <div class="hud-actions">
+                        <button class="btn btn-ignore" onclick="toggleDecision()">Ignore</button>
+                        <div class="spacer"></div>
+                        <button class="btn btn-agree-secondary">Agree</button>
+                        <button class="btn btn-jump-primary"><span>↗</span> Jump to App</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function toggleDecision() {
+            hasDecision = !hasDecision;
+            const existing = document.getElementById('decisionModal');
+            if (existing) {
+                existing.remove();
+            } else if (hasDecision) {
+                const col = document.getElementById('notifColumn');
+                col.insertAdjacentHTML('afterbegin', renderDecisionHUD());
+            }
+        }
+
+        function spawnDone(workspace, summary) {
+            const col = document.getElementById('notifColumn');
+            const id = 'done_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+            
+            const html = `
+                <div class="done-hud" id="${id}" onclick="dismissDone('${id}')">
+                    <div class="hud-header">
+                        <span class="hud-icon-green">✓</span>
+                        <span class="hud-title-done">Task Completed</span>
+                        <span class="workspace-badge-green">${workspace}</span>
+                    </div>
+                    <div class="done-body-text">${summary}</div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar"></div>
+                    </div>
+                </div>
+            `;
+            
+            col.insertAdjacentHTML('beforeend', html);
+
+            setTimeout(() => {
+                dismissDone(id);
+            }, 3000);
+        }
+
+        function dismissDone(id) {
+            const el = document.getElementById(id);
+            if (!el || el.classList.contains('fade-out')) return;
+            el.classList.add('fade-out');
+            setTimeout(() => {
+                if (el) el.remove();
+            }, 300);
+        }
+
+        function clearAll() {
+            const col = document.getElementById('notifColumn');
+            col.innerHTML = '';
+            if (hasDecision) {
+                col.insertAdjacentHTML('afterbegin', renderDecisionHUD());
+            }
+        }
+
+        // Initialize with default Decision HUD + 1 Done HUD
+        window.onload = () => {
+            toggleDecision();
+            setTimeout(() => {
+                spawnDone('ff-prod', 'Automated test suite passed 100%');
+            }, 300);
+        };
+    </script>
+</body>
+</html>

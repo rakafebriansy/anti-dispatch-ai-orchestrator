@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decision Required HUD Prototype - Jump to App (Primary) & Agree (Secondary)</title>
+    <style>
+        :root {
+            --bg-color: #0d0f12;
+            --hud-bg: rgba(22, 22, 24, 0.96);
+            --hud-border: rgba(255, 204, 0, 0.55);
+            --yellow-accent: #ffd60a;
+            --yellow-hover: #ffe047;
+            --green-accent: #30d158;
+            --cyan-accent: #00d2ff;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.92);
+            --text-muted: rgba(255, 255, 255, 0.6);
+            --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+            --font-mono: "SF Mono", Menlo, Monaco, Consolas, monospace;
+        }
+
+        body {
+            margin: 0;
+            padding: 40px;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(0, 210, 255, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(255, 214, 10, 0.05) 0px, transparent 50%);
+            color: var(--text-primary);
+            font-family: var(--font-family);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            margin: 0 0 8px 0;
+        }
+
+        .header p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .preview-container {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .preview-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .preview-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Decision Required HUD Box */
+        .hud-box {
+            width: 380px;
+            background: var(--hud-bg);
+            border: 1px solid var(--hud-border);
+            border-radius: 14px;
+            padding: 14px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 214, 10, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            position: relative;
+            align-self: center;
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+        }
+
+        .hud-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hud-icon {
+            font-size: 15px;
+            color: var(--yellow-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hud-title {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .queue-badge {
+            font-size: 9.5px;
+            font-weight: 700;
+            font-family: var(--font-mono);
+            color: var(--yellow-accent);
+            background: rgba(255, 214, 10, 0.18);
+            border: 0.6px solid rgba(255, 214, 10, 0.35);
+            border-radius: 4px;
+            padding: 2px 5.5px;
+        }
+
+        .workspace-badge {
+            margin-left: auto;
+            font-size: 9.5px;
+            font-weight: 600;
+            font-family: var(--font-mono);
+            color: var(--yellow-accent);
+            background: rgba(255, 214, 10, 0.18);
+            border-radius: 4px;
+            padding: 2px 6px;
+        }
+
+        .hud-body-text {
+            font-size: 11px;
+            line-height: 1.4;
+            color: var(--text-secondary);
+        }
+
+        .command-box {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 0.5px solid rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            padding: 5px 8px;
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .hud-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .btn {
+            border: none;
+            outline: none;
+            cursor: pointer;
+            border-radius: 6px;
+            font-family: var(--font-family);
+            font-size: 11px;
+            font-weight: 600;
+            padding: 5.5px 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.18s ease-in-out;
+        }
+
+        /* Ignore Button (Ghost) */
+        .btn-ignore {
+            color: rgba(255, 255, 255, 0.75);
+            background: rgba(255, 255, 255, 0.10);
+            border: 0.8px solid rgba(255, 255, 255, 0.16);
+        }
+
+        .btn-ignore:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.22);
+            border-color: rgba(255, 255, 255, 0.40);
+        }
+
+        /* Agree Button (Secondary Choice) */
+        .btn-agree-secondary {
+            color: rgba(255, 255, 255, 0.90);
+            background: rgba(255, 255, 255, 0.14);
+            border: 0.8px solid rgba(255, 255, 255, 0.25);
+            font-weight: 600;
+        }
+
+        .btn-agree-secondary:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.26);
+            border-color: rgba(255, 255, 255, 0.50);
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+            transform: scale(1.02);
+        }
+
+        /* Jump to App Button (Primary Highlight Choice) */
+        .btn-jump-primary {
+            color: #000000;
+            background: var(--yellow-accent);
+            border: 0.8px solid rgba(255, 214, 10, 0.95);
+            box-shadow: 0 0 0 transparent;
+            font-weight: 700;
+        }
+
+        .btn-jump-primary:hover {
+            background: var(--yellow-hover);
+            border-color: var(--yellow-accent);
+            box-shadow: 0 0 10px rgba(255, 214, 10, 0.7);
+            transform: scale(1.02);
+        }
+
+        .spacer {
+            flex: 1;
+        }
+
+        .action-log {
+            font-size: 11px;
+            font-family: var(--font-mono);
+            color: var(--cyan-accent);
+            background: rgba(0, 210, 255, 0.08);
+            border: 1px solid rgba(0, 210, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-top: 8px;
+            min-height: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Decision Required HUD - Action Button Hierarchy</h1>
+        <p><strong>Jump to App</strong> as Highlighted Primary Action &bull; <strong>Agree</strong> as Secondary Direct Choice &bull; <strong>Ignore</strong> as Dismissal</p>
+    </div>
+
+    <div class="preview-container">
+        <!-- Variant A: Prompt Question Approval -->
+        <div class="preview-card">
+            <div class="preview-label">Live Preview: Decision Prompt Card</div>
+            
+            <div class="hud-box" id="hudA">
+                <div class="hud-header">
+                    <span class="hud-icon">⚠️</span>
+                    <span class="hud-title">Decision Required</span>
+                    <span class="queue-badge">queue: 2</span>
+                    <span class="workspace-badge">ff-prod</span>
+                </div>
+
+                <div class="hud-body-text">
+                    Allow running automated test suite and committing changes?
+                </div>
+
+                <div class="hud-actions">
+                    <button class="btn btn-ignore" onclick="logAction('Ignored decision for ff-prod')">Ignore</button>
+                    <div class="spacer"></div>
+                    <button class="btn btn-agree-secondary" onclick="logAction('Agree direct click sent via CDP to ff-prod (Secondary Action)')">
+                        Agree
+                    </button>
+                    <button class="btn btn-jump-primary" onclick="logAction('Jump to App window activated for ff-prod (Primary Highlight)')">
+                        <span>↗</span> Jump to App
+                    </button>
+                </div>
+            </div>
+
+            <div class="action-log" id="logBox">Interactive Log: Click any button above to test interactions.</div>
+        </div>
+
+        <!-- Variant B: Terminal Command Approval Card -->
+        <div class="preview-card">
+            <div class="preview-label">Live Preview: Terminal Command Approval</div>
+            
+            <div class="hud-box" id="hudB">
+                <div class="hud-header">
+                    <span class="hud-icon">⚠️</span>
+                    <span class="hud-title">Decision Required</span>
+                    <span class="workspace-badge">omen</span>
+                </div>
+
+                <div class="command-box">
+                    <span>❯</span> git push origin feature/prediction-market
+                </div>
+
+                <div class="hud-actions">
+                    <button class="btn btn-ignore" onclick="logAction('Ignored command execution on omen')">Ignore</button>
+                    <div class="spacer"></div>
+                    <button class="btn btn-agree-secondary" onclick="logAction('Agree direct click sent via CDP to omen (Secondary Action)')">
+                        Agree
+                    </button>
+                    <button class="btn btn-jump-primary" onclick="logAction('Jump to App window activated for omen (Primary Highlight)')">
+                        <span>↗</span> Jump to App
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function logAction(msg) {
+            const el = document.getElementById('logBox');
+            el.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+        }
+    </script>
+</body>
+</html>
