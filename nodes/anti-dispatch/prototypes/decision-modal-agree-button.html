@@ -161,6 +161,21 @@
             text-overflow: ellipsis;
         }
 
+        .top-option-hint {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 9.5px;
+            color: rgba(255, 255, 255, 0.55);
+            font-family: var(--font-family);
+        }
+
+        .top-option-hint svg {
+            width: 11px;
+            height: 11px;
+            fill: rgba(255, 255, 255, 0.45);
+        }
+
         .hud-actions {
             display: flex;
             align-items: center;
@@ -247,14 +262,14 @@
 </head>
 <body>
     <div class="header">
-        <h1>Decision Required HUD - Action Button Hierarchy</h1>
-        <p><strong>Jump to App</strong> as Highlighted Primary Action &bull; <strong>Agree</strong> as Secondary Direct Choice &bull; <strong>Ignore</strong> as Dismissal</p>
+        <h1>Decision Required HUD - Action Button Hierarchy & Top Option Hint</h1>
+        <p><strong>Jump to App</strong> as Highlighted Primary Action &bull; <strong>Agree</strong> as Secondary Direct Choice &bull; <strong>Top Option Note</strong> for Multi-option Clarification</p>
     </div>
 
     <div class="preview-container">
         <!-- Variant A: Prompt Question Approval -->
         <div class="preview-card">
-            <div class="preview-label">Live Preview: Decision Prompt Card</div>
+            <div class="preview-label">Live Preview: Decision Prompt Card with Top Option Note</div>
             
             <div class="hud-box" id="hudA">
                 <div class="hud-header">
@@ -266,6 +281,11 @@
 
                 <div class="hud-body-text">
                     Allow running automated test suite and committing changes?
+                </div>
+
+                <div class="top-option-hint">
+                    <svg viewBox="0 0 16 16"><path d="M8 1a7 7 0 1 0 7 7A7.008 7.008 0 0 0 8 1zm0 13a6 6 0 1 1 6-6 6.007 6.007 0 0 1-6 6zm0-10a1 1 0 1 0 1 1 1 1 0 0 0-1-1zm1 8H7v-4h2z"/></svg>
+                    <span>Agree selects top option: "Allow this time"</span>
                 </div>
 
                 <div class="hud-actions">
@@ -285,26 +305,31 @@
 
         <!-- Variant B: Terminal Command Approval Card -->
         <div class="preview-card">
-            <div class="preview-label">Live Preview: Terminal Command Approval</div>
+            <div class="preview-label">Live Preview: Terminal Command Approval with Top Option Note</div>
             
             <div class="hud-box" id="hudB">
                 <div class="hud-header">
                     <span class="hud-icon">⚠️</span>
                     <span class="hud-title">Decision Required</span>
-                    <span class="workspace-badge">omen</span>
+                    <span class="workspace-badge">anti-dispatch</span>
                 </div>
 
                 <div class="command-box">
-                    <span>❯</span> git push origin feature/prediction-market
+                    <span>❯</span> npx graphify update
+                </div>
+
+                <div class="top-option-hint">
+                    <svg viewBox="0 0 16 16"><path d="M8 1a7 7 0 1 0 7 7A7.008 7.008 0 0 0 8 1zm0 13a6 6 0 1 1 6-6 6.007 6.007 0 0 1-6 6zm0-10a1 1 0 1 0 1 1 1 1 0 0 0-1-1zm1 8H7v-4h2z"/></svg>
+                    <span>Agree selects top option: "Allow this time"</span>
                 </div>
 
                 <div class="hud-actions">
-                    <button class="btn btn-ignore" onclick="logAction('Ignored command execution on omen')">Ignore</button>
+                    <button class="btn btn-ignore" onclick="logAction('Ignored command execution on anti-dispatch')">Ignore</button>
                     <div class="spacer"></div>
-                    <button class="btn btn-agree-secondary" onclick="logAction('Agree direct click sent via CDP to omen (Secondary Action)')">
+                    <button class="btn btn-agree-secondary" onclick="logAction('Agree direct click sent via CDP to anti-dispatch (Secondary Action)')">
                         Agree
                     </button>
-                    <button class="btn btn-jump-primary" onclick="logAction('Jump to App window activated for omen (Primary Highlight)')">
+                    <button class="btn btn-jump-primary" onclick="logAction('Jump to App window activated for anti-dispatch (Primary Highlight)')">
                         <span>↗</span> Jump to App
                     </button>
                 </div>
