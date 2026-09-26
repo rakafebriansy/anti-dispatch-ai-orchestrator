@@ -16,12 +16,16 @@ Memperbaiki anomali pada popup/modal Decision Required HUD di mana teks penjelas
 - [x] Menambahkan properti `topOption: String?` pada model `CDPExtractedState` dan `WorkspaceSession` serta menyelaraskan sinkronisasi datanya di `NotchViewModel.swift`.
 - [x] Memperbarui antarmuka `DecisionNotificationHUDView` dan kalkulasi window pada `DecisionNotificationHUDController.swift` dengan micro-note `Agree selects top option: "<topOption>"` serta styling ikon SF Symbol `info.circle`.
 - [x] Mencegah status stuck di `WAITING` setelah pertanyaan `ask_question` dijawab dengan menambahkan helper `isSupersededInConversation` (memeriksa posisi dokumen terhadap respon asisten berikutnya) dan memfilter ringkasan kartu pertanyaan statis.
+- [x] Membatasi ekstraksi kartu keputusan dan opsi radio hanya pada turn aktif terkini (`targetTurn`) alih-alih seluruh percakapan lampau.
+- [x] Memperbaiki preseden status agar kondisi kerja aktif (`RUNNING` dengan spinner/stop button) tidak tertimpa oleh kartu non-modal lama menjadi `WAITING`.
+- [x] Memperbarui penanganan dismissal `DecisionNotificationHUDController` agar membersihkan prompt key saat sesi keluar dari status `waiting`, memungkinkan notifikasi muncul kembali pada pertanyaan baru berikutnya.
 - [x] Memperbarui purwarupa visual HTML `decision-modal-agree-button.html` di direktori `prototypes/` dengan contoh perintah `npx graphify update` dan micro-note opsi teratas.
-- [x] Menambahkan unit test regresi di `Anti_DispatchTests.swift` (`testCDPExtractedStateWithTopOptionDecoding`, `testDecisionHUDViewWithTopOption`, `testSupersededQuestionStateHandling`) serta memastikan seluruh 41 unit dan UI tests lulus 100%.
+- [x] Menambahkan unit test regresi di `Anti_DispatchTests.swift` (`testCDPExtractedStateWithTopOptionDecoding`, `testDecisionHUDViewWithTopOption`, `testSupersededQuestionStateHandling`, `testMultipleSequentialDecisionsDoNotGetSuppressed`, `testWorkingStateCleansDecisionPromptAndTopOption`) serta memastikan seluruh unit dan UI tests lulus 100%.
 
 ## Target Lingkup File (Affected Files)
 *Daftar path file yang diinstruksikan atau berpotensi diubah sebagai referensi utama eksekusi AI.*
 - `Anti Dispatch/Anti Dispatch/Resources/Scripts/extract_state.js`
+- `Anti Dispatch/Anti Dispatch/Resources/Scripts/agree_decision.js`
 - `Anti Dispatch/Anti Dispatch/Core/Services/CDPService.swift`
 - `Anti Dispatch/Anti Dispatch/Core/Models/WorkspaceSession.swift`
 - `Anti Dispatch/Anti Dispatch/Presentation/Notch/ViewModels/NotchViewModel.swift`
@@ -38,13 +42,17 @@ Memperbaiki anomali pada popup/modal Decision Required HUD di mana teks penjelas
   1. Menganalisis akar masalah DOM scanning di mana elemen opsi radio (`[role="radio"]`, `<label>`) dengan class `font-medium text-foreground` yang diawali kata "Allow " secara keliru tertangkap oleh `questionEls` sebagai `bestQuestionEl`, menutupi blok kode perintah (`<code>npx graphify update</code>`).
   2. Memperbarui `extract_state.js` dan fallback static script di `CDPService.swift` dengan pemindai opsi `isOptionText`, ekstraksi terpisah untuk `topOption` (memprioritaskan opsi berlabel `(recommended)` atau opsi pertama), serta memprioritaskan blok perintah `code`, `pre`, `[class*="command"]`, `[class*="terminal"]` ke dalam `decisionPrompt`.
   3. Mengatasi anomali status stuck di `WAITING` setelah pertanyaan chat/tool dilewati dengan menambahkan fungsi `isSupersededInConversation` yang memvalidasi bahwa kartu keputusan tidak memiliki respon asisten atau langkah baru setelahnya, serta membatasi pemindaian inline hanya pada turn paling akhir (`targetTurn`).
-  4. Memperbarui model `CDPExtractedState` (Codable encoding/decoding) dan `WorkspaceSession` dengan field `topOption: String?` berkemampuan backward-compatible default value.
-  5. Menyelaraskan `updateOrInsertSession` pada `NotchViewModel.swift` agar memetakan `extracted.topOption` ke sesi yang sedang aktif maupun sesi baru.
-  6. Menambahkan rendering catatan mikro `Agree selects top option: "\(optionText)"` di bawah prompt/command pada `DecisionNotificationHUDView` dan menyesuaikan tinggi frame window menjadi 160pt pada `DecisionNotificationHUDController.swift`.
-  7. Memperbarui purwarupa visual `decision-modal-agree-button.html` di `nodes/anti-dispatch/prototypes/` dengan styling `.top-option-hint` dan command `npx graphify update`.
-  8. Menambahkan unit test `testCDPExtractedStateWithTopOptionDecoding`, `testDecisionHUDViewWithTopOption`, dan `testSupersededQuestionStateHandling` pada `Anti_DispatchTests.swift`, memvalidasi eksekusi `xcodebuild test` (41 unit & UI tests lulus 100%).
+  4. Mengisolasi pemindaian kartu dan opsi radio agar hanya mengambil elemen pada giliran aktif (`targetTurn`) dan mengabaikan turn lampau (`pastTurns`), mencegah opsi dari pertanyaan lama tertangkap pada giliran baru.
+  5. Memperbaiki preseden status agen di mana indikator eksekusi aktif (`isRunning` dengan tombol stop/spinner) diprioritaskan di atas kartu inline non-modal sehingga status `RUNNING` tidak keliru terdeteksi sebagai `WAITING`.
+  6. Memperbarui `DecisionNotificationHUDController.swift` untuk membersihkan dismissed prompt keys saat sesi beralih keluar dari status `.waiting`, sehingga saat agen membutuhkan keputusan berikutnya, notifikasi HUD dapat muncul kembali secara konsisten.
+  7. Memperbarui model `CDPExtractedState` (Codable encoding/decoding) dan `WorkspaceSession` dengan field `topOption: String?` berkemampuan backward-compatible default value.
+  8. Menyelaraskan `updateOrInsertSession` pada `NotchViewModel.swift` agar memetakan `extracted.topOption` ke sesi yang sedang aktif maupun sesi baru.
+  9. Menambahkan rendering catatan mikro `Agree selects top option: "\(optionText)"` di bawah prompt/command pada `DecisionNotificationHUDView` dan menyesuaikan tinggi frame window menjadi 160pt pada `DecisionNotificationHUDController.swift`.
+  10. Memperbarui purwarupa visual `decision-modal-agree-button.html` di `nodes/anti-dispatch/prototypes/` dengan styling `.top-option-hint` dan command `npx graphify update`.
+  11. Menambahkan unit test `testCDPExtractedStateWithTopOptionDecoding`, `testDecisionHUDViewWithTopOption`, `testSupersededQuestionStateHandling`, `testMultipleSequentialDecisionsDoNotGetSuppressed`, dan `testWorkingStateCleansDecisionPromptAndTopOption` pada `Anti_DispatchTests.swift`, memvalidasi eksekusi `xcodebuild test` (100% test lulus).
 - **Ringkasan File Terpengaruh:**
   - `Anti Dispatch/Anti Dispatch/Resources/Scripts/extract_state.js`
+  - `Anti Dispatch/Anti Dispatch/Resources/Scripts/agree_decision.js`
   - `Anti Dispatch/Anti Dispatch/Core/Services/CDPService.swift`
   - `Anti Dispatch/Anti Dispatch/Core/Models/WorkspaceSession.swift`
   - `Anti Dispatch/Anti Dispatch/Presentation/Notch/ViewModels/NotchViewModel.swift`
@@ -53,4 +61,5 @@ Memperbaiki anomali pada popup/modal Decision Required HUD di mana teks penjelas
   - `anti-dispatch-ai-orchestrator/nodes/anti-dispatch/prototypes/decision-modal-agree-button.html`
 - **Catatan & Keputusan Arsitektural (Jika Ada):**
   - Pemisahan data antara deskripsi aksi (`decisionPrompt`) dan pilihan aksi default (`topOption`) menjamin teks penjelasan di HUD selalu menampilkan perintah/pertanyaan teknis asli tanpa terdistorsi oleh teks label radio button.
-  - Pengecekan posisi dokumen `isSupersededInConversation` memastikan histori kartu pertanyaan/tool yang sudah selesai tidak lagi memicu status `WAITING` saat percakapan berlanjut.
+  - Pengecekan posisi dokumen `isSupersededInConversation` dan isolasi `pastTurns` memastikan histori kartu pertanyaan/tool yang sudah selesai tidak lagi memicu status `WAITING` saat percakapan berlanjut atau mengambil opsi radio lama.
+
