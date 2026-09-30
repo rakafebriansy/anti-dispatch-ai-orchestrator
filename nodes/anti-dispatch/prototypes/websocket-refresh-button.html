@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anti Dispatch — Refresh Button Placement Prototype</title>
+    <style>
+        :root {
+            --bg: #0d0f12;
+            --panel-bg: rgba(16, 16, 18, 0.98);
+            --panel-border: rgba(255,255,255,0.07);
+            --card-bg: rgba(255,255,255,0.025);
+            --card-bg-expanded: rgba(255,255,255,0.06);
+            --card-border: rgba(255,255,255,0.055);
+            --card-border-expanded: rgba(255,255,255,0.12);
+            --cyan: #00d2ff;
+            --yellow: #ffd60a;
+            --green: #30d158;
+            --red: #ff453a;
+            --gray: #636366;
+            --text: rgba(255,255,255,0.95);
+            --text-sec: rgba(255,255,255,0.5);
+            --text-muted: rgba(255,255,255,0.3);
+            --divider: rgba(255,255,255,0.08);
+            --font: -apple-system, "SF Pro Text", BlinkMacSystemFont, "Segoe UI", sans-serif;
+            --mono: "SF Mono", Menlo, Monaco, Consolas, monospace;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: var(--bg);
+            background-image:
+                radial-gradient(at 10% 5%, rgba(0,210,255,0.07) 0, transparent 50%),
+                radial-gradient(at 90% 95%, rgba(255,214,10,0.04) 0, transparent 45%);
+            color: var(--text);
+            font-family: var(--font);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 44px 24px 80px;
+            gap: 40px;
+        }
+        .page-header { text-align: center; }
+        .page-header h1 { font-size: 17px; font-weight: 700; letter-spacing: -0.02em; }
+        .page-header p { font-size: 12px; color: var(--text-sec); margin-top: 5px; max-width: 440px; line-height: 1.5; }
+
+        .section { width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 10px; }
+        .section-label {
+            font-size: 10px; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.08em; color: var(--text-muted); padding-left: 2px;
+        }
+
+        .panel {
+            background: var(--panel-bg);
+            border: 0.5px solid var(--panel-border);
+            border-radius: 18px;
+            padding: 12px;
+            box-shadow: 0 14px 48px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .badge-pill {
+            display: flex; align-items: center; gap: 4px;
+            font-size: 11px; font-weight: 600;
+        }
+        .badge-dot { width: 7px; height: 7px; border-radius: 50%; }
+        .topbar-actions {
+            display: flex; gap: 6px; margin-left: auto;
+        }
+        .topbar-btn {
+            display: flex; align-items: center; gap: 3px;
+            font-size: 10px; font-weight: 500;
+            padding: 3px 6px;
+            border-radius: 5px; border: none; cursor: pointer; font-family: var(--font);
+            background: rgba(255,255,255,0.1); color: var(--text-sec);
+            transition: background 0.15s;
+        }
+        .topbar-btn:hover { background: rgba(255,255,255,0.16); }
+        .topbar-btn.cyan { background: rgba(0,210,255,0.2); color: var(--cyan); }
+        .topbar-btn.cyan:hover { background: rgba(0,210,255,0.3); }
+        .topbar-btn svg { width: 10px; height: 10px; }
+
+        .divider { height: 0.5px; background: var(--divider); margin: 6px 0; }
+
+        .session-list { display: flex; flex-direction: column; gap: 5px; }
+
+        .session-card {
+            padding: 6px 8px;
+            border-radius: 8px;
+            border: 0.5px solid var(--card-border);
+            background: var(--card-bg);
+            transition: background 0.2s;
+        }
+        .session-card.expanded {
+            border-color: var(--card-border-expanded);
+            background: var(--card-bg-expanded);
+        }
+
+        .row-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .chevron-btn {
+            width: 20px; height: 20px;
+            display: flex; align-items: center; justify-content: center;
+            border: none; background: transparent; cursor: pointer;
+            color: var(--text-sec); flex-shrink: 0;
+            transition: transform 0.2s;
+        }
+        .chevron-btn svg { width: 9px; height: 9px; }
+        .chevron-btn.open { transform: rotate(90deg); }
+
+        .name-area {
+            display: flex; align-items: center; gap: 6px;
+            cursor: pointer; flex-shrink: 0;
+        }
+        .status-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+        .dot-running { background: var(--cyan); box-shadow: 0 0 5px rgba(0,210,255,0.5); }
+        .dot-waiting { background: var(--yellow); box-shadow: 0 0 5px rgba(255,214,10,0.4); }
+        .dot-done    { background: var(--green); }
+        .dot-idle    { background: var(--gray); }
+
+        .proj-name {
+            font-size: 12px; font-weight: 600; color: var(--text);
+        }
+        .branch-tag {
+            font-size: 9.5px; font-family: var(--mono); color: var(--text-sec);
+        }
+
+        .jump-btn {
+            display: flex; align-items: center; gap: 4px;
+            font-size: 10px; font-weight: 600;
+            padding: 3.5px 7px; border-radius: 5px; border: none; cursor: pointer;
+            font-family: var(--font);
+            color: var(--cyan);
+            background: rgba(0,210,255,0.18);
+            border: 0.8px solid rgba(0,210,255,0.45);
+            transition: background 0.15s, border-color 0.15s, color 0.15s;
+            flex-shrink: 0;
+        }
+        .jump-btn:hover { background: rgba(0,210,255,0.38); border-color: var(--cyan); color: #fff; }
+        .jump-btn svg { width: 9.5px; height: 9.5px; }
+
+        .spacer { flex: 1; }
+
+        .status-pill {
+            font-size: 10px; font-weight: 600;
+            padding: 2px 6px; border-radius: 4px;
+            flex-shrink: 0;
+        }
+        .pill-running { color: var(--cyan); background: rgba(0,210,255,0.14); }
+        .pill-waiting { color: var(--yellow); background: rgba(255,214,10,0.14); }
+        .pill-done    { color: var(--green); background: rgba(48,209,88,0.14); }
+        .pill-idle    { color: var(--text-sec); background: rgba(255,255,255,0.08); }
+
+        .refresh-btn {
+            width: 24px; height: 24px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            border: none; background: transparent; cursor: pointer;
+            color: rgba(255,255,255,0.3);
+            border-radius: 5px;
+            transition: color 0.15s, background 0.15s, transform 0.15s;
+        }
+        .refresh-btn:hover { color: var(--cyan); background: rgba(0,210,255,0.12); transform: scale(1.1); }
+        .refresh-btn:active { transform: scale(0.9); }
+        .refresh-btn svg { width: 11px; height: 11px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .refresh-btn.spinning { color: var(--cyan); pointer-events: none; }
+        .refresh-btn.spinning svg { animation: spin 0.65s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .close-btn {
+            width: 22px; height: 22px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            border: none; background: transparent; cursor: pointer;
+            color: rgba(255,255,255,0.3); border-radius: 4px;
+            transition: color 0.15s, background 0.15s;
+        }
+        .close-btn:hover { color: var(--red); background: rgba(255,69,58,0.12); }
+        .close-btn svg { width: 9px; height: 9px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; }
+
+        .expanded-content {
+            margin-top: 6px;
+            display: flex; flex-direction: column; gap: 5px;
+        }
+        .step-box {
+            background: rgba(0,0,0,0.3);
+            border: 0.5px solid rgba(255,255,255,0.08);
+            border-radius: 6px;
+            padding: 4px 7px;
+        }
+        .step-label {
+            font-size: 10px; font-weight: 600; color: var(--text-sec);
+            display: flex; align-items: center; gap: 4px; margin-bottom: 3px;
+        }
+        .step-label svg { width: 9px; height: 9px; stroke: var(--cyan); fill: none; stroke-width: 1.5; }
+        .step-count {
+            font-size: 8.5px; font-weight: 500; font-family: var(--mono); color: var(--cyan);
+            background: rgba(0,210,255,0.15); padding: 1px 4px; border-radius: 3px;
+        }
+        .step-line {
+            font-size: 9.5px; font-family: var(--mono); color: rgba(255,255,255,0.85);
+            display: flex; gap: 5px; align-items: flex-start;
+        }
+        .step-arrow { color: var(--cyan); font-weight: 700; }
+
+        .annotation {
+            font-size: 11px;
+            color: var(--cyan);
+            background: rgba(0,210,255,0.07);
+            border: 1px solid rgba(0,210,255,0.16);
+            border-radius: 8px;
+            padding: 10px 12px;
+            line-height: 1.55;
+        }
+        .arrow-label {
+            font-size: 10px; color: var(--text-muted);
+            padding: 2px 8px 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-header">
+    <h1>Anti Dispatch — Refresh Button Placement</h1>
+    <p>Prototipe penempatan tombol <strong>refresh koneksi WebSocket</strong> per project, disesuaikan dengan UI aktual SessionRowView.</p>
+</div>
+
+<div class="section">
+    <div class="section-label">Multi Session Accordion — Normal State (hover tiap row)</div>
+    <div class="panel">
+        <div class="topbar">
+            <div class="badge-pill">
+                <div class="badge-dot dot-running"></div>
+                <span style="color:var(--cyan)">2 Working</span>
+            </div>
+            <div class="badge-pill">
+                <div class="badge-dot dot-waiting"></div>
+                <span style="color:var(--yellow)">1 Waiting</span>
+            </div>
+            <div class="topbar-actions">
+                <button class="topbar-btn">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 8h12M8 2v12"/></svg>
+                    Open Project
+                </button>
+                <button class="topbar-btn cyan">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6l4-4 4 4M4 10l4 4 4-4"/></svg>
+                    New Worktree
+                </button>
+            </div>
+        </div>
+        <div class="divider"></div>
+
+        <div class="session-list">
+
+            <!-- Session 1: Expanded + Running -->
+            <div class="session-card expanded">
+                <div class="row-header" id="row1">
+                    <button class="chevron-btn open" onclick="toggleExpand('body1', this)">
+                        <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,2 7,5 3,8"/></svg>
+                    </button>
+                    <div class="name-area" onclick="toggleExpand('body1', document.querySelector('#row1 .chevron-btn'))">
+                        <div class="status-dot dot-running"></div>
+                        <span class="proj-name">anti-dispatch</span>
+                        <span class="branch-tag">[main]</span>
+                    </div>
+                    <button class="jump-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                        Jump
+                    </button>
+                    <div class="spacer"></div>
+                    <span class="status-pill pill-running">Working</span>
+
+                    <!-- REFRESH BUTTON — kiri xmark -->
+                    <button class="refresh-btn" id="refresh-1" title="Refresh WebSocket connection" onclick="doRefresh(1)">
+                        <svg viewBox="0 0 24 24"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+                    </button>
+                    <button class="close-btn" title="Close Session">
+                        <svg viewBox="0 0 16 16"><line x1="4" y1="4" x2="12" y2="12"/><line x1="12" y1="4" x2="4" y2="12"/></svg>
+                    </button>
+                </div>
+                <div class="expanded-content" id="body1">
+                    <div class="divider" style="margin:0"></div>
+                    <div class="step-box">
+                        <div class="step-label">
+                            <svg viewBox="0 0 16 16"><path d="M8 2v4l2.5 2.5"/><circle cx="8" cy="8" r="6"/></svg>
+                            Process &amp; Substeps
+                            <span class="step-count">3</span>
+                        </div>
+                        <div class="step-line"><span class="step-arrow">›</span>Viewing file extract_state.js</div>
+                        <div class="step-line"><span class="step-arrow">›</span>Thinking 12s</div>
+                        <div class="step-line"><span class="step-arrow">›</span>Working on implementation plan...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Session 2: Collapsed + Waiting -->
+            <div class="session-card" id="card2">
+                <div class="row-header" id="row2">
+                    <button class="chevron-btn" onclick="toggleExpand('body2', this); document.getElementById('card2').classList.toggle('expanded')">
+                        <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,2 7,5 3,8"/></svg>
+                    </button>
+                    <div class="name-area">
+                        <div class="status-dot dot-waiting"></div>
+                        <span class="proj-name">ff-prod</span>
+                        <span class="branch-tag">[feat/auth]</span>
+                    </div>
+                    <button class="jump-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                        Jump
+                    </button>
+                    <div class="spacer"></div>
+                    <span class="status-pill pill-waiting">Waiting</span>
+                    <button class="refresh-btn" id="refresh-2" title="Refresh WebSocket connection" onclick="doRefresh(2)">
+                        <svg viewBox="0 0 24 24"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+                    </button>
+                    <button class="close-btn" title="Close Session">
+                        <svg viewBox="0 0 16 16"><line x1="4" y1="4" x2="12" y2="12"/><line x1="12" y1="4" x2="4" y2="12"/></svg>
+                    </button>
+                </div>
+                <div class="expanded-content" id="body2" style="display:none"></div>
+            </div>
+
+            <!-- Session 3: Collapsed + Done -->
+            <div class="session-card" id="card3">
+                <div class="row-header" id="row3">
+                    <button class="chevron-btn" onclick="toggleExpand('body3', this); document.getElementById('card3').classList.toggle('expanded')">
+                        <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,2 7,5 3,8"/></svg>
+                    </button>
+                    <div class="name-area">
+                        <div class="status-dot dot-done"></div>
+                        <span class="proj-name">omen</span>
+                        <span class="branch-tag">[main]</span>
+                    </div>
+                    <button class="jump-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                        Jump
+                    </button>
+                    <div class="spacer"></div>
+                    <span class="status-pill pill-done">Done</span>
+                    <button class="refresh-btn" id="refresh-3" title="Refresh WebSocket connection" onclick="doRefresh(3)">
+                        <svg viewBox="0 0 24 24"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+                    </button>
+                    <button class="close-btn" title="Close Session">
+                        <svg viewBox="0 0 16 16"><line x1="4" y1="4" x2="12" y2="12"/><line x1="12" y1="4" x2="4" y2="12"/></svg>
+                    </button>
+                </div>
+                <div class="expanded-content" id="body3" style="display:none"></div>
+            </div>
+
+        </div>
+    </div>
+    <div class="annotation">
+        <strong>Posisi:</strong> Tombol ↺ ditempatkan di antara <strong>status pill</strong> (Working/Waiting/Done) dan <strong>tombol × close</strong>. Posisi ini konsisten di setiap row tanpa mengganggu layout yang ada. Klik tombol ↺ untuk simulasi refresh.
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-label">State Diagram: Normal → Refreshing → Resolved</div>
+    <div class="panel">
+
+        <div class="session-card" style="border-color:rgba(255,255,255,0.06)">
+            <div class="row-header">
+                <button class="chevron-btn open" style="cursor:default">
+                    <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,2 7,5 3,8"/></svg>
+                </button>
+                <div class="name-area">
+                    <div class="status-dot dot-idle"></div>
+                    <span class="proj-name">my-project</span>
+                    <span class="branch-tag">[develop]</span>
+                </div>
+                <button class="jump-btn" style="pointer-events:none">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    Jump
+                </button>
+                <div class="spacer"></div>
+                <span class="status-pill pill-idle">Idle</span>
+                <button class="refresh-btn" style="color:rgba(255,255,255,0.3); cursor:default" title="Normal state">
+                    <svg viewBox="0 0 24 24"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+                </button>
+                <button class="close-btn" style="pointer-events:none">
+                    <svg viewBox="0 0 16 16"><line x1="4" y1="4" x2="12" y2="12"/><line x1="12" y1="4" x2="4" y2="12"/></svg>
+                </button>
+            </div>
+        </div>
+        <div class="arrow-label">↑ Normal: ↺ ikon muted, selalu visible (tidak perlu hover)</div>
+
+        <div style="height:8px"></div>
+
+        <div class="session-card" style="border-color:rgba(0,210,255,0.2)">
+            <div class="row-header">
+                <button class="chevron-btn open" style="cursor:default">
+                    <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,2 7,5 3,8"/></svg>
+                </button>
+                <div class="name-area">
+                    <div class="status-dot dot-running"></div>
+                    <span class="proj-name">my-project</span>
+                    <span class="branch-tag">[develop]</span>
+                </div>
+                <button class="jump-btn" style="opacity:0.35; pointer-events:none">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    Jump
+                </button>
+                <div class="spacer"></div>
+                <span class="status-pill pill-running" style="animation: pulse-pill 1s ease-in-out infinite alternate">Reconnecting...</span>
+                <button class="refresh-btn spinning" style="cursor:default" title="Refreshing...">
+                    <svg viewBox="0 0 24 24"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+                </button>
+                <button class="close-btn" style="opacity:0.25; pointer-events:none">
+                    <svg viewBox="0 0 16 16"><line x1="4" y1="4" x2="12" y2="12"/><line x1="12" y1="4" x2="4" y2="12"/></svg>
+                </button>
+            </div>
+        </div>
+        <div class="arrow-label">↑ Refreshing: spinner cyan berputar, status pill → "Reconnecting...", Jump + Close di-disable</div>
+
+    </div>
+</div>
+
+<style>
+@keyframes pulse-pill { from { opacity: 0.6; } to { opacity: 1; } }
+</style>
+
+<script>
+function toggleExpand(bodyId, chevronBtn) {
+    const body = document.getElementById(bodyId);
+    if (!body) return;
+    const isHidden = body.style.display === 'none';
+    body.style.display = isHidden ? 'flex' : 'none';
+    if (chevronBtn) chevronBtn.classList.toggle('open', isHidden);
+}
+
+function doRefresh(n) {
+    const btn = document.getElementById('refresh-' + n);
+    if (!btn || btn.classList.contains('spinning')) return;
+
+    const card = btn.closest('.session-card');
+    const pill = card.querySelector('.status-pill');
+    const jumpBtn = card.querySelector('.jump-btn');
+    const closeBtn = card.querySelector('.close-btn');
+
+    const origPillText = pill.textContent;
+    const origPillClass = pill.className;
+
+    btn.classList.add('spinning');
+    pill.textContent = 'Reconnecting...';
+    pill.className = 'status-pill pill-running';
+    if (jumpBtn) { jumpBtn.style.opacity = '0.35'; jumpBtn.style.pointerEvents = 'none'; }
+    if (closeBtn) { closeBtn.style.opacity = '0.25'; closeBtn.style.pointerEvents = 'none'; }
+
+    setTimeout(() => {
+        btn.classList.remove('spinning');
+        pill.textContent = origPillText;
+        pill.className = origPillClass;
+        if (jumpBtn) { jumpBtn.style.opacity = ''; jumpBtn.style.pointerEvents = ''; }
+        if (closeBtn) { closeBtn.style.opacity = ''; closeBtn.style.pointerEvents = ''; }
+    }, 1700);
+}
+</script>
+</body>
+</html>
