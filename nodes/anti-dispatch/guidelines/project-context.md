@@ -40,6 +40,9 @@ Dokumen ini merupakan pedoman *custom* yang mengikat aturan, peringatan eksklusi
    - Gunakan subclass `NSPanel` dengan atribut: `styleMask = [.borderless, .nonactivatingPanel]`, `level = .floating` (atau `.statusBar`), `collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]`.
    - Deteksi fisik notch: `NSScreen.safeAreaInsets.top > 0`. Jika layar tidak memiliki notch (layar eksternal atau Mac non-notch), alihkan ke *Floating Capsule Pill* di `x = midX - width/2`, `y = frame.maxY - height - 4`.
 
+5. **Preferensi Bahasa Kode & String:**
+   - **English (Default):** Seluruh penamaan variabel/fungsi/kelas, string UI, pesan galat, dan log sistem wajib menggunakan Bahasa Inggris.
+
 ---
 
 ## 📐 Aturan Khusus & Konvensi Proyek

@@ -33,6 +33,18 @@ Setiap penambahan log versi terbaru **WAJIB MUTLAK** diletakkan di baris **PALIN
 
 *(⚠️ PERHATIAN AI AGENT: TAMBAHKAN ENTRI LOG BARU ANDA TEPAT DI BAWAH BARIS INI. JANGAN DI PALING BAWAH DOKUMEN!)*
 
+### [2026-10-06 17:40:00] - Guideline: Synchronize AI Orchestrator Guidelines (Fail-Fast, No Magic Numbers, English Preference, TDD Workflow Gate)
+> **Trigger:** Prompt Driven | **Branch:** `main` | **Repo:** `https://github.com/rakafebriansy/anti-dispatch-ai-orchestrator.git`
+- **Konteks:** "@ai-orchestrator-template sudah saya update, bawalah perubahan/update nya ke @anti-dispatch-ai-orchestrator tanpa merusak kemajuan yang sudah ada pada project"
+- **Perubahan:** `[Changed]` Menyinkronkan pembaruan pedoman global dan templat dari repositori `ai-orchestrator-template` ke dalam `anti-dispatch-ai-orchestrator`:
+  1. `global-guidelines/coding.md`: Memperbarui standar preferensi bahasa Inggris secara default (*English by default*), memberlakukan larangan mutlak data *hardcoded*, *silent fallback*, dan *mock data* di kode produksi (*Fail-Fast Policy*), memberlakukan *No Magic Number Policy* dan standarisasi penempatan modul konstanta bernama/enum.
+  2. `global-guidelines/error-handling.md`: Menambahkan prinsip *Fail-Fast* dan larangan menyembunyikan galat (*No Error Masking*, larangan *silent catch* dan *defensive mocking* saat debugging, kewajiban pesan galat deskriptif).
+  3. `global-guidelines/security.md`: Menambahkan klausul *Zero Hardcoded Secrets & No Dummy Fallbacks* dengan validasi *Fail-Fast*.
+  4. `global-guidelines/testing.md`: Menambahkan siklus *Test-Driven Development (TDD)* wajib (RED -> GREEN -> REFACTOR & FIX -> QUALITY CHECK -> FINISH), aturan *Anti-Overfitting pada Test Suite Lama*, dan kewajiban pencatatan *Heuristic Evaluation* pada pengujian UI.
+  5. `nodes/_template/guidelines/project-context.md` & `nodes/_template/main.md`: Menambahkan templat preferensi bahasa dan merestrukturisasi Bagian E menjadi alur kerja sekuensial (*Sequential Execution Gate* E.1–E.10).
+  6. `nodes/anti-dispatch/main.md` & `nodes/anti-dispatch/guidelines/project-context.md`: Menyelaraskan SOP Bagian E dengan alur kerja sekuensial dan TDD gate serta mencatatkan aturan preferensi bahasa Inggris pada aturan fundamental proyek, dengan tetap menjaga integritas seluruh kemajuan dan konfigurasi MODE 2 proyek Anti Dispatch.
+- **Path File:** `anti-dispatch-ai-orchestrator/global-guidelines/coding.md`, `anti-dispatch-ai-orchestrator/global-guidelines/error-handling.md`, `anti-dispatch-ai-orchestrator/global-guidelines/security.md`, `anti-dispatch-ai-orchestrator/global-guidelines/testing.md`, `anti-dispatch-ai-orchestrator/nodes/_template/guidelines/project-context.md`, `anti-dispatch-ai-orchestrator/nodes/_template/main.md`, `anti-dispatch-ai-orchestrator/nodes/anti-dispatch/guidelines/project-context.md`, `anti-dispatch-ai-orchestrator/nodes/anti-dispatch/main.md`, `anti-dispatch-ai-orchestrator/nodes/anti-dispatch/CHANGELOG.md`
+
 ### [2026-10-04 06:10:00] - Implementation: Fix DONE State Assistant Content Scoping and Notch AI Orchestrator UI Cleanup (TICKET-22)
 > **Trigger:** Prompt Driven | **Branch:** `main` | **Repo:** `https://github.com/rakafebriansy/anti-dispatch-ai-orchestrator.git`
 - **Konteks:** "bug: 1. anti-dispatch-dir saat ini done dianggap working 2. tidak perlu ada button ai orchestrator di node, cukup di status menu bar" (Referensi: TICKET-22)
