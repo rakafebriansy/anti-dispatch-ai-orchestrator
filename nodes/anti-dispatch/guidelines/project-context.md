@@ -43,6 +43,9 @@ Dokumen ini merupakan pedoman *custom* yang mengikat aturan, peringatan eksklusi
 5. **Preferensi Bahasa Kode & String:**
    - **English (Default):** Seluruh penamaan variabel/fungsi/kelas, string UI, pesan galat, dan log sistem wajib menggunakan Bahasa Inggris.
 
+6. **Kepatuhan Anti-AI-Slop:**
+   - Wajib mematuhi standar Anti-AI-Slop global (`coding.md`, `ui-and-assets.md`, `testing.md`, `error-handling.md`).
+
 ---
 
 ## 📐 Aturan Khusus & Konvensi Proyek

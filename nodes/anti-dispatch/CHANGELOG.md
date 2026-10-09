@@ -33,6 +33,21 @@ Setiap penambahan log versi terbaru **WAJIB MUTLAK** diletakkan di baris **PALIN
 
 *(⚠️ PERHATIAN AI AGENT: TAMBAHKAN ENTRI LOG BARU ANDA TEPAT DI BAWAH BARIS INI. JANGAN DI PALING BAWAH DOKUMEN!)*
 
+### [2026-10-09 19:45:00] - Guideline: Synchronize AI Orchestrator Guidelines (Anti-AI-Slop Standards, Direct DDL Ban, State Mutation Protocol, and UI Visual Review Gate)
+> **Trigger:** Prompt Driven | **Branch:** `main` | **Repo:** `https://github.com/rakafebriansy/anti-dispatch-ai-orchestrator.git`
+- **Konteks:** "@ai-orchestrator-template sudah saya update, bawalah perubahan/update nya ke @anti-dispatch-ai-orchestrator tanpa merusak kemajuan yang sudah ada pada project"
+- **Perubahan:** `[Changed]` Menyinkronkan pembaruan pedoman global dan templat dari repositori `ai-orchestrator-template` ke dalam `anti-dispatch-ai-orchestrator`:
+  1. `README.md`: Menambahkan kewajiban kueri dan inisialisasi Graphify di *Path Codebase* dengan larangan folder `.graphify` di orchestrator, proteksi ketat aktivasi `LEARN.md` (hanya via format template FASE 4), panduan standar koding Anti-AI-Slop, TDD workflow, Visual Review Checklist, serta kewajiban pesan commit Git 100% bersih dari istilah orchestrator/tiket.
+  2. `global-docs/design-system.md`: Menambahkan prinsip Anti-AI-Slop dalam perancangan Design System (*Product-Specific Intent*, *Hierarki Grayscale First*, *Pencegahan Over-Decoration*).
+  3. `global-guidelines/coding.md`: Menambahkan standar rekayasa kode Anti-AI-Slop (*No Superficial Abstraction/YAGNI*, *Semantic Native & Platform-First*, *Kualitas CSS & Layout Primitives*, *URL-Driven State*, *Zero Business Logic Fabrication*), larangan modifikasi skema DDL secara langsung pada *live database*, kepatuhan protokol mutasi *state*, serta penyempurnaan aturan isolasi Graphify.
+  4. `global-guidelines/database.md`: Menambahkan kebijakan *Zero Direct DDL Execution* (*Migration-First Policy*) dengan kewajiban skrip migrasi terstruktur (*version-controlled*) dan gerbang izin mutasi *state*.
+  5. `global-guidelines/error-handling.md`: Menambahkan kewajiban pesan galat UI berorientasi pemulihan (*actionable recovery*) serta larangan *shotgun debugging* dan spekulasi halusinatif (*No Hallucinated APIs/Props*, satu hipotesis per waktu, pembersihan sisa *workaround*).
+  6. `global-guidelines/safe-file-operations.md`: Menambahkan Protokol Permintaan Izin (*State Mutation Protocol*) yang membedakan operasi *Read-Only* (diizinkan langsung untuk pengumpulan konteks) versus operasi Modifikasi *State* (larangan keras meminta permission tanpa *Implementation Plan* dan persetujuan pengguna).
+  7. `global-guidelines/testing.md`: Menambahkan larangan pengujian semu (*No Vanity Testing / Anti-Test Slop*) dan memperbarui gerbang pengujian antarmuka dengan *Anti-Slop Visual Checklist Gate* serta inspeksi hasil *render* visual nyata.
+  8. `global-guidelines/ui-and-assets.md`: Menambahkan standar lengkap Anti-AI-Slop UI/UX & Frontend (larangan estetika AI SaaS generik, *Design Intent First*, *Grayscale First*, tata letak berbasis tugas, *No Fake UI Data*, konsistensi token & radius, kelengkapan status komponen *never happy-path only*, *touch target size*, *reflow 320px*, *reduced motion*, *Visual Review Checklist*, dan *Final Gate*).
+  9. `nodes/_template/guidelines/project-context.md` & `nodes/_template/main.md`: Menambahkan klausul kepatuhan Anti-AI-Slop dan memperbarui alur sekuensial SOP Bagian E (E.1–E.11) mencakup kebijakan perintah *Read-Only*, gerbang *State-Mutating*, audit Anti-Slop awal, dan *UI Visual Review Gate*.
+  10. `nodes/anti-dispatch/guidelines/project-context.md` & `nodes/anti-dispatch/main.md`: Menyelaraskan aturan fundamental proyek dan SOP Bagian E (E.1–E.11) dengan standar Anti-AI-Slop dan State Mutation Protocol terbaru, dengan tetap menjaga integritas seluruh kemajuan, tiket, changelog, dan konfigurasi proyek Anti Dispatch.
+
 ### [2026-10-06 17:40:00] - Guideline: Synchronize AI Orchestrator Guidelines (Fail-Fast, No Magic Numbers, English Preference, TDD Workflow Gate)
 > **Trigger:** Prompt Driven | **Branch:** `main` | **Repo:** `https://github.com/rakafebriansy/anti-dispatch-ai-orchestrator.git`
 - **Konteks:** "@ai-orchestrator-template sudah saya update, bawalah perubahan/update nya ke @anti-dispatch-ai-orchestrator tanpa merusak kemajuan yang sudah ada pada project"

@@ -124,7 +124,7 @@ Berbekal informasi di atas, JANGAN MENULIS KODE APLIKASI SAMA SEKALI. Lakukan la
    e. Rancang seluruh arsitektur node baru menggunakan PlantUML secara eksplisit di dalam folder `nodes/[nama-node-baru]/docs/diagrams/`, lalu tautkan file tersebut ke dalam dokumen yang relevan.
    f. Buat `nodes/[nama-node-baru]/docs/development-planning.md` untuk backlog tiket node baru ini.
    g. Tuliskan entri log inisialisasi awal ke dalam file `nodes/[nama-node-baru]/CHANGELOG.md` menggunakan templat `global-docs/templates/changelog_entry_template.md`.
-   h. Sinkronisasi Graf (KONDISIONAL): JIKA ekosistem ini terdeteksi menggunakan Graphify (dari langkah 0), masuk ke dalam direktori *Path Codebase* node baru tersebut dan jalankan perintah `graphify build` di terminal untuk membangun Knowledge Graph.
+   h. Sinkronisasi Graf (KONDISIONAL): JIKA ekosistem ini terdeteksi menggunakan Graphify (dari langkah 0), masuk ke dalam direktori *Path Codebase* node baru tersebut dan jalankan perintah `graphify build` di terminal untuk membangun Knowledge Graph. DILARANG KERAS menjalankan perintah ini atau membuat direktori `.graphify` di dalam direktori orchestrator (`anti-dispatch-ai-orchestrator/`).
 
 Setelah penambahan Node selesai, berikan saya rangkuman arsitektur ekosistem terbaru dan tanyakan persetujuan saya sebelum kita masuk ke mode eksekusi tiket harian!
 ```
@@ -136,7 +136,18 @@ Gunakan salah satu dari dua Execution Prompt di bawah ini sesuai dengan ruang li
 Gunakan prompt ini jika Anda hanya ingin fokus mengerjakan fitur di SATU proyek spesifik (misalnya hanya mengubah UI Frontend).
 
 ```text
-Kamu WAJIB membaca `nodes/[NAMA_NODE_ANDA]/main.md` sebagai Master Entrypoint. Patuhi seluruh pedoman arsitektur dan larangan mutlak yang tertulis di dalamnya. SEBELUM menulis kode, evaluasi apakah tugas ini menuntut konteks atau domain fitur yang berbeda (contoh: fitur baru, *hotfix*, *testing*). Jika berbeda, WAJIB tanyakan kepada saya untuk membuat *branch* baru. Setelah kodemu berhasil dan tugas ini rampung, JIKA terdapat direktori `.graphify` di dalam *Path Codebase* proyek ini, kamu WAJIB masuk ke direktori tersebut (`cd`) dan eksekusi perintah `graphify update` untuk menyinkronkan konteks kode barumu.
+Kamu WAJIB membaca `nodes/[NAMA_NODE_ANDA]/main.md` sebagai Master Entrypoint. Patuhi seluruh pedoman arsitektur, larangan mutlak, serta standar Anti-AI-Slop yang tertulis di dalamnya.
+
+KEWAJIBAN PENGGUNAAN & GENERATE GRAPHIFY:
+Cek apakah terdapat direktori `.graphify` di dalam *Path Codebase* proyek ini:
+- JIKA DITEMUKAN: Kamu WAJIB menggunakan fitur CLI `graphify` (seperti `graphify query`) di dalam *Path Codebase* untuk memahami arsitektur, melacak fungsi pemanggil (*callers*), menelusuri dependensi, dan memetakan file terdampak alih-alih membaca puluhan file secara manual. Wajib gunakan data graf ini saat menyusun Implementation Plan dan selama memodifikasi kode.
+- JIKA TIDAK DITEMUKAN: Kamu WAJIB men-generate-nya terlebih dahulu! Masuk ke direktori *Path Codebase* (`cd`), pastikan CLI `graphify` terpasang (instal via `npm install -g @sentropic/graphify` jika belum ada), dan jalankan `graphify build` untuk membangun Knowledge Graph. Setelah selesai di-generate, kamu WAJIB memakainya untuk menavigasi kode pada tugas ini.
+Ingat: direktori `.graphify` HANYA boleh berada di dalam *Path Codebase* dan DILARANG KERAS dibuat di dalam repositori orchestrator!
+
+SEBELUM menulis kode, evaluasi apakah tugas ini menuntut konteks atau domain fitur yang berbeda (contoh: fitur baru, *hotfix*, *testing*). Jika berbeda, WAJIB tanyakan kepada saya untuk membuat *branch* baru.
+
+Patuhi standar koding Anti-AI-Slop, TDD Workflow, dan Visual Review Checklist. Setelah kodemu berhasil dan tugas ini rampung, kamu WAJIB masuk ke *Path Codebase* (`cd`) dan eksekusi perintah `graphify update` untuk menyinkronkan konteks kode barumu. Saat meminta persetujuan commit Git, pesan commit WAJIB 100% bersih dari istilah orchestrator/tiket!
+
 
 Instruksi Tugas: [TULIS_INSTRUKSI_ATAU_ID_TIKET_DI_SINI]
 ```
@@ -145,7 +156,12 @@ Instruksi Tugas: [TULIS_INSTRUKSI_ATAU_ID_TIKET_DI_SINI]
 Gunakan *prompt* ini jika Anda memiliki tugas integrasi besar yang melibatkan banyak proyek sekaligus (misalnya menyambungkan API Backend ke Frontend).
 
 ```text
-Tugas ini bersifat lintas-proyek (Multi-Node). Pengecekan Detektif: Cek apakah ada direktori `.graphify` di *Path Codebase* dari node yang dituju. JIKA ADA: Eksekusi `graphify --version` (instal via npm jika gagal), lalu WAJIB masuk ke direktori tersebut (`cd`) dan gunakan CLI `graphify` untuk mengidentifikasi komponen terdampak, dan baca `main.md` spesifik dari node yang teridentifikasi. JIKA TIDAK ADA: Kamu WAJIB memindai direktori `nodes/` dan membaca file `main.md` dari masing-masing sub-proyek yang relevan secara manual. SEBELUM menulis kode, evaluasi apakah tugas ini butuh *branch* baru (beda konteks/fitur) dan WAJIB tanyakan kepada saya persetujuannya. Pastikan integrasi antarsistem mematuhi pedoman global. Setelah tugas selesai, JIKA memakai Graphify, masuk ke *Path Codebase* dan eksekusi `graphify update`.
+Tugas ini bersifat lintas-proyek (Multi-Node).
+Pengecekan & Kewajiban Graphify: Cek apakah ada direktori `.graphify` di *Path Codebase* dari node yang dituju:
+- JIKA DITEMUKAN: Eksekusi `graphify --version` (instal via npm jika belum ada), lalu WAJIB masuk ke direktori tersebut (`cd`) dan gunakan CLI `graphify` (seperti `graphify query`) untuk memetakan alur pemanggil, dependensi lintas-modul, serta mengidentifikasi komponen terdampak, dan baca `main.md` spesifik dari node yang teridentifikasi. Wajib gunakan kueri Graphify ini saat menyusun rencana dan menulis kode integrasi.
+- JIKA TIDAK DITEMUKAN: Masuk ke *Path Codebase* node tersebut (`cd`) dan WAJIB men-generate-nya terlebih dahulu dengan menjalankan `graphify build`, lalu wajib gunakan hasilnya untuk analisis tugas ini.
+Ingat: direktori `.graphify` HANYA boleh berada di dalam *Path Codebase* node terkait dan DILARANG KERAS dibuat di dalam repositori orchestrator!
+SEBELUM menulis kode, evaluasi apakah tugas ini butuh *branch* baru (beda konteks/fitur) dan WAJIB tanyakan kepada saya persetujuannya. Pastikan integrasi antarsistem mematuhi pedoman global. Setelah tugas selesai, masuk ke *Path Codebase* masing-masing node dan eksekusi `graphify update`. Saat meminta persetujuan commit Git, pesan commit WAJIB 100% bersih dari istilah orchestrator/tiket!
 
 Instruksi Tugas: [TULIS_INSTRUKSI_LINTAS_NODE_DI_SINI]
 ```
@@ -158,7 +174,7 @@ Berbeda dengan *Execution Prompt* yang bertujuan untuk memodifikasi kode atau me
 **Karakteristik & Mekanisme Kerja:**
 1. **Hanya Menjawab Pertanyaan Eksplisit:** AI Agent **TIDAK AKAN** membuat penjelasan otomatis yang tidak diminta. Agen hanya akan menganalisis dan menjawab daftar pertanyaan yang secara eksplisit Anda berikan (contoh: *1. Pertanyaan A, 2. Pertanyaan B*).
 2. **Grounding Nyata Berbasis Codebase:** Setiap jawaban didasarkan langsung pada analisis kode sumber (*source code*) aktual dan dokumen referensi orchestrator, lengkap dengan rujukan file dan penjelasannya (bebas dari halusinasi).
-3. **Dual Output & Auto-Archive:** AI Agent akan mengetikkan jawaban terstruktur langsung di **chat sidebar** percakapan **DAN** secara otomatis mencatat, mengkategorisasikan, serta menyimpannya ke dalam file `global-docs/LEARN.md` sebagai *Knowledge Base* permanen agar mudah dibaca dan dicari di masa depan.
+3. **Dual Output & Auto-Archive (Strict Trigger Only):** AI Agent akan mengetikkan jawaban terstruktur langsung di **chat sidebar** percakapan **DAN** secara otomatis mencatat, mengkategorisasikan, serta menyimpannya ke dalam file `global-docs/LEARN.md` sebagai *Knowledge Base* permanen. **Proteksi Ketat:** File `global-docs/LEARN.md` HANYA boleh diisi ketika dipicu menggunakan format template FASE 4 ini; AI Agent **DILARANG KERAS** mengisi atau menyentuh file tersebut pada instruksi biasa, tugas koding, ataupun pertanyaan kasual!
 
 Salin, isi bagian `[ DALAM KURUNG SIKU ]`, dan kirimkan ke AI Agent:
 
