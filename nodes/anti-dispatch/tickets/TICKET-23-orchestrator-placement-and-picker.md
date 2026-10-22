@@ -15,10 +15,11 @@ Menambahkan fleksibilitas pada fitur pembuatan AI Orchestrator di Anti Dispatch:
 
 ## Acceptance Criteria (Kriteria Penerimaan)
 - [x] Model `OrchestratorPlacement` (`beside`, `inside`) diimplementasikan dengan kalkulasi path target yang presisi.
-- [x] `OrchestratorService` memvalidasi dan memindai orchestrator yang sudah terdaftar maupun membuat orchestrator baru sesuai dengan penempatan `.beside` atau `.inside`.
+- [x] Fungsi `OrchestratorService.sanitizeProjectKey(_:)` membersihkan kata `dir` dan `org` beserta pemisahnya (contoh: `kasir-jagat-dir` $\rightarrow$ `kasir-jagat`, `anti-dispatch-dir` $\rightarrow$ `anti-dispatch`).
+- [x] `OrchestratorService` memvalidasi dan memindai orchestrator yang sudah terdaftar maupun membuat orchestrator baru sesuai dengan penempatan `.beside` atau `.inside` dengan nama yang telah disanitasi.
 - [x] Submenu penempatan ("Beside Project (Sibling)" dan "Inside Project (Nested)") tersedia saat hover ke project di Menu Bar, dengan fallback dialog konfirmasi alert jika item induk diklik.
 - [x] Item menu bar Quick Action "Generate AI Orchestrator..." membuka `NSOpenPanel` untuk memilih project directory dan otomatis menghasilkan orchestrator di samping direktori project terpilih.
-- [x] Unit test komprehensif ditambahkan ke `Anti_DispatchTests.swift` dan seluruh test suite lulus 100% via `xcodebuild test`.
+- [x] Unit test komprehensif ditambahkan ke `Anti_DispatchTests.swift` dan seluruh test suite lulus 100% via `xcodebuild test` (55 unit tests + 4 UI tests).
 
 ## Target Lingkup File (Affected Files)
 - `Anti Dispatch/Anti Dispatch/Core/Models/OrchestratorScanResult.swift`
@@ -34,12 +35,14 @@ Menambahkan fleksibilitas pada fitur pembuatan AI Orchestrator di Anti Dispatch:
 
 - **Langkah Teknis Tereksekusi:**
   1. Menambahkan enum `OrchestratorPlacement` dengan case `beside` dan `inside`, display name, dan kalkulasi target URL pada `OrchestratorScanResult.swift`.
-  2. Memperbarui `OrchestratorService.swift` method `scan(projectURL:placement:)` dan `generateOrchestrator(for:placement:)` agar mendukung pemindaian serta inisialisasi orchestrator baik di level parent sibling maupun nested child.
-  3. Memperbarui `NotchViewModel.swift` dengan parameter `placement` pada method `generateOrchestrator` dan menambahkan helper `promptGenerateOrchestrator(placement:)` yang menampilkan `NSOpenPanel`.
-  4. Menambahkan submenu dua opsi penempatan pada item sesi `StatusBarController.swift` ("Beside Project (Sibling)" dan "Inside Project (Nested)"), serta menghubungkan klik Quick Action menubar ke `promptGenerateOrchestrator(placement: .beside)`.
-  5. Menulis unit test baru `testOrchestratorPlacementOptionsAndResolution` dan `testOrchestratorServiceScanningPlacements` pada `Anti_DispatchTests.swift`.
-  6. Memvalidasi 100% kelulusan test suite melalui `xcodebuild test` (53 unit tests + 4 UI tests lulus).
-  7. Menjalankan `graphify update` pada root codebase `Anti Dispatch`.
+  2. Mengimplementasikan fungsi statis `OrchestratorService.sanitizeProjectKey(_:)` untuk menghapus kata `dir` dan `org` dari nama direktori proyek.
+  3. Memperbarui `OrchestratorService.swift` method `scan(projectURL:placement:)` dan `generateOrchestrator(for:placement:)` serta `targetURL` agar mendukung pemindaian serta inisialisasi orchestrator baik di level parent sibling maupun nested child dengan nama yang telah disanitasi.
+  4. Memperbarui `NotchViewModel.swift` dengan parameter `placement` pada method `generateOrchestrator` dan menambahkan helper `promptGenerateOrchestrator(placement:)` yang menampilkan `NSOpenPanel` dengan proteksi level `.screenSaver` dan `isSelectorOpen`.
+  5. Menambahkan submenu dua opsi penempatan pada item sesi `StatusBarController.swift` ("Beside Project (Sibling)" dan "Inside Project (Nested)"), serta menghubungkan klik Quick Action menubar ke `promptGenerateOrchestrator(placement: .beside)`.
+  6. Menulis unit test baru `testSanitizeProjectKeyRemovesDirAndOrg`, `testOrchestratorPlacementWithDirAndOrgFolderNames`, `testOrchestratorPlacementOptionsAndResolution`, dan `testOrchestratorServiceScanningPlacements` pada `Anti_DispatchTests.swift`.
+  7. Memvalidasi 100% kelulusan test suite melalui `xcodebuild test` (55 unit tests + 4 UI tests lulus).
+  8. Memaketkan Release build via `./package_dmg.sh`, memperbarui instalasi aplikasi di `/Applications/Anti Dispatch.app`, dan me-restart proses aplikasi agar pembaruan langsung aktif di sistem.
+  9. Menjalankan `graphify update` pada root codebase `Anti Dispatch`.
 
 - **Ringkasan File Terpengaruh:**
   - `Anti Dispatch/Anti Dispatch/Core/Models/OrchestratorScanResult.swift`
